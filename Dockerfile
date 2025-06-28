@@ -1,0 +1,4 @@
+FROM nginx:1.20-alpine
+
+COPY dist /usr/share/nginx/html
+COPY nginx/nginx.conf /etc/nginx/nginx.conf

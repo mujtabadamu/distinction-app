@@ -1,0 +1,120 @@
+image: node:22.15.0
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - node
+        script:
+          - mv .npmrc_config .npmrc
+          - yarn install
+          - yarn test
+  branches:
+    develop:
+      - step:
+          caches:
+            - node
+          name: Build Application
+          script:
+            - mv .npmrc_config .npmrc
+            - yarn install
+            - REACT_APP_ENV=development yarn build
+          artifacts:
+            - dist/**
+      - step:
+          name: Push to ECR
+          services:
+            - docker
+          caches:
+            - docker
+          script:
+            - docker build -f Dockerfile -t schools-distinctionapp-ui-dev .
+            - pipe: atlassian/aws-ecr-push-image:1.1.3
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_KEY
+                AWS_DEFAULT_REGION: $AWS_REGION
+                IMAGE_NAME: schools-distinctionapp-ui-dev
+                TAGS: '${BITBUCKET_BUILD_NUMBER} latest'
+      - step:
+          name: Deploy to ECS
+          deployment: Development
+          script:
+            - pipe: atlassian/aws-ecs-deploy:1.0.0
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_KEY
+                AWS_DEFAULT_REGION: $AWS_REGION
+                CLUSTER_NAME: $CLUSTER_NAME
+                SERVICE_NAME: $SERVICE_NAME
+                TASK_DEFINITION: DevTaskDefinition.json
+    stage:
+      - step:
+          caches:
+            - node
+          name: Build Application
+          script:
+            - mv .npmrc_config .npmrc
+            - yarn install
+            - REACT_APP_ENV=development yarn build
+          artifacts:
+            - dist/**
+      - step:
+          name: Push to ECR
+          services:
+            - docker
+          caches:
+            - docker
+          script:
+            - docker build -f Dockerfile -t distinction-ui-stage .
+            - pipe: atlassian/aws-ecr-push-image:1.1.3
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_KEY
+                AWS_DEFAULT_REGION: $AWS_REGION
+                IMAGE_NAME: distinction-ui-stage
+                TAGS: '${BITBUCKET_BUILD_NUMBER} latest'
+      - step:
+          name: Deploy to ECS
+          deployment: Staging
+          script:
+            - pipe: atlassian/aws-ecs-deploy:1.0.0
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_KEY
+                AWS_DEFAULT_REGION: $AWS_REGION
+                CLUSTER_NAME: $CLUSTER_NAME
+                SERVICE_NAME: $SERVICE_NAME
+                TASK_DEFINITION: StageTaskDefinition.json
+    master:
+      - step:
+          caches:
+            - node
+          name: Build Application
+          script:
+            - mv .npmrc_config .npmrc
+            - yarn install
+            - export REACT_APP_PAYSTACK_PUBLIC_KEY='pk_live_82ef7b165389b5aa8ce56360a5c310d60338b7b7'
+            - export REACT_APP_STRIPE_PUBLIC_KEY='pk_live_51MsIqYHiNbcpy2Q0OHsF9txIm7WF79R64ggGuHuOqi6U1G5U2PRuec0lOwPCi0s1FbmNziHd5t8kuTrPkF0NERIu008P2NBxrX'
+            - REACT_APP_ENV=production yarn build
+          artifacts:
+            - dist/**
+      - step:
+          name: Publish to AWS
+          deployment: Production
+          script:
+            - pipe: atlassian/aws-s3-deploy:0.3.8
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_KEY
+                AWS_DEFAULT_REGION: $AWS_REGION
+                S3_BUCKET: $BUCKET_NAME
+                LOCAL_PATH: 'dist'
+                ACL: 'public-read'
+            - pipe: atlassian/aws-cloudfront-invalidate:0.6.0
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_KEY
+                AWS_DEFAULT_REGION: $AWS_REGION
+                DISTRIBUTION_ID: $DISTRIBUTION_ID
+                PATHS: '/*'

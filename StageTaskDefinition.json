@@ -1,0 +1,34 @@
+{
+    "family": "distinction-ui-stage",
+    "requiresCompatibilities": [
+      "EC2"
+    ],
+    "networkMode": "bridge",
+    "executionRoleArn": "arn:aws:iam::586794441687:role/shared-ecs-task-execution-role",
+    "containerDefinitions": [
+      {
+        "essential": true,
+        "memory": 128,
+        "cpu": 128,
+        "name": "distinction-ui-stage",
+        "image": "586794441687.dkr.ecr.us-east-1.amazonaws.com/distinction-ui-stage",
+        "portMappings": [
+          {
+            "containerPort": 80,
+            "protocol": "tcp"
+          }
+        ],
+        "environment": [
+        ],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "distinction-ui-stage",
+                "awslogs-region": "us-east-1",
+                "awslogs-create-group": "true",
+                "awslogs-stream-prefix": "distinction-ui-stage"
+            }
+        }
+      }
+    ]
+  }
