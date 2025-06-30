@@ -6,51 +6,51 @@ import Theme from './utils/theme';
 import SectionLoader from './components/custom/sectionLoader';
 import SkeletonLoader from './components/custom/skeletonLoader';
 
-import Terms from 'pages/terms/terms';
+// import Terms from 'pages/terms/terms';
 import PrivateDashboard from './components/routeHelpers/PrivateDashboard';
 import PrivateRoute from './components/routeHelpers/PrivateRoute';
 import PublicRoute from './components/routeHelpers/PublicRoute';
-const PublicProfile = lazy(() => import('./pages/profile/publicProfile'));
-const LeaderBoard = lazy(() => import('./pages/leaderboard'));
-const QuizathonWinners = lazy(
-  () => import('./pages/quizathon/quizathonWinners')
-);
-const EditProfile = lazy(() => import('./pages/profile/editProfile'));
-const PrivacyPolicy = lazy(
-  () => import('./pages/privacy-policy/PrivacyPolicy')
-);
-const TermsOfUse = lazy(() => import('./pages/terms-of-use/TermsOfUse'));
-const NewPractice = lazy(() => import('./pages/newPractice/newPractice'));
+// const PublicProfile = lazy(() => import('./pages/profile/publicProfile'));
+// const LeaderBoard = lazy(() => import('./pages/leaderboard'));
+// const QuizathonWinners = lazy(
+//   () => import('./pages/quizathon/quizathonWinners')
+// );
+// const EditProfile = lazy(() => import('./pages/profile/editProfile'));
+// const PrivacyPolicy = lazy(
+//   () => import('./pages/privacy-policy/PrivacyPolicy')
+// );
+// const TermsOfUse = lazy(() => import('./pages/terms-of-use/TermsOfUse'));
+// const NewPractice = lazy(() => import('./pages/newPractice/newPractice'));
 // TODO: Trace and flush out code no longer needed
 // const LearnerDashboard = lazy(() => import('./pages/learnerDashboard'));
 const StudentDashboard = lazy(
   () => import('./pages/learnerDashboard/studentDashboard')
 );
-const MyLibraryPage = lazy(() => import('./pages/myLibrary'));
-const FlashCardCoursePage = lazy(
-  () => import('./pages/myLibrary/flashCardPages/flashCardCoursePage')
-);
-const KeyPointCoursePage = lazy(
-  () => import('./pages/myLibrary/keyPointPages/keyPointCoursePage')
-);
-const FlashCardPage = lazy(
-  () => import('./pages/myLibrary/flashCardPages/flashCardPage')
-);
-const KeyPointPage = lazy(
-  () => import('./pages/myLibrary/keyPointPages/keyPointPage')
-);
-const PracticePage = lazy(() => import('./pages/practice'));
-const ResultPage = lazy(() => import('./pages/result/result.pages'));
+// const MyLibraryPage = lazy(() => import('./pages/myLibrary'));
+// const FlashCardCoursePage = lazy(
+//   () => import('./pages/myLibrary/flashCardPages/flashCardCoursePage')
+// );
+// const KeyPointCoursePage = lazy(
+//   () => import('./pages/myLibrary/keyPointPages/keyPointCoursePage')
+// );
+// const FlashCardPage = lazy(
+//   () => import('./pages/myLibrary/flashCardPages/flashCardPage')
+// );
+// const KeyPointPage = lazy(
+//   () => import('./pages/myLibrary/keyPointPages/keyPointPage')
+// );
+// const PracticePage = lazy(() => import('./pages/practice'));
+// const ResultPage = lazy(() => import('./pages/result/result.pages'));
 const CoursePracticeHistory = lazy(
   () => import('./pages/learnerDashboard/CoursePracticeHistory')
 );
 const PracticeResult = lazy(
   () => import('./pages/learnerDashboard/PracticeResult')
 );
-const VerifyCertificate = lazy(
-  () => import('./pages/quizathon/verifyCertificate')
-);
-const ValidateAccount = lazy(() => import('./pages/verifyAccount'));
+// const VerifyCertificate = lazy(
+//   () => import('./pages/quizathon/verifyCertificate')
+// );
+// const ValidateAccount = lazy(() => import('./pages/verifyAccount'));
 const VerifyAccount = lazy(() => import('./pages/auth/verifyAccount.pages'));
 const Register = lazy(() => import('./pages/auth/register.pages'));
 const Login = lazy(() => import('./pages/auth/login.pages'));
@@ -60,32 +60,32 @@ const GoogleAuthVerify = lazy(
   () => import('./pages/auth/googleAuthVerify.pages')
 );
 
-const Chatbot = lazy(() => import('./pages/chatbot/chatbot'));
-const Quizathon = lazy(() => import('./pages/quizathon/index'));
-const Resource = lazy(() => import('./pages/resource/resource'));
-const Blog = lazy(() => import('./pages/resource/components/blogs/blog'));
-const QuizathonProfile = lazy(
-  () => import('./pages/quizathon/quizathonProfile')
-);
-const Quizathons = lazy(() => import('./pages/quizathon/quizathons'));
-const Referrals = lazy(() => import('./pages/referrals'));
-const Profile = lazy(() => import('./pages/profile/Profile'));
-const PointAccumulation = lazy(() => import('./pages/points'));
-const PointsRank = lazy(() => import('./pages/points/pointsRank'));
-const CoursesOverview = lazy(
-  () => import('./pages/courses/coursesOverview/coursesOverview.pages')
-);
-const GenerateCourse = lazy(
-  () => import('./pages/courses/generate-course/generateCourse.pages')
-);
+// const Chatbot = lazy(() => import('./pages/chatbot/chatbot'));
+// const Quizathon = lazy(() => import('./pages/quizathon/index'));
+// const Resource = lazy(() => import('./pages/resource/resource'));
+// const Blog = lazy(() => import('./pages/resource/components/blogs/blog'));
+// const QuizathonProfile = lazy(
+//   () => import('./pages/quizathon/quizathonProfile')
+// );
+// const Quizathons = lazy(() => import('./pages/quizathon/quizathons'));
+// const Referrals = lazy(() => import('./pages/referrals'));
+// const Profile = lazy(() => import('./pages/profile/Profile'));
+// const PointAccumulation = lazy(() => import('./pages/points'));
+// const PointsRank = lazy(() => import('./pages/points/pointsRank'));
+// const CoursesOverview = lazy(
+//   () => import('./pages/courses/coursesOverview/coursesOverview.pages')
+// );
+// const GenerateCourse = lazy(
+//   () => import('./pages/courses/generate-course/generateCourse.pages')
+// );
 
-const CourseView = lazy(
-  () => import('./pages/courses/courseView/courseView.pages')
-);
+// const CourseView = lazy(
+//   () => import('./pages/courses/courseView/courseView.pages')
+// );
 
-const LessonsView = lazy(
-  () => import('./pages/lessons/lessonsView/lessonsView.pages')
-);
+// const LessonsView = lazy(
+//   () => import('./pages/lessons/lessonsView/lessonsView.pages')
+// );
 
 function App() {
   useEffect(() => {
@@ -102,7 +102,7 @@ function App() {
   return (
     <Layout theme={Theme}>
       <Routes>
-        <Route
+        {/* <Route
           path="quizathon"
           element={
             <Suspense fallback={<SectionLoader />}>
@@ -149,7 +149,7 @@ function App() {
               <TermsOfUse />
             </Suspense>
           }
-        />
+        /> */}
         <Route
           path="/verify"
           element={
@@ -160,7 +160,7 @@ function App() {
             </Suspense>
           }
         />
-        <Route
+        {/* <Route
           path="/quizathon-winners"
           element={
             <Suspense fallback={<SectionLoader />}>
@@ -193,7 +193,7 @@ function App() {
               <PublicProfile />
             </Suspense>
           }
-        />
+        /> */}
         <Route
           path="/auth-token-verify"
           element={
@@ -255,7 +255,7 @@ function App() {
           }
         />
 
-        <Route
+        {/* <Route
           path="/certificate/verify"
           element={
             <Suspense fallback={<SectionLoader />}>
@@ -294,7 +294,7 @@ function App() {
               </PrivateRoute>
             </Suspense>
           }
-        />
+        /> */}
 
         <Route
           path="practice-result/:id"
@@ -314,7 +314,7 @@ function App() {
               </Suspense>
             }
           />
-          <Route
+          {/* <Route
             path="my-library"
             element={
               <Suspense fallback={<SkeletonLoader />}>
@@ -353,7 +353,7 @@ function App() {
                 <FlashCardPage />
               </Suspense>
             }
-          />
+          /> */}
           {/* <Route
             path="create-question"
             element={
@@ -370,7 +370,7 @@ function App() {
               </Suspense>
             }
           /> */}
-          <Route
+          {/* <Route
             path="quizathon-profile/:id"
             element={
               <Suspense fallback={<SkeletonLoader />}>
@@ -385,7 +385,7 @@ function App() {
                 <Quizathons />
               </Suspense>
             }
-          />
+          /> */}
           <Route
             path="course-practice-history/:id"
             element={
@@ -394,7 +394,7 @@ function App() {
               </Suspense>
             }
           />
-          <Route
+          {/* <Route
             path="profile"
             element={
               <Suspense fallback={<SkeletonLoader />}>
@@ -481,7 +481,7 @@ function App() {
                 <LessonsView />
               </Suspense>
             }
-          />
+          /> */}
         </Route>
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>

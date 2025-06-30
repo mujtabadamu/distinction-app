@@ -63,8 +63,12 @@ const Container = styled.div`
 
 const StatsContainer = styled.div`
   background: linear-gradient(#3e66d6, #1d4ed8);
-  background-size: 100% 100%, 100px auto;
-  background-position: 0 0, right center;
+  background-size:
+    100% 100%,
+    100px auto;
+  background-position:
+    0 0,
+    right center;
   background-repeat: no-repeat, no-repeat;
   padding: 1rem;
   display: flex;

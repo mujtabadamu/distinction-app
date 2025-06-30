@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 import useProfile from 'pages/profile/hooks/useProfile';
-import { useUserSlice } from 'pages/auth/userSlice';
 import {
   Box,
   Button,
@@ -19,6 +18,7 @@ import Theme from 'utils/theme';
 import { useForm, Controller } from 'react-hook-form';
 import { OptionI } from './editProfile';
 import { getLevelOptionsByCurriculum } from 'utils/constants';
+import { useUserProfile } from 'pages/auth/userProfileSlice';
 
 interface ProfileCompleteModalProps {
   isOpen: boolean;
@@ -39,10 +39,10 @@ const ProfileCompleteModal = ({
   isOpen,
   onClose,
 }: ProfileCompleteModalProps) => {
-  const user = useUserSlice();
+  const user = useUserProfile();
   const { profileData, editProfile, isEditingProfile } = useProfile();
   const { schoolList, getSchoolList } = useQuizathon();
-  const studentId = user?.studentId as string;
+  const studentId = user?.profile?.studentId as string;
 
   const {
     control,

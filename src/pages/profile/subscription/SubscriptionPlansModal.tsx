@@ -186,16 +186,16 @@ const SubscriptionPlansModal: React.FC<SubscriptionPlansProps> = ({
   const {
     loadingPlans,
     subscriptionPackages,
-    getSubscriptionPackages,
-    getActivePlan,
+    // getSubscriptionPackages,
+    // getActivePlan,
     activePlan,
     loadingActivePlan,
   } = useSubscriptionBilling();
 
   useEffect(() => {
     if (!openModal) return;
-    getSubscriptionPackages();
-    getActivePlan();
+    // getSubscriptionPackages();
+    // getActivePlan();
   }, [openModal]);
 
   const transformedPlans = useMemo(() => {

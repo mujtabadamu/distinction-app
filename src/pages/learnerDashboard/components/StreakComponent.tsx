@@ -4,19 +4,43 @@ import { FaFire } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useStreak from 'pages/points/hooks/useStreak';
+import { useEnhancedGetCurrentUserStreakStatusQuery } from 'store/enhancedApi';
 
 interface IProps {
   bgColor?: string;
   color?: string;
 }
 function StreakComponent({ bgColor, color }: IProps) {
-  const { streakStats, isLoadingStreakStats } = useStreak();
+  // const { streakStats, isLoadingStreakStats } = useStreak();
+  const {
+    data: streakStats,
+    isLoading: isLoadingStreakStats,
+    error: streakError,
+    // refetch: getStreakStats,
+  } = useEnhancedGetCurrentUserStreakStatusQuery();
+
   const navigate = useNavigate();
+  console.log('streakStats', streakStats);
+  console.log('isLoadingStreakStats', isLoadingStreakStats);
+  console.log('streakError', streakError);
+
+  // Debug token
+  const token = localStorage.getItem('accessToken');
+  console.log('Current token:', token ? 'Present' : 'Missing');
+
+  if (streakError) {
+    console.error('Streak API Error:', streakError);
+    // You might want to show an error message or handle the error differently
+  }
 
   return (
     <>
       {isLoadingStreakStats ? (
         <Skeleton height={30} width={100} />
+      ) : streakError ? (
+        <div style={{ color: 'red', fontSize: '12px' }}>
+          Error loading streak data
+        </div>
       ) : (
         <button onClick={() => navigate('/points')}>
           <StreakBadge bgColor={bgColor} color={color}>

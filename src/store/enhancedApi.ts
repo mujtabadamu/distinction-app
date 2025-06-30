@@ -75,7 +75,25 @@ import type {
   GetStudentAnswerSolutionsApiArg,
   RetrieveResultApiResponse,
   RetrieveResultApiArg,
+  GetCurrentUserStreakStatusApiResponse,
+  GetCurrentUserStreakStatusApiArg,
+  // Subscription Billing
+  GetSubscriptionApiResponse,
+  GetSubscriptionApiArg,
+  List29ApiResponse,
+  List29ApiArg,
+  PaginatedSubscriptionHistoryView,
+  GetPlanLimitApiResponse,
+  GetPlanLimitApiArg,
+  CancelSubscriptionApiResponse,
+  CancelSubscriptionApiArg,
 } from './result';
+
+// Define SubscriptionHistoryPayload locally since it's not exported from './result'
+export type SubscriptionHistoryPayload = {
+  page?: number;
+  size?: number;
+};
 
 // Define all possible tags for the application
 export const API_TAGS = {
@@ -164,7 +182,7 @@ export const enhancedApi = baseApi.injectEndpoints({
 
     enhancedLogin2: build.mutation<Login2ApiResponse, Login2ApiArg>({
       query: (credentials) => ({
-        url: '/portal/auth/login',
+        url: '/distinction/auth/login',
         method: 'POST',
         body: credentials.distinctionLoginRequest,
       }),
@@ -201,7 +219,7 @@ export const enhancedApi = baseApi.injectEndpoints({
       RefreshTokenApiArg
     >({
       query: (refreshData) => ({
-        url: '/portal/auth/refresh-token',
+        url: '/distinction/auth/refresh-token',
         method: 'POST',
         body: refreshData.refreshTokenRequest,
       }),
@@ -269,7 +287,7 @@ export const enhancedApi = baseApi.injectEndpoints({
     enhancedGoogleLogin: build.query<GoogleLoginApiResponse, GoogleLoginApiArg>(
       {
         query: (googleData) => ({
-          url: '/portal/auth/google',
+          url: '/distinction/auth/google-authorize',
           method: 'GET',
           params: googleData,
         }),
@@ -278,7 +296,7 @@ export const enhancedApi = baseApi.injectEndpoints({
 
     enhancedLogout: build.mutation({
       query: () => ({
-        url: '/portal/auth/logout',
+        url: '/distinction/auth/logout',
         method: 'POST',
       }),
       // Invalidate all user-related data on logout
@@ -697,6 +715,18 @@ export const enhancedApi = baseApi.injectEndpoints({
       providesTags: [API_TAGS.USER, API_TAGS.STATISTICS],
     }),
 
+    // Enhanced streak endpoints
+    enhancedGetCurrentUserStreakStatus: build.query<
+      GetCurrentUserStreakStatusApiResponse,
+      GetCurrentUserStreakStatusApiArg
+    >({
+      query: () => ({
+        url: `/streak/user-streak-stats`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.USER, API_TAGS.STATISTICS],
+    }),
+
     // Enhanced practice history endpoints
     enhancedGroupPracticesByCourse: build.query<
       GroupPracticesByCourseApiResponse,
@@ -761,6 +791,61 @@ export const enhancedApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
       providesTags: [API_TAGS.STUDENT, API_TAGS.STUDENT_PAPER],
+    }),
+
+    // --- Enhanced Subscription Billing Endpoints ---
+    enhancedGetActivePlan: build.query<
+      GetSubscriptionApiResponse,
+      GetSubscriptionApiArg
+    >({
+      query: () => ({
+        url: '/distinction/portal/subscriptions/active',
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.USER, API_TAGS.PROFILE],
+    }),
+    enhancedGetSubscriptionPackages: build.query<
+      List29ApiResponse,
+      List29ApiArg
+    >({
+      query: (params) => ({
+        url: '/distinction/portal/subscription-packages',
+        method: 'GET',
+        params,
+      }),
+      providesTags: [API_TAGS.USER, API_TAGS.PROFILE],
+    }),
+    enhancedGetSubscriptionHistory: build.query<
+      PaginatedSubscriptionHistoryView,
+      SubscriptionHistoryPayload
+    >({
+      query: (params) => ({
+        url: '/distinction/portal/subscriptions',
+        method: 'GET',
+        params,
+      }),
+      providesTags: [API_TAGS.USER, API_TAGS.PROFILE],
+    }),
+    enhancedGetFeatureLimit: build.query<
+      GetPlanLimitApiResponse,
+      GetPlanLimitApiArg
+    >({
+      query: (params) => ({
+        url: '/distinction/portal/subscriptions/limit',
+        method: 'GET',
+        params,
+      }),
+      providesTags: [API_TAGS.USER, API_TAGS.PROFILE],
+    }),
+    enhancedCancelSubscription: build.mutation<
+      CancelSubscriptionApiResponse,
+      CancelSubscriptionApiArg
+    >({
+      query: () => ({
+        url: '/distinction/portal/subscriptions/cancel',
+        method: 'POST',
+      }),
+      invalidatesTags: [API_TAGS.USER, API_TAGS.PROFILE],
     }),
   }),
 });
@@ -842,6 +927,16 @@ export const {
   useEnhancedListPracticesByPaperIdQuery,
   useEnhancedGetStudentAnswerSolutionsQuery,
   useEnhancedRetrieveResultQuery,
+
+  // Streak hooks
+  useEnhancedGetCurrentUserStreakStatusQuery,
+
+  // Subscription Billing hooks
+  useEnhancedGetActivePlanQuery,
+  useEnhancedGetSubscriptionPackagesQuery,
+  useEnhancedGetSubscriptionHistoryQuery,
+  useEnhancedGetFeatureLimitQuery,
+  useEnhancedCancelSubscriptionMutation,
 } = enhancedApi;
 
 // Utility functions for tag management

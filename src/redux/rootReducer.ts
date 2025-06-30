@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import authReducer from './auth/reducer';
+// import authReducer from './auth/reducer';
 import examGroupsReducer from './examGroups/reducer';
 import subjectsReducer from './subjects/reducer';
 import examsReducer from './exams/reducer';
@@ -11,20 +11,20 @@ import preferenceReducer from './preference/reducer';
 import statisticsReducer from './statistics/reducer';
 import flagQuestionReducer from './flagQuestion/reducers';
 import createAndEarnReducer from './createAndEarn/reducers';
-import { userSlice } from 'pages/auth/userSlice';
+import userProfileSlice from 'pages/auth/userProfileSlice';
 import authSlice from 'pages/auth/authSlice';
-import practiceSlice from 'hooks/practice/usePracticeSlice';
-import timerSlice from 'hooks/practice/useTimerSlice';
-import streakReducer from 'pages/points/hooks/streakSlice';
-import { courseApi } from 'pages/courses/course-api';
-import { enrolledCourseApi } from 'pages/courses/enrolledCourseApi';
+// import practiceSlice from 'hooks/practice/usePracticeSlice';
+// import timerSlice from 'hooks/practice/useTimerSlice';
+// import { courseApi } from 'pages/courses/course-api';
+// import { enrolledCourseApi } from 'pages/courses/enrolledCourseApi';
 import { baseApi } from 'store/emptyApi';
 
 const rootReducer = combineReducers({
-  auth: authReducer,
-  currentUser: authSlice,
-  practice: practiceSlice,
-  timer: timerSlice,
+  // auth: authReducer,
+  authReducer: authSlice, //new auth that use rtk hooks
+  userProfile: userProfileSlice, //new auth that use rtk hooks
+  // practice: practiceSlice,
+  // timer: timerSlice,
   examGroups: examGroupsReducer,
   subjects: subjectsReducer,
   exams: examsReducer,
@@ -36,9 +36,8 @@ const rootReducer = combineReducers({
   statistics: statisticsReducer,
   flagQuestion: flagQuestionReducer,
   createAndEarn: createAndEarnReducer,
-  streak: streakReducer,
-  [courseApi.reducerPath]: courseApi.reducer,
-  [enrolledCourseApi.reducerPath]: enrolledCourseApi.reducer,
+  // [courseApi.reducerPath]: courseApi.reducer,
+  // [enrolledCourseApi.reducerPath]: enrolledCourseApi.reducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 

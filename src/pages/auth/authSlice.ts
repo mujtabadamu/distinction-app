@@ -1,11 +1,14 @@
 // New auth slice for local state management
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserProfileDTO } from 'generated/index';
+// import { UserProfileDTO } from 'generated/index';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
+import { Login2ApiResponse } from 'store/result';
 
 interface AuthState {
-  user: UserProfileDTO | null;
+  user: Login2ApiResponse | null;
+  accessToken: string | null;
+  refreshToken: string | null;
   isSessionExpired: boolean;
   needsVerification: boolean;
   isAuthenticated: boolean;
@@ -13,21 +16,23 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: null,
+  accessToken: null,
+  refreshToken: null,
   isSessionExpired: false,
   needsVerification: false,
   isAuthenticated: false,
 };
 
 export const authSlice = createSlice({
-  name: 'ds_current_user',
+  name: 'ds_auth_user_v2',
   initialState,
   reducers: {
     setUser: (
       state: AuthState,
-      action: PayloadAction<Partial<UserProfileDTO>>
+      action: PayloadAction<Partial<Login2ApiResponse>>
     ) => {
       if (!state.user) {
-        state.user = action.payload as UserProfileDTO;
+        state.user = action.payload as Login2ApiResponse;
       } else {
         state.user = {
           ...state.user,
@@ -37,13 +42,34 @@ export const authSlice = createSlice({
     },
     setAuth: (
       state: AuthState,
-      action: PayloadAction<{ user: UserProfileDTO }>
+      action: PayloadAction<{ user: Login2ApiResponse }>
     ) => {
       state.user = action.payload.user;
+      state.accessToken = action.payload.user.accessToken || null;
+      state.refreshToken = action.payload.user.refreshToken || null;
       state.isAuthenticated = true;
+    },
+    setTokens: (
+      state: AuthState,
+      action: PayloadAction<{ accessToken: string; refreshToken: string }>
+    ) => {
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
+      state.isAuthenticated = true;
+    },
+    updateAccessToken: (
+      state: AuthState,
+      action: PayloadAction<{ accessToken: string }>
+    ) => {
+      state.accessToken = action.payload.accessToken;
+      if (state.user) {
+        state.user.accessToken = action.payload.accessToken;
+      }
     },
     logout: (state) => {
       state.user = null;
+      state.accessToken = null;
+      state.refreshToken = null;
       state.isAuthenticated = false;
     },
     setNeedsVerification: (state, action) => {
@@ -61,13 +87,15 @@ export const authSlice = createSlice({
 export const {
   setUser,
   setAuth,
+  setTokens,
+  updateAccessToken,
   logout,
   setNeedsVerification,
   showSessionExpiryMessage,
   hideSessionExpiryMessage,
 } = authSlice.actions;
 
-export const useUserSlice = () =>
-  useSelector((state: RootState) => state.currentUser?.user);
+export const useAuthSlice = () =>
+  useSelector((state: RootState) => state.authReducer);
 
 export default authSlice.reducer;

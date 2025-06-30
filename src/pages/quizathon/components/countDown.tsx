@@ -78,7 +78,8 @@ const CountDown = ({
     },
   });
 
-  const { getFeatureLimit } = useSubscriptionBilling();
+  const { getFeatureLimit, isSuccessFeatureLimit, featureLimitData } =
+    useSubscriptionBilling();
 
   const timerValues = { days, hours, minutes, seconds };
 
@@ -106,9 +107,9 @@ const CountDown = ({
     const payload = {
       property: DistinctionFeatureProperty.MONTHLY_QUIZATON,
     };
-    const result = await getFeatureLimit(payload);
+    await getFeatureLimit(payload);
 
-    if (result.success && Number(result.balance) === 0) {
+    if (isSuccessFeatureLimit && Number(featureLimitData?.balance) === 0) {
       planLimitHandler.onOpen();
     } else {
       handleSubmit();

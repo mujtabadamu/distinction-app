@@ -1,17 +1,14 @@
 import { ReactNode, Fragment } from 'react';
-import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-
-import { selectIsAuthenticated } from '../../redux/auth/selectors';
-import { getLocalAccessToken } from '../../utils/helpers';
+import { useAuthSlice } from 'pages/auth/authSlice';
 
 interface Props {
   children: ReactNode;
 }
 
 const PublicRoute = ({ children }: Props) => {
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-  const accessToken = getLocalAccessToken();
+  const { user: localUser, isAuthenticated } = useAuthSlice();
+  const accessToken = localUser?.accessToken;
   const auth = !!(isAuthenticated && accessToken);
   return <Fragment>{auth ? <Navigate to="/home" /> : children}</Fragment>;
 };

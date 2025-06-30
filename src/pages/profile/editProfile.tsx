@@ -81,7 +81,7 @@ const EditProfile = () => {
   const { profileData, isLoadingProfile, editProfile, isEditingProfile } =
     useProfile();
   const { schoolList, getSchoolList } = useQuizathon();
-  const { getActivePlan, activePlan } = useSubscriptionBilling();
+  const { activePlan } = useSubscriptionBilling();
 
   // Get the selected institution's curriculum
   const selectedInstitution = schoolList?.items?.find(
@@ -144,7 +144,7 @@ const EditProfile = () => {
   };
   useEffect(() => {
     getSchoolList();
-    getActivePlan();
+    // getActivePlan();
   }, []);
 
   useEffect(() => {

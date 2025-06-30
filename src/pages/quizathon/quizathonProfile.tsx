@@ -37,7 +37,7 @@ const QuizathonProfile = () => {
     allActiveQuizathon,
   } = useQuizathon();
 
-  const { activePlan, getActivePlan } = useSubscriptionBilling();
+  const { activePlan } = useSubscriptionBilling();
 
   const hasEnded = hasQuizathonEnded;
 
@@ -54,7 +54,7 @@ const QuizathonProfile = () => {
   useEffect(() => {
     getActiveQuizathon();
     getParticipant({ studentId: userId || '', quizathonId: id || '' });
-    getActivePlan();
+    // getActivePlan();
     getSingleQuizathon(id || '');
     getAllActiveQuizathon();
   }, []);

@@ -34,7 +34,7 @@ const subscriptionColors: { [key: string]: string } = {
 
 interface ProfileSectionProps {
   profileData: UserProfileDTO | PublicUserProfileDTO | null;
-  activePlan: SubscriptionView | null;
+  activePlan: SubscriptionView | undefined;
   selectedImage?: string | null;
   handleFile?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   showEditButton: boolean;

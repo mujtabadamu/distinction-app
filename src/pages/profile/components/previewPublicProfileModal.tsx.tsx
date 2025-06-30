@@ -55,7 +55,7 @@ function PreviewPublicProfileModal({
     isLoadingPublicProfile,
     publicProfile,
   } = useProfile();
-  const { getActivePlan, activePlan } = useSubscriptionBilling();
+  const { activePlan } = useSubscriptionBilling();
 
   const fetchedUsernameRef = useRef<string | null>(null);
 
@@ -67,7 +67,7 @@ function PreviewPublicProfileModal({
     ) {
       fetchedUsernameRef.current = loggedInUsername;
       getPublicProfileData(loggedInUsername);
-      getActivePlan();
+      // getActivePlan();
     }
   }, [isOpen, loggedInUsername]);
 

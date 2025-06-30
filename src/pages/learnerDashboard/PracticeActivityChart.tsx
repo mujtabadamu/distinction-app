@@ -16,11 +16,11 @@ import useStatistic from './hooks/useStatistic';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from 'redux/auth/selectors';
 import { generateYears } from 'utils/helpers';
-import { OptionI } from 'pages/profile/editProfile';
+// import { OptionI } from 'pages/profile/editProfile';
 import Skeleton from 'react-loading-skeleton';
 
 const PracticeActivityChart: React.FC = () => {
-  const [selectedYear, setSelectedYear] = useState<OptionI | null>(null);
+  const [selectedYear, setSelectedYear] = useState<any | null>(null);
   const user = useSelector(selectCurrentUser);
   const years = generateYears();
 
@@ -55,7 +55,7 @@ const PracticeActivityChart: React.FC = () => {
                   placeholder="Year"
                   options={years.map((year) => ({ label: year, value: year }))}
                   value={selectedYear || null}
-                  onChange={(value: OptionI) => {
+                  onChange={(value: any) => {
                     setSelectedYear(value);
                   }}
                 />

@@ -61,7 +61,12 @@ const RankingCard: React.FC<RankingCardProps> = ({
     hasQuizathonStarted,
   } = useQuizathon();
 
-  const { getFeatureLimit, loadingFeatureLimit } = useSubscriptionBilling();
+  const {
+    getFeatureLimit,
+    isSuccessFeatureLimit,
+    loadingFeatureLimit,
+    featureLimitData,
+  } = useSubscriptionBilling();
 
   const planLimitHandler = useDisclosure();
   const subscriptionPlanHandler = useDisclosure();
@@ -75,8 +80,8 @@ const RankingCard: React.FC<RankingCardProps> = ({
     const payload = {
       property: DistinctionFeatureProperty.QUIZATON_CERTIFICATE,
     };
-    const result = await getFeatureLimit(payload);
-    if (result.success && Number(result.balance) === 0) {
+    await getFeatureLimit(payload);
+    if (isSuccessFeatureLimit && Number(featureLimitData?.balance) === 0) {
       planLimitHandler.onOpen();
     } else {
       handleGenerateCertificate();

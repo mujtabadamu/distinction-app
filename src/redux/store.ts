@@ -7,12 +7,12 @@ import persistReducer from 'redux-persist/es/persistReducer';
 
 import rootReducer from './rootReducer';
 import rootSaga from './rootSaga';
-import { courseApi } from 'pages/courses/course-api';
-import { enrolledCourseApi } from 'pages/courses/enrolledCourseApi';
+// import { courseApi } from 'pages/courses/course-api';
+// import { enrolledCourseApi } from 'pages/courses/enrolledCourseApi';
 import { baseApi } from 'store/emptyApi';
 
 const saga = createSagaMiddleware();
-const otherMiddlewares = [courseApi.middleware, enrolledCourseApi.middleware];
+// const otherMiddlewares = [courseApi.middleware, enrolledCourseApi.middleware];
 
 const persistConfig = {
   key: 'root',
@@ -29,8 +29,8 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ thunk: true, serializableCheck: false })
       .concat(saga)
-      .concat(baseApi.middleware)
-      .concat(otherMiddlewares),
+      .concat(baseApi.middleware),
+  // .concat(otherMiddlewares),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

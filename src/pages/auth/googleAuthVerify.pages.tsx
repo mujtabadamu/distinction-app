@@ -1,11 +1,9 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useEnhancedTokenLoginMutation } from '../../store/enhancedApi';
-import {
-  setLocalAccessToken,
-  setLocalRefreshToken,
-  setLocalUser,
-} from '../../utils/helpers';
+import { setAuth } from './authSlice';
+import { setLocalUser } from '../../utils/helpers';
 import { PLATFORM } from '../../utils/constants';
 import AuthPagesContainer from '../../components/auth/authPagesContainer';
 import NotFound from '../../components/custom/notFound';
@@ -13,6 +11,7 @@ import SectionLoader from '../../components/custom/sectionLoader';
 
 const GoogleAuthVerify = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const [error, setError] = useState(false);
   const token = searchParams.get('transfer_code');
@@ -29,16 +28,13 @@ const GoogleAuthVerify = () => {
           },
         }).unwrap();
 
-        // Store tokens and user data
-        if (response.accessToken) {
-          setLocalAccessToken(response.accessToken);
-        }
-        if (response.refreshToken) {
-          setLocalRefreshToken(response.refreshToken);
-        }
+        // Store user data in localStorage (for backward compatibility)
         if (response.user) {
           setLocalUser(JSON.stringify(response.user));
         }
+
+        // Update Redux state with tokens and user data
+        dispatch(setAuth({ user: response }));
 
         // Navigate to home on success
         navigate('/home');
@@ -47,7 +43,7 @@ const GoogleAuthVerify = () => {
         setError(true);
       }
     }
-  }, [token, tokenLogin, navigate]);
+  }, [token, tokenLogin, navigate, dispatch]);
 
   useEffect(() => {
     if (token) {

@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
 import styled from 'styled-components';
-import useProfile from 'pages/profile/hooks/useProfile';
+// import useProfile from 'pages/profile/hooks/useProfile';
+import { useUserProfile } from 'pages/auth/userProfileSlice';
 
 interface TourProgress {
   lastCompletedStep: number;
@@ -11,7 +12,7 @@ interface TourProgress {
 }
 
 const TourManager = () => {
-  const { profileData } = useProfile();
+  const { profile: profileData } = useUserProfile();
 
   const [run, setRun] = useState(false);
   const [steps, setSteps] = useState<Step[]>([]);
@@ -247,7 +248,8 @@ const TourManager = () => {
 
 const StyledJoyride = styled(Joyride)`
   .react-joyride__tooltip {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
 

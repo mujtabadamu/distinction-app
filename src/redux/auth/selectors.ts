@@ -2,11 +2,11 @@ import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 const selectAuth = (state: RootState) => state.auth;
-const selectCurrentUserState = (state: RootState) => state.currentUser;
+const selectCurrentUserState = (state: RootState) => state.auth;
 
 export const selectCurrentUserData = createSelector(
   [selectAuth, selectCurrentUserState],
-  (auth, currentUser) => auth?.currentUser || currentUser?.user
+  (auth, currentUser) => auth?.currentUser || currentUser?.currentUser
 );
 
 // Backward compatibility alias
@@ -27,7 +27,7 @@ export const selectIsAuthenticated = createSelector(
   [selectAuth, selectCurrentUserState],
   (auth, currentUser) => {
     // Check if user exists in either auth state
-    const hasUser = !!(auth?.currentUser || currentUser?.user);
+    const hasUser = !!(auth?.currentUser || currentUser?.currentUser);
     const isAuthenticated =
       auth?.isAuthenticated || currentUser?.isAuthenticated || hasUser;
     return isAuthenticated;
@@ -52,7 +52,7 @@ export const selectIsResetingPassword = createSelector(
 export const selectUserPhone = createSelector(
   [selectAuth, selectCurrentUserState],
   (auth, currentUser) => {
-    const user = auth?.currentUser || currentUser?.user;
+    const user = auth?.currentUser || currentUser?.currentUser;
     // Handle both old CurrentUser type (with contacts) and new UserProfileDTO type
     if (user && 'contacts' in user && user.contacts) {
       return user.contacts[1]?.contact;

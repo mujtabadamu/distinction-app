@@ -31,7 +31,7 @@ import useSubscriptionBilling from './profile/hooks/useSubscriptionBilling';
 import { capitalizeFirstLetterOFEachWord, isEnvEqual } from 'utils/helpers';
 import { Environment, LEVEL_OPTIONS } from 'utils/constants';
 import StreakComponent from './learnerDashboard/components/StreakComponent';
-import useStreak from './points/hooks/useStreak';
+// import useStreak from './points/hooks/useStreak';
 import useQuizathon from './quizathon/hooks/useQuizathon';
 import ProfileCompleteModal from './profile/ProfileCompleteModal';
 import useDisclosure from 'hooks/general/useDisclosure';
@@ -177,7 +177,7 @@ const Dashboard = () => {
         name: 'quizathon',
         label: 'Quizathon',
         navlink: getQuizathonNavLink(),
-        icon: 'saf-cup',
+        icon: 'saf-medal-star',
       },
       {
         name: 'chatbot',
@@ -210,11 +210,12 @@ const Dashboard = () => {
   };
   const { limit, page } = usePaginationWrapper({});
 
-  const { getActivePlan, activePlan } = useSubscriptionBilling();
-  const { getStreakStats } = useStreak();
+  const { activePlan } = useSubscriptionBilling();
+  // const { getStreakStats } = useStreak();
+
   useEffect(() => {
-    getActivePlan();
-    getStreakStats();
+    // getActivePlan();
+    // getStreakStats();
     getAllActiveQuizathon();
     getQuizathonHistory({
       studentId,
@@ -317,21 +318,24 @@ const Dashboard = () => {
                               style={{ alignItems: 'center' }}
                             >
                               <AvatarWrapper>
-                                <Avatar
-                                  name={`${user?.firstName} ${user?.lastName}`}
-                                  margin="0 10px"
-                                  size="40px"
-                                  src={profileData?.profileImage}
-                                  round
-                                />
-                                {profileData?.isNinVerified && (
-                                  <VerifyContainer>
-                                    <RiVerifiedBadgeFill
-                                      size={16}
-                                      color={Theme.PrimaryBlue}
-                                    />
-                                  </VerifyContainer>
-                                )}
+                                {/* visibility none on mobile */}
+                                <div className="hidden md:block">
+                                  <Avatar
+                                    name={`${user?.firstName} ${user?.lastName}`}
+                                    margin="0 10px"
+                                    size="40px"
+                                    src={profileData?.profileImage}
+                                    round
+                                  />
+                                  {profileData?.isNinVerified && (
+                                    <VerifyContainer>
+                                      <RiVerifiedBadgeFill
+                                        size={16}
+                                        color={Theme.PrimaryBlue}
+                                      />
+                                    </VerifyContainer>
+                                  )}
+                                </div>
                               </AvatarWrapper>
                               <IoChevronDownOutline
                                 size={16}
@@ -415,23 +419,26 @@ const Dashboard = () => {
                               style={{ alignItems: 'center' }}
                             >
                               <Box margin="0 10px 0 0">
-                                <AvatarWrapper>
-                                  <Avatar
-                                    name={`${user?.firstName} ${user?.lastName}`}
-                                    margin="0 10px"
-                                    size="40px"
-                                    src={profileData?.profileImage}
-                                    round
-                                  />
-                                  {profileData?.isNinVerified && (
-                                    <VerifyContainer>
-                                      <RiVerifiedBadgeFill
-                                        size={16}
-                                        color={Theme.PrimaryBlue}
-                                      />
-                                    </VerifyContainer>
-                                  )}
-                                </AvatarWrapper>
+                                {/* visibility none on mobile */}
+                                <div className="hidden md:block">
+                                  <AvatarWrapper>
+                                    <Avatar
+                                      name={`${user?.firstName} ${user?.lastName}`}
+                                      margin="0 10px"
+                                      size="40px"
+                                      src={profileData?.profileImage}
+                                      round
+                                    />
+                                    {profileData?.isNinVerified && (
+                                      <VerifyContainer>
+                                        <RiVerifiedBadgeFill
+                                          size={16}
+                                          color={Theme.PrimaryBlue}
+                                        />
+                                      </VerifyContainer>
+                                    )}
+                                  </AvatarWrapper>
+                                </div>
                               </Box>
                               <IoChevronDownOutline
                                 size={16}

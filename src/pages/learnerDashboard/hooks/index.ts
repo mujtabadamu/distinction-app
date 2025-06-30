@@ -9,7 +9,6 @@ import {
 } from 'generated/index';
 import usePaginationWrapper from 'hooks/general/usePaginationWrapper';
 
-
 const usePracticeHistory = () => {
   const {
     limit,
@@ -40,7 +39,6 @@ const usePracticeHistory = () => {
     useState<PaginatedStudentPaperSolutionWithAnswersView | null>(null);
   const [practicedResult, setPracticedResult] =
     useState<StudentResultView | null>(null);
-
 
   const getPracticeCourse = async (paperId?: string) => {
     setLoadingGroupedCourse(true);
@@ -120,7 +118,6 @@ const usePracticeHistory = () => {
     }
   };
 
-  
   return {
     loadingGroupedCourse,
     coursePractice,

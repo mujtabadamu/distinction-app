@@ -109,7 +109,7 @@ const Login = () => {
       const result = await login({
         distinctionLoginRequest: loginRequest,
       }).unwrap();
-
+      console.log('login response', result);
       if (result.user) {
         // Transform the API response to match our UserProfileDTO interface
         const currentUser = {
@@ -120,19 +120,11 @@ const Login = () => {
           otherName: result.user.otherName || undefined,
         };
 
-        // Store tokens in localStorage or secure storage
-        if (result.accessToken) {
-          setLocalAccessToken(result.accessToken);
-        }
-        if (result.refreshToken) {
-          setLocalRefreshToken(result.refreshToken);
-        }
-
-        // Store user data in localStorage
+        // Store user data in localStorage (for backward compatibility)
         setLocalUser(JSON.stringify(currentUser));
 
-        // Update Redux state
-        dispatch(setAuth({ user: currentUser }));
+        // Update Redux state with tokens and user data
+        dispatch(setAuth({ user: result }));
 
         // Analytics tracking
         pushEvent('trackAuthentication', {
@@ -265,7 +257,6 @@ const Login = () => {
                 required: 'Email is required',
               })}
               onKeyDown={handleKeyDown}
-              error={errors.email?.message as string | undefined}
               onChange={({
                 target: { value },
               }: {

@@ -62,7 +62,7 @@ const Profile = () => {
   const { schoolList, getSchoolList } = useQuizathon();
   const location = useLocation();
   const {
-    getActivePlan,
+    // getActivePlan,
     loadingActivePlan,
     activePlan,
     getSubscriptionHistory,

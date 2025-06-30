@@ -8,8 +8,10 @@ import {
 } from 'generated/index';
 import { handleError } from 'utils/errorHandlers';
 import { Notify } from '@flexisaf/flexibull2';
-import { setUser, useUserSlice } from 'pages/auth/userSlice';
+// import { setUser, useUserSlice } from 'pages/auth/userSlice';
 import { useDispatch } from 'react-redux';
+import { useUserProfile } from 'pages/auth/userProfileSlice';
+import { setUserProfile } from 'pages/auth/userProfileSlice';
 
 interface EditProfilePayload {
   phoneNumber: string;
@@ -40,7 +42,7 @@ const useProfile = () => {
     useState<PublicUserProfileDTO | null>(null);
   const [isLoadingPublicProfile, setIsLoadingPublicProfile] =
     useState<boolean>(false);
-  const profileData = useUserSlice();
+  const { profile: profileData } = useUserProfile();
   const dispatch = useDispatch();
 
   const getProfileData = async (studentId: string) => {
@@ -49,7 +51,7 @@ const useProfile = () => {
       const data = await apiWrapper(() =>
         DistinctionProfileService.getUserProfile({ studentId })
       );
-      dispatch(setUser(data));
+      dispatch(setUserProfile(data));
       setIsLoadingProfile(false);
     } catch (error) {
       setIsLoadingProfile(false);
@@ -81,7 +83,7 @@ const useProfile = () => {
       const response = await apiWrapper(() =>
         DistinctionProfileService.editUserProfile(payload)
       );
-      dispatch(setUser(response));
+      dispatch(setUserProfile(response));
       Notify('Profile Edited successfully', { status: 'success' });
       cb();
       setIsEditingProfile(false);

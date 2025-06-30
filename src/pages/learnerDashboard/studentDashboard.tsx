@@ -1,25 +1,14 @@
 import { useEffect } from 'react';
-import {
-  Grid,
-  Box,
-  Spacer,
-  Button,
-  Text,
-  Table,
-  PageTitle,
-} from '@flexisaf/flexibull2';
+import { Box, Spacer, Button, Text, PageTitle } from '@flexisaf/flexibull2';
 import styled from 'styled-components';
-import { TbCoins } from 'react-icons/tb';
 import QuickLinks from './components/QuickLinks';
 import PracticeSummary from './PerformanceSummary';
 import Theme from 'utils/theme';
-import PracticeActivityChart from './PracticeActivityChart';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from 'redux/auth/selectors';
 import usePointAccumulation from '../points/hooks/usePointAccumulation';
 import { formatTime, thousandFormatter } from 'utils/helpers';
 import useStatistic from './hooks/useStatistic';
-import { TableWrapper } from 'pages/referrals';
 import EmptyState from 'components/emptyState/emptyState';
 import FolderIcon from 'assets/images/folder.svg';
 import usePracticeHistory from './hooks';
@@ -28,15 +17,23 @@ import Skeleton from 'react-loading-skeleton';
 import AdSense from 'adsense/AdSense';
 import { HORIZONTAL_ADS } from 'adsense/adsConfig';
 import useSubscriptionBilling from 'pages/profile/hooks/useSubscriptionBilling';
-import StreakComponent from './components/StreakComponent';
 import OverallPerformance from './OverallPerformance';
 import TourManager from 'components/onboarding/TourManager';
+import StreakTracker from 'pages/points/components/StreakTracker';
+import { ExpandableCard } from './components/expandableCard';
+// import useProfile from 'pages/profile/hooks/useProfile';
+import { RiVerifiedBadgeFill } from 'react-icons/ri';
+import UserEmptyState from 'assets/images/ImageEmptyState.svg';
+import useStreak from 'pages/points/hooks/useStreak';
+import { useUserProfile } from 'pages/auth/userProfileSlice';
 
 const StudentDashboard = () => {
   const user = useSelector(selectCurrentUser);
+  const { profile: profileData } = useUserProfile();
   const navigate = useNavigate();
   const { getTotalPoints, totalPoints, isLoadingPoints } =
     usePointAccumulation();
+  const { streakStats } = useStreak();
   const {
     getScoreStats,
     scoreStats,
@@ -46,7 +43,7 @@ const StudentDashboard = () => {
   } = useStatistic();
   const { getPracticeCourse, loadingGroupedCourse, coursePractice } =
     usePracticeHistory();
-  const { activePlan, getActivePlan } = useSubscriptionBilling();
+  const { activePlan } = useSubscriptionBilling();
 
   const formatPracticeSummaryData = () => {
     if (!scoreStats) {
@@ -132,88 +129,165 @@ const StudentDashboard = () => {
     getScoreStats();
     getTimeStats();
     getPracticeCourse();
-    getActivePlan();
+    // getActivePlan();
   }, []);
 
   const hasPracticeData = coursePractice && coursePractice?.length > 0;
+  const currentStreak = streakStats?.currentStreak ?? 0;
 
   return (
-    <Box pad="1.5rem">
+    <Box pad="1rem 1.5rem">
       <PageTitle>Dashboard</PageTitle>
-      <StreakComponent />
-      <Spacer space={12} />
-      <Grid default="auto max-content" style={{ alignItems: 'center' }}>
-        <Box>
-          <Text size="1.75rem" bold className="welcome-text">
-            Welcome back, {user?.firstName}
-          </Text>
-          <Spacer />
-          <Text>It's a good day to practice, and earn points</Text>
-        </Box>
+
+      <WelcomeSection>
+        <UserInfoContainer>
+          <ProfileImageContainer>
+            <ProfileImage
+              src={profileData?.profileImage ?? UserEmptyState}
+              alt="user_profile"
+              className=" block md:hidden"
+            />
+          </ProfileImageContainer>
+          <UserTextContainer>
+            <Text block size="1.2rem">
+              Welcome back,
+            </Text>
+            <WelcomeText size="1.2rem" bold>
+              {user?.firstName}
+              {profileData?.isNinVerified && (
+                <VerifiedBadge>
+                  <RiVerifiedBadgeFill size={16} color={Theme.PrimaryBlue} />
+                </VerifiedBadge>
+              )}
+            </WelcomeText>
+          </UserTextContainer>
+        </UserInfoContainer>
+
         {isLoadingPoints ? (
-          <Skeleton height={80} width={200} />
+          <Skeleton width={60} height={30} style={{ borderRadius: '50px' }} />
         ) : (
-          <PointsSection>
-            <Box>
-              <TbCoins color="#FF9F29" size={32} />
-            </Box>
-            <Spacer space={12} />
-            <Box
-              display="flex"
-              style={{
-                gap: '24px',
-                justifyContent: 'space-between',
-                minWidth: '300px',
-              }}
-            >
-              <Box>
-                <Text size="1.5rem" bold>
-                  {thousandFormatter(totalPoints?.totalPoints ?? 0)}
-                </Text>
-                <Text style={{ fontWeight: '600' }} size="1.0rem">
-                  pts{' '}
-                </Text>
-              </Box>
-              <Button
-                onClick={() => navigate('/points')}
-                data-tour="earn-more-points"
-              >
-                Earn More Points
-              </Button>
-            </Box>
-          </PointsSection>
+          <PointContainer
+            onClick={() => navigate('/points')}
+            data-tour="earn-more-points"
+          >
+            ⭐️
+            <PointsText size="1rem" bold>
+              <PointsValue>
+                {thousandFormatter(totalPoints?.totalPoints ?? 0)}
+              </PointsValue>
+              <PointsLabel>Points</PointsLabel>
+            </PointsText>
+          </PointContainer>
         )}
-      </Grid>
-      <Spacer space={32} />
-      <QuickLinksDescription>
-        <Text size="1.25rem" bold>
-          Quick Links
-        </Text>
-        <Spacer space={6} />
-        <Text>Click the links below to explore distinction features</Text>
-        <Spacer space={12} />
-      </QuickLinksDescription>
-      <QuickLinks />
-      {activePlan?.subscriptionPackage?.code === 'BASIC_PLAN' && (
-        <Box pad="1rem 0">
-          <AdSense adSlotType={HORIZONTAL_ADS} />
-        </Box>
-      )}
-      {hasPracticeData ? (
-        <>
-          <Grid default="max-content auto" style={{ alignItems: 'start' }}>
-            <Box
-              pad="1rem"
-              style={{ border: '1px solid #EDEDED', borderRadius: '8px' }}
-            >
-              <Spacer space={5} />
-              {isLoadingScoreStats ? (
-                <Skeleton height={300} style={{ minWidth: '300px' }} />
-              ) : (
-                <>
+      </WelcomeSection>
+
+      <GridContainer>
+        <MainContent>
+          {currentStreak === 0 && (
+            <NotificationBanner>
+              <BellIcon>🔔</BellIcon> Start your learning journey today! One
+              session is all it takes to begin your streak
+            </NotificationBanner>
+          )}
+          {currentStreak > 0 && currentStreak < 3 && (
+            <NotificationBanner>
+              <BellIcon>🔔</BellIcon> Great start! Keep your streak alive, one
+              session today is all it takes
+            </NotificationBanner>
+          )}
+          {currentStreak >= 3 && currentStreak < 7 && (
+            <NotificationBanner>
+              <BellIcon>🔥</BellIcon> Amazing progress You're on a{' '}
+              {currentStreak}-day streak. Keep it going
+            </NotificationBanner>
+          )}
+          {currentStreak >= 7 && (
+            <NotificationBanner>
+              <BellIcon>🏆</BellIcon> Incredible! You've maintained a{' '}
+              {currentStreak}-day streak. You're unstoppable
+            </NotificationBanner>
+          )}
+
+          <Box
+            background="white"
+            pad="24px"
+            style={{ border: '1px solid #E4E4E4', borderRadius: '8px' }}
+          >
+            <Text size="1.25rem" bold block>
+              Learning Streak
+            </Text>
+            <Spacer space={5} />
+
+            <Text block>
+              Every day counts! See how far you've come this week
+            </Text>
+            <Spacer space={15} />
+
+            <StreakTracker onClick={() => navigate('/points')} showInfo />
+          </Box>
+
+          <Spacer space={20} />
+
+          <Box
+            background="white"
+            pad="15px 24px"
+            style={{
+              border: '1px solid #E4E4E4',
+              borderRadius: '8px',
+              margin: '10px 0px',
+            }}
+          >
+            <QuickLinksDescription>
+              <Text size="1.25rem" bold>
+                Boost Your Learning
+              </Text>
+              <Spacer space={6} />
+              <Text>
+                Choose how you want to learn today, every step counts.
+              </Text>
+              <Spacer space={12} />
+            </QuickLinksDescription>
+            <QuickLinks />
+          </Box>
+          <Spacer space={20} />
+
+          {activePlan?.subscriptionPackage?.code === 'BASIC_PLAN' && (
+            <Box pad="1rem 0">
+              <AdSense adSlotType={HORIZONTAL_ADS} />
+            </Box>
+          )}
+          <Spacer space={10} />
+          {hasPracticeData ? (
+            isLoadingScoreStats ? (
+              <Skeleton height={300} style={{ minWidth: '300px' }} />
+            ) : (
+              <Box
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '20px',
+                  padding: '15px 20px',
+                  border: '1px solid #EDEDED',
+                  borderRadius: '8px',
+                  backgroundColor: '#fff',
+                }}
+              >
+                <Box
+                  style={{
+                    flex: '1 1 45%',
+                    minWidth: '300px',
+                  }}
+                >
                   <OverallPerformance stats={performanceData?.stats} />
-                  <Spacer space={20} />
-                  <Text size="1.5rem" bold>
+                </Box>
+
+                <Box
+                  style={{
+                    flex: '1 1 45%',
+                    minWidth: '300px',
+                  }}
+                >
+                  <Text size="1.25rem" bold>
                     Practice Summary
                   </Text>
                   <Spacer space={5} />
@@ -223,87 +297,78 @@ const StudentDashboard = () => {
                     averageScore={practiceData?.averageScore}
                     stats={practiceData?.stats}
                   />
-                </>
+                </Box>
+              </Box>
+            )
+          ) : (
+            <Box pad="2rem 0">
+              <EmptyState
+                image={<img src={FolderIcon} alt="folder_icon" />}
+                title="No Activity Found"
+                description="Click on start practice button to begin practicing and earn points."
+                action={
+                  <Button onClick={() => navigate('/practice')}>
+                    Start Practice
+                  </Button>
+                }
+              />
+            </Box>
+          )}
+        </MainContent>
+
+        <Sidebar>
+          {hasPracticeData && (
+            <Box
+              background="white"
+              pad="15px 24px"
+              style={{
+                border: '1px solid #E4E4E4',
+                borderRadius: '8px',
+                marginTop: '20px',
+              }}
+            >
+              <Text size="1.25rem" bold>
+                Recent Practice
+              </Text>
+              {loadingGroupedCourse ? (
+                <Skeleton height={300} />
+              ) : (
+                <Box>
+                  {coursePractice?.slice(0, 3).map((practice, index) => {
+                    const practiceAttempts = practice.practiceCount;
+                    const practiceAccuracy =
+                      practice?.totalScore &&
+                      practice?.totalQuestion &&
+                      (
+                        (practice.totalScore / practice.totalQuestion) *
+                        100
+                      ).toFixed(2);
+                    return (
+                      <ExpandableCard
+                        key={index}
+                        title={practice?.paperName ?? ''}
+                        value={`${practiceAccuracy}%`}
+                        description={`${practiceAttempts} attempts`}
+                        onClick={() =>
+                          navigate(
+                            `/course-practice-history/${practice.paperId}`,
+                            {
+                              state: {
+                                practiceAccuracy,
+                                practiceAttempts,
+                              },
+                            }
+                          )
+                        }
+                      />
+                    );
+                  })}
+                </Box>
               )}
             </Box>
-            <Box className="h-full">
-              <PracticeActivityChart />
-            </Box>
-          </Grid>
-          <Spacer space={12} />
-          <Text size="1.5rem" bold>
-            Practice History
-          </Text>
-          {loadingGroupedCourse ? (
-            <Skeleton height={300} />
-          ) : (
-            <TableWrapper style={{ maxHeight: '540px', overflowY: 'scroll' }}>
-              <Table style={{ overflowX: 'auto' }}>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>S/N</th>
-                      <th>Course</th>
-                      <th>Accuracy</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {coursePractice?.map((practice, index) => {
-                      const practiceAttempts = practice.practiceCount;
-                      const practiceAccuracy =
-                        practice?.totalScore &&
-                        practice?.totalQuestion &&
-                        (
-                          (practice.totalScore / practice.totalQuestion) *
-                          100
-                        ).toFixed(2);
-                      return (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{practice.paperName}</td>
-                          <td>{practiceAccuracy}%</td>
-                          <td>
-                            <Button
-                              pale
-                              onClick={() =>
-                                navigate(
-                                  `/course-practice-history/${practice.paperId}`,
-                                  {
-                                    state: {
-                                      practiceAccuracy,
-                                      practiceAttempts,
-                                    },
-                                  }
-                                )
-                              }
-                            >
-                              View{' '}
-                            </Button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </Table>
-            </TableWrapper>
           )}
-        </>
-      ) : (
-        <Box pad="2rem 0">
-          <EmptyState
-            image={<img src={FolderIcon} alt="folder_icon" />}
-            title="No Activity Found"
-            description="Click on start practice button to begin practicing and earn points."
-            action={
-              <Button onClick={() => navigate('/practice')}>
-                Start Practice
-              </Button>
-            }
-          />
-        </Box>
-      )}
+        </Sidebar>
+      </GridContainer>
       <TourManager />
     </Box>
   );
@@ -311,16 +376,192 @@ const StudentDashboard = () => {
 
 export default StudentDashboard;
 
-const PointsSection = styled.div`
+// Styled Components
+const WelcomeSection = styled.div`
   background: #fff;
-  padding: 12px;
+  padding: 10px 15px;
   border-radius: 8px;
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+  @media (max-width: 767px) {
+    padding: 8px 12px;
+    gap: 8px;
+  }
 `;
 
+const UserInfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  @media (max-width: 767px) {
+    gap: 6px;
+  }
+`;
+
+const ProfileImageContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ProfileImage = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+
+  @media (max-width: 767px) {
+    width: 40px;
+    height: 40px;
+  }
+`;
+
+const UserTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const WelcomeText = styled(Text)`
+  display: flex !important;
+  align-items: center !important;
+
+  @media (max-width: 767px) {
+    font-size: 1rem !important;
+  }
+`;
+
+const VerifiedBadge = styled.span`
+  margin-left: 4px;
+
+  @media (max-width: 767px) {
+    margin-left: 2px;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+`;
+
+const PointContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #353593;
+  min-width: 100px;
+  max-width: fit-content;
+  height: 30px;
+  border-radius: 50px;
+  padding: 10px;
+  color: #fff;
+  cursor: pointer;
+
+  @media (max-width: 767px) {
+    min-width: 80px;
+    height: 26px;
+    padding: 8px;
+    gap: 4px;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+`;
+
+const PointsText = styled(Text)`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  @media (max-width: 767px) {
+    font-size: 0.875rem !important;
+    gap: 3px;
+  }
+`;
+
+const PointsValue = styled.span`
+  font-weight: 500;
+`;
+
+const PointsLabel = styled.span`
+  font-weight: 300;
+`;
+
+const NotificationBanner = styled.div`
+  color: #000;
+  background: #fff5e2;
+  border: 1px solid #ffc24b;
+  padding: 8px;
+  margin: 20px 0px;
+  line-height: 1.8;
+  border-radius: 4px;
+`;
+
+const BellIcon = styled.span`
+  display: inline-block;
+  animation: shake 2s ease-in-out;
+  transform-origin: center center;
+  animation-iteration-count: 2;
+
+  @keyframes shake {
+    0%,
+    90%,
+    100% {
+      transform: rotate(0deg);
+    }
+    10%,
+    30% {
+      transform: rotate(-10deg);
+    }
+    20%,
+    40% {
+      transform: rotate(10deg);
+    }
+  }
+`;
 const QuickLinksDescription = styled.div`
-  display: none;
-  @media (max-width: 768px) {
-    display: block;
+  display: block;
+`;
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-bottom: 70px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: minmax(300px, 2fr) minmax(250px, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: minmax(400px, 2.2fr) minmax(300px, 1fr);
+  }
+
+  @media (min-width: 1280px) {
+    grid-template-columns: minmax(500px, 2.5fr) minmax(350px, 1fr);
+  }
+
+  @media (min-width: 1440px) {
+    grid-template-columns: minmax(600px, 2.8fr) minmax(400px, 1fr);
+  }
+
+  @media (min-width: 1680px) {
+    grid-template-columns: minmax(700px, 3fr) minmax(450px, 1fr);
+  }
+`;
+
+const MainContent = styled.div`
+  min-width: 0;
+`;
+
+const Sidebar = styled.div`
+  min-width: 0;
+
+  @media (max-width: 767px) {
+    order: 2;
   }
 `;

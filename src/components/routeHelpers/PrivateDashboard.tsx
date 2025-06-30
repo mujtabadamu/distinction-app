@@ -1,11 +1,9 @@
 import { Fragment } from 'react';
 
-import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-import { selectIsAuthenticated } from '../../redux/auth/selectors';
-import { getLocalAccessToken, getLocalUser } from '../../utils/helpers';
 import { Loadable } from '../../utils/ComponentLoader';
+import { useAuthSlice } from 'pages/auth/authSlice';
 
 const Dashboard = Loadable<any>(
   () => import('../../pages/Dashboard'),
@@ -13,9 +11,8 @@ const Dashboard = Loadable<any>(
 );
 
 const PrivateDashboard = () => {
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-  const accessToken = getLocalAccessToken();
-  const localUser = getLocalUser();
+  const { user: localUser, isAuthenticated } = useAuthSlice();
+  const accessToken = localUser?.accessToken;
   const auth = !!(localUser && accessToken && isAuthenticated);
 
   return <Fragment>{auth ? <Dashboard /> : <Navigate to="/login" />}</Fragment>;

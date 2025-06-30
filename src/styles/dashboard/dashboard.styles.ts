@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import devices from '../../utils/devices';
 import { motion } from 'framer-motion';
 import Theme from '../../utils/theme';
-import { TableWrapper } from 'pages/referrals';
+// import { TableWrapper } from 'pages/referrals';
 
 export const Container = styled.div`
   width: 100vw;
@@ -316,10 +316,12 @@ export const PracticeSummaryWrapper = styled.div`
   justify-content: space-around;
   gap: 1rem;
   align-items: center;
-  box-shadow: 0px 50px 20px rgba(210, 209, 209, 0.01),
+  box-shadow:
+    0px 50px 20px rgba(210, 209, 209, 0.01),
     0px 28px 17px rgba(210, 209, 209, 0.05),
     0px 13px 13px rgba(210, 209, 209, 0.09),
-    0px 3px 7px rgba(210, 209, 209, 0.1), 0px 0px 0px rgba(210, 209, 209, 0.1);
+    0px 3px 7px rgba(210, 209, 209, 0.1),
+    0px 0px 0px rgba(210, 209, 209, 0.1);
   border-radius: 5px;
   padding: 1rem 1rem;
 `;
@@ -443,7 +445,7 @@ export const PopularSubject = styled.div<{ selected: boolean }>`
   color: #757575;
 `;
 
-export const DesktopTableWrapper = styled(TableWrapper)`
+export const DesktopTableWrapper = styled.table`
   @media (max-width: 768px) {
     display: none;
   }

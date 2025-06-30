@@ -1,4 +1,4 @@
-import { baseApi as api } from "./emptyApi";
+import { baseApi as api } from './emptyApi';
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     retrieve: build.query<RetrieveApiResponse, RetrieveApiArg>({
@@ -7,7 +7,7 @@ const injectedRtkApi = api.injectEndpoints({
     update: build.mutation<UpdateApiResponse, UpdateApiArg>({
       query: (queryArg) => ({
         url: `/telcos/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.telcoRequest,
       }),
     }),
@@ -17,34 +17,34 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/telcos/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     update1: build.mutation<Update1ApiResponse, Update1ApiArg>({
       query: (queryArg) => ({
         url: `/subscription-packages/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.subscriptionPackageRequest,
       }),
     }),
     updateAddOn: build.mutation<UpdateAddOnApiResponse, UpdateAddOnApiArg>({
       query: (queryArg) => ({
         url: `/subscription-packages/add-on/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.subscriptionPackageAddonRequest,
       }),
     }),
     update2: build.mutation<Update2ApiResponse, Update2ApiArg>({
       query: (queryArg) => ({
         url: `/subjects/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.subjectRequest,
       }),
     }),
     delete1: build.mutation<Delete1ApiResponse, Delete1ApiArg>({
       query: (queryArg) => ({
         url: `/subjects/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     getCurrentUserSettings: build.query<
@@ -59,7 +59,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/streak/user-streak-settings`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.streakNotificationSettingsDto,
       }),
     }),
@@ -72,14 +72,14 @@ const injectedRtkApi = api.injectEndpoints({
     update3: build.mutation<Update3ApiResponse, Update3ApiArg>({
       query: (queryArg) => ({
         url: `/sections/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.sectionRequest,
       }),
     }),
     delete2: build.mutation<Delete2ApiResponse, Delete2ApiArg>({
       query: (queryArg) => ({
         url: `/sections/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     getSchool: build.query<GetSchoolApiResponse, GetSchoolApiArg>({
@@ -88,20 +88,20 @@ const injectedRtkApi = api.injectEndpoints({
     update4: build.mutation<Update4ApiResponse, Update4ApiArg>({
       query: (queryArg) => ({
         url: `/schools/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.body,
         params: {
           name: queryArg.name,
           abbr: queryArg.abbr,
           state: queryArg.state,
-          type: queryArg["type"],
+          type: queryArg['type'],
         },
       }),
     }),
     delete3: build.mutation<Delete3ApiResponse, Delete3ApiArg>({
       query: (queryArg) => ({
         url: `/schools/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     updateStudent: build.mutation<
@@ -110,7 +110,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/schoolOnboarding/students/${queryArg.studentId}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.uploadedStudentDto,
       }),
     }),
@@ -120,14 +120,14 @@ const injectedRtkApi = api.injectEndpoints({
     update5: build.mutation<Update5ApiResponse, Update5ApiArg>({
       query: (queryArg) => ({
         url: `/quizathon/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.quizathonRequest,
       }),
     }),
     delete4: build.mutation<Delete4ApiResponse, Delete4ApiArg>({
       query: (queryArg) => ({
         url: `/quizathon/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     get2: build.query<Get2ApiResponse, Get2ApiArg>({
@@ -136,14 +136,14 @@ const injectedRtkApi = api.injectEndpoints({
     update6: build.mutation<Update6ApiResponse, Update6ApiArg>({
       query: (queryArg) => ({
         url: `/quizathon/particpant/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.participantRequest,
       }),
     }),
     delete5: build.mutation<Delete5ApiResponse, Delete5ApiArg>({
       query: (queryArg) => ({
         url: `/quizathon/particpant/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     get3: build.query<Get3ApiResponse, Get3ApiArg>({
@@ -152,14 +152,14 @@ const injectedRtkApi = api.injectEndpoints({
     update7: build.mutation<Update7ApiResponse, Update7ApiArg>({
       query: (queryArg) => ({
         url: `/questions/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.questionUpdateRequest,
       }),
     }),
     delete6: build.mutation<Delete6ApiResponse, Delete6ApiArg>({
       query: (queryArg) => ({
         url: `/questions/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     retrieve4: build.query<Retrieve4ApiResponse, Retrieve4ApiArg>({
@@ -168,12 +168,12 @@ const injectedRtkApi = api.injectEndpoints({
     update8: build.mutation<Update8ApiResponse, Update8ApiArg>({
       query: (queryArg) => ({
         url: `/plans/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.planUpdateRequest,
       }),
     }),
     delete8: build.mutation<Delete8ApiResponse, Delete8ApiArg>({
-      query: (queryArg) => ({ url: `/plans/${queryArg.id}`, method: "DELETE" }),
+      query: (queryArg) => ({ url: `/plans/${queryArg.id}`, method: 'DELETE' }),
     }),
     get4: build.query<Get4ApiResponse, Get4ApiArg>({
       query: (queryArg) => ({ url: `/papers/${queryArg.id}` }),
@@ -181,27 +181,27 @@ const injectedRtkApi = api.injectEndpoints({
     update9: build.mutation<Update9ApiResponse, Update9ApiArg>({
       query: (queryArg) => ({
         url: `/papers/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.paperRequest,
       }),
     }),
     delete9: build.mutation<Delete9ApiResponse, Delete9ApiArg>({
       query: (queryArg) => ({
         url: `/papers/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     update10: build.mutation<Update10ApiResponse, Update10ApiArg>({
       query: (queryArg) => ({
         url: `/keypoints/${queryArg.id}/rename`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.updateKeyPointRequest,
       }),
     }),
     update11: build.mutation<Update11ApiResponse, Update11ApiArg>({
       query: (queryArg) => ({
         url: `/folders/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         params: {
           request: queryArg.request,
         },
@@ -210,7 +210,7 @@ const injectedRtkApi = api.injectEndpoints({
     update12: build.mutation<Update12ApiResponse, Update12ApiArg>({
       query: (queryArg) => ({
         url: `/flashcards/${queryArg.id}/rename`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.updateFlashcardRequest,
       }),
     }),
@@ -220,7 +220,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/flashcard-sessions/${queryArg.sessionId}/update-stats`,
-        method: "PUT",
+        method: 'PUT',
       }),
     }),
     resumeSession: build.mutation<
@@ -229,19 +229,19 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/flashcard-sessions/${queryArg.sessionId}/resume`,
-        method: "PUT",
+        method: 'PUT',
       }),
     }),
     pauseSession: build.mutation<PauseSessionApiResponse, PauseSessionApiArg>({
       query: (queryArg) => ({
         url: `/flashcard-sessions/${queryArg.sessionId}/pause`,
-        method: "PUT",
+        method: 'PUT',
       }),
     }),
     endSession: build.mutation<EndSessionApiResponse, EndSessionApiArg>({
       query: (queryArg) => ({
         url: `/flashcard-sessions/${queryArg.sessionId}/end`,
-        method: "PUT",
+        method: 'PUT',
         params: {
           status: queryArg.status,
         },
@@ -253,7 +253,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/flashcard-sessions/${queryArg.sessionId}/abandon`,
-        method: "PUT",
+        method: 'PUT',
       }),
     }),
     exam: build.query<ExamApiResponse, ExamApiArg>({
@@ -262,12 +262,12 @@ const injectedRtkApi = api.injectEndpoints({
     update13: build.mutation<Update13ApiResponse, Update13ApiArg>({
       query: (queryArg) => ({
         url: `/exams/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.examRequest,
       }),
     }),
     delete14: build.mutation<Delete14ApiResponse, Delete14ApiArg>({
-      query: (queryArg) => ({ url: `/exams/${queryArg.id}`, method: "DELETE" }),
+      query: (queryArg) => ({ url: `/exams/${queryArg.id}`, method: 'DELETE' }),
     }),
     examGroup: build.query<ExamGroupApiResponse, ExamGroupApiArg>({
       query: (queryArg) => ({ url: `/exam-groups/${queryArg.id}` }),
@@ -275,7 +275,7 @@ const injectedRtkApi = api.injectEndpoints({
     update14: build.mutation<Update14ApiResponse, Update14ApiArg>({
       query: (queryArg) => ({
         url: `/exam-groups/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.body,
         params: {
           name: queryArg.name,
@@ -287,7 +287,7 @@ const injectedRtkApi = api.injectEndpoints({
     delete15: build.mutation<Delete15ApiResponse, Delete15ApiArg>({
       query: (queryArg) => ({
         url: `/exam-groups/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     get13: build.query<Get13ApiResponse, Get13ApiArg>({
@@ -296,14 +296,14 @@ const injectedRtkApi = api.injectEndpoints({
     update15: build.mutation<Update15ApiResponse, Update15ApiArg>({
       query: (queryArg) => ({
         url: `/enrolled-courses/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.enrolledCourseRequest,
       }),
     }),
     delete17: build.mutation<Delete17ApiResponse, Delete17ApiArg>({
       query: (queryArg) => ({
         url: `/enrolled-courses/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     get14: build.query<Get14ApiResponse, Get14ApiArg>({
@@ -312,14 +312,14 @@ const injectedRtkApi = api.injectEndpoints({
     update16: build.mutation<Update16ApiResponse, Update16ApiArg>({
       query: (queryArg) => ({
         url: `/custom-questions/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.customQuestionUpdateRequest,
       }),
     }),
     delete19: build.mutation<Delete19ApiResponse, Delete19ApiArg>({
       query: (queryArg) => ({
         url: `/custom-questions/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     updateUsername: build.mutation<
@@ -328,7 +328,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/Profile/update/username`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.updateUsernameRequest,
       }),
     }),
@@ -338,7 +338,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/Profile/nin/update`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.userProfileNinRequest,
       }),
     }),
@@ -348,7 +348,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/Profile/`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.body,
         params: {
           phoneNumber: queryArg.phoneNumber,
@@ -380,14 +380,14 @@ const injectedRtkApi = api.injectEndpoints({
     create: build.mutation<CreateApiResponse, CreateApiArg>({
       query: (queryArg) => ({
         url: `/telcos`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.telcoRequest,
       }),
     }),
     callback: build.mutation<CallbackApiResponse, CallbackApiArg>({
       query: (queryArg) => ({
         url: `/telcos/callback`,
-        method: "POST",
+        method: 'POST',
         params: {
           channel: queryArg.channel,
           action: queryArg.action,
@@ -421,14 +421,14 @@ const injectedRtkApi = api.injectEndpoints({
     create1: build.mutation<Create1ApiResponse, Create1ApiArg>({
       query: (queryArg) => ({
         url: `/subscription-packages`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.subscriptionPackageRequest,
       }),
     }),
     createAddOn: build.mutation<CreateAddOnApiResponse, CreateAddOnApiArg>({
       query: (queryArg) => ({
         url: `/subscription-packages/add-on`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.subscriptionPackageAddonRequest,
       }),
     }),
@@ -443,7 +443,7 @@ const injectedRtkApi = api.injectEndpoints({
     create2: build.mutation<Create2ApiResponse, Create2ApiArg>({
       query: (queryArg) => ({
         url: `/subjects`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.subjectRequest,
       }),
     }),
@@ -453,7 +453,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/streak/email-testing`,
-        method: "POST",
+        method: 'POST',
         params: {
           toAddress: queryArg.toAddress,
           template: queryArg.template,
@@ -463,14 +463,14 @@ const injectedRtkApi = api.injectEndpoints({
     getSolution: build.mutation<GetSolutionApiResponse, GetSolutionApiArg>({
       query: (queryArg) => ({
         url: `/solutions/generate`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.solutionRequest,
       }),
     }),
     getAnswer: build.mutation<GetAnswerApiResponse, GetAnswerApiArg>({
       query: (queryArg) => ({
         url: `/solutions/answer`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.solutionRequest,
       }),
     }),
@@ -488,7 +488,7 @@ const injectedRtkApi = api.injectEndpoints({
     create3: build.mutation<Create3ApiResponse, Create3ApiArg>({
       query: (queryArg) => ({
         url: `/sections`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.sectionRequest,
       }),
     }),
@@ -507,13 +507,13 @@ const injectedRtkApi = api.injectEndpoints({
     create4: build.mutation<Create4ApiResponse, Create4ApiArg>({
       query: (queryArg) => ({
         url: `/schools`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           name: queryArg.name,
           abbr: queryArg.abbr,
           state: queryArg.state,
-          type: queryArg["type"],
+          type: queryArg['type'],
         },
       }),
     }),
@@ -523,7 +523,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/schoolOnboarding/students`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.uploadedStudentDto,
       }),
     }),
@@ -533,7 +533,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/schoolOnboarding/students/validate-bulk-upload`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           schoolId: queryArg.schoolId,
@@ -546,7 +546,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/schoolOnboarding/students/upload`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           schoolId: queryArg.schoolId,
@@ -559,7 +559,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/schoolOnboarding/students/bulk-upload`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           schoolId: queryArg.schoolId,
@@ -569,7 +569,7 @@ const injectedRtkApi = api.injectEndpoints({
     sendInvite: build.mutation<SendInviteApiResponse, SendInviteApiArg>({
       query: (queryArg) => ({
         url: `/schoolOnboarding/sendInvite`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
       }),
     }),
@@ -579,7 +579,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/schoolOnboarding/send-bulk-invite/${queryArg.schoolId}`,
-        method: "POST",
+        method: 'POST',
       }),
     }),
     requestRewardRequest: build.mutation<
@@ -588,7 +588,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/rewards/retry-request`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.retryRewardRequestDto,
       }),
     }),
@@ -598,7 +598,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/rewards/request`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.rewardRequestDto,
       }),
     }),
@@ -608,7 +608,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/rewards/approve/${queryArg.referrerId}`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.rewardApprovalDto,
       }),
     }),
@@ -618,21 +618,21 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/rewards/airtime-status-callback`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.airtimeStatus,
       }),
     }),
     registerUser: build.mutation<RegisterUserApiResponse, RegisterUserApiArg>({
       query: (queryArg) => ({
         url: `/rate-limit/register`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.userRegistrationRequest,
       }),
     }),
     blockClient: build.mutation<BlockClientApiResponse, BlockClientApiArg>({
       query: (queryArg) => ({
         url: `/rate-limit/block`,
-        method: "POST",
+        method: 'POST',
         params: {
           clientIp: queryArg.clientIp,
         },
@@ -652,14 +652,14 @@ const injectedRtkApi = api.injectEndpoints({
     create5: build.mutation<Create5ApiResponse, Create5ApiArg>({
       query: (queryArg) => ({
         url: `/quizathon`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.quizathonRequest,
       }),
     }),
     joinWaitlist: build.mutation<JoinWaitlistApiResponse, JoinWaitlistApiArg>({
       query: (queryArg) => ({
         url: `/quizathon/waitlist/${queryArg.id}`,
-        method: "POST",
+        method: 'POST',
         params: {
           studentId: queryArg.studentId,
         },
@@ -681,7 +681,7 @@ const injectedRtkApi = api.injectEndpoints({
     create6: build.mutation<Create6ApiResponse, Create6ApiArg>({
       query: (queryArg) => ({
         url: `/quizathon/particpant`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.participantRequest,
       }),
     }),
@@ -706,7 +706,7 @@ const injectedRtkApi = api.injectEndpoints({
     create7: build.mutation<Create7ApiResponse, Create7ApiArg>({
       query: (queryArg) => ({
         url: `/questions`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.questionRequest,
       }),
     }),
@@ -716,7 +716,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/questions/bulk-upload`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           paperId: queryArg.paperId,
@@ -730,7 +730,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/profile/event/track-public-profile/${queryArg.username}`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.profileShareEventRequest,
       }),
     }),
@@ -740,7 +740,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/profile/event/track-profile-shares`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.profileShareEventRequest,
       }),
     }),
@@ -761,14 +761,14 @@ const injectedRtkApi = api.injectEndpoints({
     start: build.mutation<StartApiResponse, StartApiArg>({
       query: (queryArg) => ({
         url: `/portal/student-practice`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.studentPracticeRequest,
       }),
     }),
     submitResult: build.mutation<SubmitResultApiResponse, SubmitResultApiArg>({
       query: (queryArg) => ({
         url: `/portal/student-practice/${queryArg.id}/submit`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.studentPracticeResultRequest,
       }),
     }),
@@ -790,21 +790,21 @@ const injectedRtkApi = api.injectEndpoints({
     enroll: build.mutation<EnrollApiResponse, EnrollApiArg>({
       query: (queryArg) => ({
         url: `/portal/student-papers`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.studentPaperRequest,
       }),
     }),
     submit: build.mutation<SubmitApiResponse, SubmitApiArg>({
       query: (queryArg) => ({
         url: `/portal/student-papers/${queryArg.id}/submit`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.submitPaperRequest,
       }),
     }),
     saveProgress: build.mutation<SaveProgressApiResponse, SaveProgressApiArg>({
       query: (queryArg) => ({
         url: `/portal/student-papers/${queryArg.id}/save-progress`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.studentAnswerProgressRequest,
       }),
     }),
@@ -816,14 +816,14 @@ const injectedRtkApi = api.injectEndpoints({
     add: build.mutation<AddApiResponse, AddApiArg>({
       query: (queryArg) => ({
         url: `/portal/student-papers/${queryArg.id}/bookmarks`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.bookmarkRequest,
       }),
     }),
     delete7: build.mutation<Delete7ApiResponse, Delete7ApiArg>({
       query: (queryArg) => ({
         url: `/portal/student-papers/${queryArg.id}/bookmarks`,
-        method: "DELETE",
+        method: 'DELETE',
         params: {
           questionId: queryArg.questionId,
         },
@@ -840,21 +840,21 @@ const injectedRtkApi = api.injectEndpoints({
     answer: build.mutation<AnswerApiResponse, AnswerApiArg>({
       query: (queryArg) => ({
         url: `/portal/student-papers/${queryArg.id}/answers`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.studentAnswerRequest,
       }),
     }),
     trackTimer: build.mutation<TrackTimerApiResponse, TrackTimerApiArg>({
       query: (queryArg) => ({
         url: `/portal/student-papers/track-timer`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.tracktimerRequest,
       }),
     }),
     refreshToken: build.mutation<RefreshTokenApiResponse, RefreshTokenApiArg>({
       query: (queryArg) => ({
         url: `/portal/auth/refresh-token`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.refreshTokenRequest,
       }),
     }),
@@ -864,7 +864,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/portal/auth/password/reset`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.passwordReset,
       }),
     }),
@@ -874,14 +874,14 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/portal/auth/password/reset-request`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.passwordResetRequest,
       }),
     }),
     login: build.mutation<LoginApiResponse, LoginApiArg>({
       query: (queryArg) => ({
         url: `/portal/auth/login`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.loginRequest,
       }),
     }),
@@ -891,18 +891,18 @@ const injectedRtkApi = api.injectEndpoints({
     create8: build.mutation<Create8ApiResponse, Create8ApiArg>({
       query: (queryArg) => ({
         url: `/plans`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.planRequest,
       }),
     }),
     webhook: build.mutation<WebhookApiResponse, WebhookApiArg>({
       query: (queryArg) => ({
         url: `/payment-gateways/paystack/webhook`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         headers: {
-          "X-Forwarded-For": queryArg["X-Forwarded-For"],
-          "x-paystack-signature": queryArg["x-paystack-signature"],
+          'X-Forwarded-For': queryArg['X-Forwarded-For'],
+          'x-paystack-signature': queryArg['x-paystack-signature'],
         },
       }),
     }),
@@ -926,14 +926,14 @@ const injectedRtkApi = api.injectEndpoints({
     create9: build.mutation<Create9ApiResponse, Create9ApiArg>({
       query: (queryArg) => ({
         url: `/papers`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.paperRequest,
       }),
     }),
     ratePaper: build.mutation<RatePaperApiResponse, RatePaperApiArg>({
       query: (queryArg) => ({
         url: `/paper-ratings`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.paperRatingRequest,
       }),
     }),
@@ -954,7 +954,7 @@ const injectedRtkApi = api.injectEndpoints({
     putImage: build.mutation<PutImageApiResponse, PutImageApiArg>({
       query: (queryArg) => ({
         url: `/multimedia-files`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           name: queryArg.name,
@@ -966,7 +966,7 @@ const injectedRtkApi = api.injectEndpoints({
     copy: build.mutation<CopyApiResponse, CopyApiArg>({
       query: (queryArg) => ({
         url: `/migrations`,
-        method: "POST",
+        method: 'POST',
         params: {
           request: queryArg.request,
         },
@@ -987,7 +987,7 @@ const injectedRtkApi = api.injectEndpoints({
     create10: build.mutation<Create10ApiResponse, Create10ApiArg>({
       query: (queryArg) => ({
         url: `/keypoints`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           paperId: queryArg.paperId,
@@ -1000,7 +1000,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/keypoints/v3`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           curriculum: queryArg.curriculum,
@@ -1014,7 +1014,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/keypoints/v2`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           paperId: queryArg.paperId,
@@ -1027,7 +1027,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/keypoints/v2-streaming`,
-        method: "POST",
+        method: 'POST',
         params: {
           paperId: queryArg.paperId,
         },
@@ -1036,7 +1036,7 @@ const injectedRtkApi = api.injectEndpoints({
     create11: build.mutation<Create11ApiResponse, Create11ApiArg>({
       query: (queryArg) => ({
         url: `/institutions`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.institutionRequest,
       }),
     }),
@@ -1054,7 +1054,7 @@ const injectedRtkApi = api.injectEndpoints({
     putImage1: build.mutation<PutImage1ApiResponse, PutImage1ApiArg>({
       query: (queryArg) => ({
         url: `/images`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           name: queryArg.name,
@@ -1069,12 +1069,12 @@ const injectedRtkApi = api.injectEndpoints({
     create12: build.mutation<Create12ApiResponse, Create12ApiArg>({
       query: (queryArg) => ({
         url: `/folders`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.folderRequest,
       }),
     }),
     delete11: build.mutation<Delete11ApiResponse, Delete11ApiArg>({
-      query: (queryArg) => ({ url: `/folders`, method: "DELETE" }),
+      query: (queryArg) => ({ url: `/folders`, method: 'DELETE' }),
     }),
     list19: build.query<List19ApiResponse, List19ApiArg>({
       query: (queryArg) => ({
@@ -1092,7 +1092,7 @@ const injectedRtkApi = api.injectEndpoints({
     create13: build.mutation<Create13ApiResponse, Create13ApiArg>({
       query: (queryArg) => ({
         url: `/flashcards`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           difficulty: queryArg.difficulty,
@@ -1106,7 +1106,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/flashcards/v3`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           difficulty: queryArg.difficulty,
@@ -1121,7 +1121,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/flashcards/v2`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           difficulty: queryArg.difficulty,
@@ -1135,7 +1135,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/flashcards/v2-streaming`,
-        method: "POST",
+        method: 'POST',
         params: {
           difficulty: queryArg.difficulty,
           paperId: queryArg.paperId,
@@ -1146,14 +1146,14 @@ const injectedRtkApi = api.injectEndpoints({
     recordUsage: build.mutation<RecordUsageApiResponse, RecordUsageApiArg>({
       query: (queryArg) => ({
         url: `/flashcard-usage`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.flashcardUsageRequest,
       }),
     }),
     startSession: build.mutation<StartSessionApiResponse, StartSessionApiArg>({
       query: (queryArg) => ({
         url: `/flashcard-sessions/start`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.flashcardSessionRequest,
       }),
     }),
@@ -1179,7 +1179,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/flagged-questions`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.flagQuestionRequest,
       }),
     }),
@@ -1189,7 +1189,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/flagged-questions/${queryArg.id}/resolve`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.resolveFlagQuestionRequest,
       }),
     }),
@@ -1207,7 +1207,7 @@ const injectedRtkApi = api.injectEndpoints({
     create14: build.mutation<Create14ApiResponse, Create14ApiArg>({
       query: (queryArg) => ({
         url: `/faculties`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.facultyRequest,
       }),
     }),
@@ -1227,7 +1227,7 @@ const injectedRtkApi = api.injectEndpoints({
     create15: build.mutation<Create15ApiResponse, Create15ApiArg>({
       query: (queryArg) => ({
         url: `/exams`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.examRequest,
       }),
     }),
@@ -1245,7 +1245,7 @@ const injectedRtkApi = api.injectEndpoints({
     create16: build.mutation<Create16ApiResponse, Create16ApiArg>({
       query: (queryArg) => ({
         url: `/exam-groups`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           name: queryArg.name,
@@ -1260,7 +1260,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/evaluation/evaluate`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.evaluationRequest,
       }),
     }),
@@ -1281,7 +1281,7 @@ const injectedRtkApi = api.injectEndpoints({
     create17: build.mutation<Create17ApiResponse, Create17ApiArg>({
       query: (queryArg) => ({
         url: `/enrolled-lesson-items`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.enrolledLessonItemCreateRequest,
       }),
     }),
@@ -1302,28 +1302,28 @@ const injectedRtkApi = api.injectEndpoints({
     create18: build.mutation<Create18ApiResponse, Create18ApiArg>({
       query: (queryArg) => ({
         url: `/enrolled-courses`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.enrolledCourseRequest,
       }),
     }),
     subscribe: build.mutation<SubscribeApiResponse, SubscribeApiArg>({
       query: (queryArg) => ({
         url: `/distinction/portal/subscriptions/subscribe`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.subscriptionRequest,
       }),
     }),
     register: build.mutation<RegisterApiResponse, RegisterApiArg>({
       query: (queryArg) => ({
         url: `/distinction/phone/auth/register`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.phoneRegisterRequest,
       }),
     }),
     login1: build.mutation<Login1ApiResponse, Login1ApiArg>({
       query: (queryArg) => ({
         url: `/distinction/phone/auth/login`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.phoneLoginRequest,
       }),
     }),
@@ -1333,28 +1333,28 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/distinction/auth/verify/resend`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.distinctionResendVerification,
       }),
     }),
     confirm: build.mutation<ConfirmApiResponse, ConfirmApiArg>({
       query: (queryArg) => ({
         url: `/distinction/auth/verify/confirm`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.distinctionUserConfirmRequest,
       }),
     }),
     tokenLogin: build.mutation<TokenLoginApiResponse, TokenLoginApiArg>({
       query: (queryArg) => ({
         url: `/distinction/auth/token-login`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.distinctionTokenLoginRequest,
       }),
     }),
     register1: build.mutation<Register1ApiResponse, Register1ApiArg>({
       query: (queryArg) => ({
         url: `/distinction/auth/register`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.dinstinctionRegistrationRequest,
       }),
     }),
@@ -1364,7 +1364,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/distinction/auth/register-uploaded-student`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.distinctionUploadedUserRegistrationRequest,
       }),
     }),
@@ -1374,7 +1374,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/distinction/auth/refresh-token`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.refreshTokenRequest,
       }),
     }),
@@ -1384,7 +1384,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/distinction/auth/password/reset`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.distinctionPasswordReset,
       }),
     }),
@@ -1394,14 +1394,14 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/distinction/auth/password/reset-request`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.distinctionPasswordResetRequest,
       }),
     }),
     login2: build.mutation<Login2ApiResponse, Login2ApiArg>({
       query: (queryArg) => ({
         url: `/distinction/auth/login`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.distinctionLoginRequest,
       }),
     }),
@@ -1419,7 +1419,7 @@ const injectedRtkApi = api.injectEndpoints({
     create19: build.mutation<Create19ApiResponse, Create19ApiArg>({
       query: (queryArg) => ({
         url: `/departments`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.departmentRequest,
       }),
     }),
@@ -1445,7 +1445,7 @@ const injectedRtkApi = api.injectEndpoints({
     create20: build.mutation<Create20ApiResponse, Create20ApiArg>({
       query: (queryArg) => ({
         url: `/custom-questions`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.customQuestionRequest,
       }),
     }),
@@ -1455,7 +1455,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/custom-questions/update-status`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.customQuestionStatusRequest,
       }),
     }),
@@ -1465,7 +1465,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/custom-questions/bulk-upload`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           paperId: queryArg.paperId,
@@ -1490,14 +1490,14 @@ const injectedRtkApi = api.injectEndpoints({
     generate: build.mutation<GenerateApiResponse, GenerateApiArg>({
       query: (queryArg) => ({
         url: `/courses`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.courseCreateRequest,
       }),
     }),
     manualRetry: build.mutation<ManualRetryApiResponse, ManualRetryApiArg>({
       query: (queryArg) => ({
         url: `/course-gen-requests/${queryArg.id}/retry`,
-        method: "POST",
+        method: 'POST',
       }),
     }),
     resetRetryCount: build.mutation<
@@ -1506,7 +1506,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/course-gen-requests/${queryArg.id}/reset-retry`,
-        method: "POST",
+        method: 'POST',
       }),
     }),
     getMessages: build.query<GetMessagesApiResponse, GetMessagesApiArg>({
@@ -1521,14 +1521,14 @@ const injectedRtkApi = api.injectEndpoints({
     chatMessage: build.mutation<ChatMessageApiResponse, ChatMessageApiArg>({
       query: (queryArg) => ({
         url: `/chatbot/thread/${queryArg.threadId}/messages`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.chatBotNewMessageRequest,
       }),
     }),
     newChat: build.mutation<NewChatApiResponse, NewChatApiArg>({
       query: (queryArg) => ({
         url: `/chatbot/thread/new-chat`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.chatBotNewMessageRequest,
       }),
     }),
@@ -1538,7 +1538,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/auth/refresh-token`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.refreshTokenRequest,
       }),
     }),
@@ -1548,7 +1548,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/auth/password/reset`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.passwordReset,
       }),
     }),
@@ -1558,21 +1558,21 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/auth/password/reset-request`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.passwordResetRequest,
       }),
     }),
     login3: build.mutation<Login3ApiResponse, Login3ApiArg>({
       query: (queryArg) => ({
         url: `/auth/login`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.loginRequest,
       }),
     }),
     chatMessage1: build.mutation<ChatMessage1ApiResponse, ChatMessage1ApiArg>({
       query: (queryArg) => ({
         url: `/assistant/thread/${queryArg.threadId}/chat`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.chatRequest,
       }),
     }),
@@ -1582,14 +1582,14 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/assistant/thread/${queryArg.threadId}/chat-stream`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.chatRequest,
       }),
     }),
     newThread: build.mutation<NewThreadApiResponse, NewThreadApiArg>({
       query: (queryArg) => ({
         url: `/assistant/thread/new-thread`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.newThreadRequest,
       }),
     }),
@@ -1599,7 +1599,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/api/question/categorize`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
       }),
     }),
@@ -1609,7 +1609,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/api/question/categorize/question/${queryArg.questionId}`,
-        method: "POST",
+        method: 'POST',
       }),
     }),
     categorizeAndPersistQuestion: build.mutation<
@@ -1618,7 +1618,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/api/question/categorize/question/${queryArg.questionId}/persist`,
-        method: "POST",
+        method: 'POST',
       }),
     }),
     categorizeQuestionsByPaper: build.mutation<
@@ -1627,7 +1627,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/api/question/categorize/paper/${queryArg.paperId}`,
-        method: "POST",
+        method: 'POST',
       }),
     }),
     categorizeAndPersistQuestionsByPaper: build.mutation<
@@ -1636,7 +1636,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/api/question/categorize/paper/${queryArg.paperId}/persist`,
-        method: "POST",
+        method: 'POST',
       }),
     }),
     categorizeQuestionsByIds: build.mutation<
@@ -1645,7 +1645,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/api/question/categorize/by-ids`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
       }),
     }),
@@ -1655,7 +1655,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/api/question/categorize/by-ids/persist`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
       }),
     }),
@@ -1665,7 +1665,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/api/question/bulk-categorization/stop`,
-        method: "POST",
+        method: 'POST',
         params: {
           institutionId: queryArg.institutionId,
         },
@@ -1677,7 +1677,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/api/question/bulk-categorization/start`,
-        method: "POST",
+        method: 'POST',
         params: {
           institutionId: queryArg.institutionId,
         },
@@ -1689,7 +1689,7 @@ const injectedRtkApi = api.injectEndpoints({
     create21: build.mutation<Create21ApiResponse, Create21ApiArg>({
       query: (queryArg) => ({
         url: `/api-tokens`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.apiTokenRequest,
       }),
     }),
@@ -1699,7 +1699,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/ai-questions/v3-batch-streaming`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           query: queryArg.query,
@@ -1716,7 +1716,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/ai-questions/v2`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           query: queryArg.query,
@@ -1733,7 +1733,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/ai-questions/v2-streaming`,
-        method: "POST",
+        method: 'POST',
         params: {
           query: queryArg.query,
           paperName: queryArg.paperName,
@@ -1746,7 +1746,7 @@ const injectedRtkApi = api.injectEndpoints({
     save: build.mutation<SaveApiResponse, SaveApiArg>({
       query: (queryArg) => ({
         url: `/ai-questions/save`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           paperId: queryArg.paperId,
@@ -1759,12 +1759,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/ai-questions/generate`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           paperId: queryArg.paperId,
           questionCount: queryArg.questionCount,
-          "question-type": queryArg["question-type"],
+          'question-type': queryArg['question-type'],
           optionCount: queryArg.optionCount,
         },
       }),
@@ -1772,7 +1772,7 @@ const injectedRtkApi = api.injectEndpoints({
     create22: build.mutation<Create22ApiResponse, Create22ApiArg>({
       query: (queryArg) => ({
         url: `/ai-questions/add-knowledge`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
         params: {
           paperName: queryArg.paperName,
@@ -1786,21 +1786,21 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/admin/staff/verify/resend`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.distinctionResendVerification,
       }),
     }),
     confirm1: build.mutation<Confirm1ApiResponse, Confirm1ApiArg>({
       query: (queryArg) => ({
         url: `/admin/staff/verify/confirm`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.distinctionUserConfirmRequest,
       }),
     }),
     register2: build.mutation<Register2ApiResponse, Register2ApiArg>({
       query: (queryArg) => ({
         url: `/admin/staff/register`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.staffRegistrationRequest,
       }),
     }),
@@ -1810,7 +1810,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/admin/staff/password/reset`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.distinctionPasswordReset,
       }),
     }),
@@ -1820,14 +1820,14 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/admin/staff/password/reset-request`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.distinctionPasswordResetRequest,
       }),
     }),
     login4: build.mutation<Login4ApiResponse, Login4ApiArg>({
       query: (queryArg) => ({
         url: `/admin/staff/login`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.staffLoginRequest,
       }),
     }),
@@ -1835,7 +1835,7 @@ const injectedRtkApi = api.injectEndpoints({
       VerifyProfileNinApiResponse,
       VerifyProfileNinApiArg
     >({
-      query: () => ({ url: `/Profile/verify/nin`, method: "POST" }),
+      query: () => ({ url: `/Profile/verify/nin`, method: 'POST' }),
     }),
     createReferral: build.mutation<
       CreateReferralApiResponse,
@@ -1843,7 +1843,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/Profile/refer`,
-        method: "POST",
+        method: 'POST',
         params: {
           referredEmail: queryArg.referredEmail,
         },
@@ -1855,7 +1855,7 @@ const injectedRtkApi = api.injectEndpoints({
     update17: build.mutation<Update17ApiResponse, Update17ApiArg>({
       query: (queryArg) => ({
         url: `/lessons/${queryArg.id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: queryArg.lessonUpdateRequest,
       }),
     }),
@@ -1865,7 +1865,7 @@ const injectedRtkApi = api.injectEndpoints({
     update18: build.mutation<Update18ApiResponse, Update18ApiArg>({
       query: (queryArg) => ({
         url: `/lesson-items/${queryArg.id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: queryArg.lessonItemUpdateRequest,
       }),
     }),
@@ -1875,7 +1875,7 @@ const injectedRtkApi = api.injectEndpoints({
     update19: build.mutation<Update19ApiResponse, Update19ApiArg>({
       query: (queryArg) => ({
         url: `/lesson-groups/${queryArg.id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: queryArg.lessonGroupUpdateRequest,
       }),
     }),
@@ -1885,7 +1885,7 @@ const injectedRtkApi = api.injectEndpoints({
     upate: build.mutation<UpateApiResponse, UpateApiArg>({
       query: (queryArg) => ({
         url: `/institutions/${queryArg.id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: queryArg.institutionUpdateRequest,
       }),
     }),
@@ -1895,13 +1895,13 @@ const injectedRtkApi = api.injectEndpoints({
     delete13: build.mutation<Delete13ApiResponse, Delete13ApiArg>({
       query: (queryArg) => ({
         url: `/faculties/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     update20: build.mutation<Update20ApiResponse, Update20ApiArg>({
       query: (queryArg) => ({
         url: `/faculties/${queryArg.id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: queryArg.facultyUpdateRequest,
       }),
     }),
@@ -1911,13 +1911,13 @@ const injectedRtkApi = api.injectEndpoints({
     delete16: build.mutation<Delete16ApiResponse, Delete16ApiArg>({
       query: (queryArg) => ({
         url: `/enrolled-lesson-items/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     update21: build.mutation<Update21ApiResponse, Update21ApiArg>({
       query: (queryArg) => ({
         url: `/enrolled-lesson-items/${queryArg.id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: queryArg.enrolledLessonItemUpdateRequest,
       }),
     }),
@@ -1927,13 +1927,13 @@ const injectedRtkApi = api.injectEndpoints({
     delete18: build.mutation<Delete18ApiResponse, Delete18ApiArg>({
       query: (queryArg) => ({
         url: `/departments/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     update22: build.mutation<Update22ApiResponse, Update22ApiArg>({
       query: (queryArg) => ({
         url: `/departments/${queryArg.id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: queryArg.departmentUpdateRequest,
       }),
     }),
@@ -1943,13 +1943,13 @@ const injectedRtkApi = api.injectEndpoints({
     delete20: build.mutation<Delete20ApiResponse, Delete20ApiArg>({
       query: (queryArg) => ({
         url: `/courses/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     update23: build.mutation<Update23ApiResponse, Update23ApiArg>({
       query: (queryArg) => ({
         url: `/courses/${queryArg.id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: queryArg.courseUpdateRequest,
       }),
     }),
@@ -1959,7 +1959,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/courses/${queryArg.id}/ai-status`,
-        method: "PATCH",
+        method: 'PATCH',
         params: {
           aiStatus: queryArg.aiStatus,
           aiError: queryArg.aiError,
@@ -1969,7 +1969,7 @@ const injectedRtkApi = api.injectEndpoints({
     regenerate: build.mutation<RegenerateApiResponse, RegenerateApiArg>({
       query: (queryArg) => ({
         url: `/courses/regenerate/${queryArg.id}`,
-        method: "PATCH",
+        method: 'PATCH',
       }),
     }),
     updateProgress: build.mutation<
@@ -1978,7 +1978,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/course-gen-requests/${queryArg.id}/progress`,
-        method: "PATCH",
+        method: 'PATCH',
         params: {
           percentage: queryArg.percentage,
           stage: queryArg.stage,
@@ -1992,7 +1992,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/course-gen-requests/${queryArg.id}/ai-status`,
-        method: "PATCH",
+        method: 'PATCH',
         params: {
           aiStatus: queryArg.aiStatus,
           aiError: queryArg.aiError,
@@ -2005,13 +2005,13 @@ const injectedRtkApi = api.injectEndpoints({
     delete22: build.mutation<Delete22ApiResponse, Delete22ApiArg>({
       query: (queryArg) => ({
         url: `/api-tokens/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     update24: build.mutation<Update24ApiResponse, Update24ApiArg>({
       query: (queryArg) => ({
         url: `/api-tokens/${queryArg.id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: queryArg.apiTokenUpdateRequest,
       }),
     }),
@@ -2021,7 +2021,7 @@ const injectedRtkApi = api.injectEndpoints({
     update25: build.mutation<Update25ApiResponse, Update25ApiArg>({
       query: (queryArg) => ({
         url: `/admin/staff/${queryArg.id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: queryArg.staffUpdateRequest,
       }),
     }),
@@ -2031,13 +2031,13 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/admin/manage-users/${queryArg.studentId}/unblock`,
-        method: "PATCH",
+        method: 'PATCH',
       }),
     }),
     blockStudent: build.mutation<BlockStudentApiResponse, BlockStudentApiArg>({
       query: (queryArg) => ({
         url: `/admin/manage-users/${queryArg.studentId}/block`,
-        method: "PATCH",
+        method: 'PATCH',
       }),
     }),
     getCurrentUserStreakStatus: build.query<
@@ -2604,7 +2604,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/multimedia-files/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     getMonthlyPractice: build.query<
@@ -2649,7 +2649,7 @@ const injectedRtkApi = api.injectEndpoints({
           lessonId: queryArg.lessonId,
           lessonGroupId: queryArg.lessonGroupId,
           courseId: queryArg.courseId,
-          type: queryArg["type"],
+          type: queryArg['type'],
           sortField: queryArg.sortField,
           sortOrder: queryArg.sortOrder,
           offset: queryArg.offset,
@@ -2665,7 +2665,7 @@ const injectedRtkApi = api.injectEndpoints({
           lessonId: queryArg.lessonId,
           lessonGroupId: queryArg.lessonGroupId,
           courseId: queryArg.courseId,
-          type: queryArg["type"],
+          type: queryArg['type'],
         },
       }),
     }),
@@ -2699,7 +2699,7 @@ const injectedRtkApi = api.injectEndpoints({
     delete10: build.mutation<Delete10ApiResponse, Delete10ApiArg>({
       query: (queryArg) => ({
         url: `/keypoints/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     keyPointPapers: build.query<
@@ -2721,7 +2721,7 @@ const injectedRtkApi = api.injectEndpoints({
     deleteImage: build.mutation<DeleteImageApiResponse, DeleteImageApiArg>({
       query: (queryArg) => ({
         url: `/images/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     get10: build.query<Get10ApiResponse, Get10ApiArg>({
@@ -2733,7 +2733,7 @@ const injectedRtkApi = api.injectEndpoints({
     delete12: build.mutation<Delete12ApiResponse, Delete12ApiArg>({
       query: (queryArg) => ({
         url: `/flashcards/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     getUsageByStudent: build.query<
@@ -3054,7 +3054,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/distinction/transactions`,
         params: {
-          from: queryArg["from"],
+          from: queryArg['from'],
           to: queryArg.to,
           username: queryArg.username,
           status: queryArg.status,
@@ -3078,7 +3078,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/distinction/statistics/transactions`,
         params: {
-          from: queryArg["from"],
+          from: queryArg['from'],
           to: queryArg.to,
           username: queryArg.username,
           studentId: queryArg.studentId,
@@ -3089,7 +3089,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/distinction/portal/transactions`,
         params: {
-          from: queryArg["from"],
+          from: queryArg['from'],
           to: queryArg.to,
           status: queryArg.status,
           page: queryArg.page,
@@ -3333,7 +3333,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/assistant/thread/${queryArg.threadId}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     getMessages1: build.query<GetMessages1ApiResponse, GetMessages1ApiArg>({
@@ -3467,7 +3467,7 @@ const injectedRtkApi = api.injectEndpoints({
       DeleteDuplicatesApiResponse,
       DeleteDuplicatesApiArg
     >({
-      query: () => ({ url: `/questions/delete-duplicates`, method: "DELETE" }),
+      query: () => ({ url: `/questions/delete-duplicates`, method: 'DELETE' }),
     }),
     removeDuplicates: build.mutation<
       RemoveDuplicatesApiResponse,
@@ -3475,7 +3475,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/flagged-questions/clear-duplicates/${queryArg.questionId}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     cancelSubscription: build.mutation<
@@ -3484,19 +3484,19 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({
         url: `/distinction/portal/subscriptions/cancel`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     deleteThread: build.mutation<DeleteThreadApiResponse, DeleteThreadApiArg>({
       query: (queryArg) => ({
         url: `/chatbot/thread/${queryArg.threadId}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     delete21: build.mutation<Delete21ApiResponse, Delete21ApiArg>({
       query: (queryArg) => ({
         url: `/autocomplete/${queryArg.key}`,
-        method: "DELETE",
+        method: 'DELETE',
         params: {
           term: queryArg.term,
           value: queryArg.value,
@@ -3571,7 +3571,7 @@ export type Update4ApiArg = {
   name?: string;
   abbr?: string;
   state?: string;
-  type?: "FEDERAL" | "STATE" | "PRIVATE";
+  type?: 'FEDERAL' | 'STATE' | 'PRIVATE';
   body: {
     image?: Blob;
   };
@@ -3682,7 +3682,7 @@ export type PauseSessionApiArg = {
 export type EndSessionApiResponse = /** status 200 OK */ FlashcardSessionView;
 export type EndSessionApiArg = {
   sessionId: string;
-  status: "ACTIVE" | "COMPLETED" | "PAUSED" | "ABANDONED";
+  status: 'ACTIVE' | 'COMPLETED' | 'PAUSED' | 'ABANDONED';
 };
 export type AbandonSessionApiResponse =
   /** status 200 OK */ FlashcardSessionView;
@@ -3774,8 +3774,8 @@ export type EditUserProfileApiArg = {
 };
 export type ListApiResponse = /** status 200 OK */ PaginatedSimpleTelcoView;
 export type ListApiArg = {
-  planType?: "TRIAL" | "DAILY" | "WEEKLY" | "MONTHLY" | "QUARTERLY" | "YEARLY";
-  network?: "MTN" | "AIRTEL" | "GL0" | "NINE_MOBILE";
+  planType?: 'TRIAL' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'YEARLY';
+  network?: 'MTN' | 'AIRTEL' | 'GL0' | 'NINE_MOBILE';
   page?: number;
   size?: number;
 };
@@ -3820,7 +3820,7 @@ export type CreateAddOnApiArg = {
 };
 export type List2ApiResponse = /** status 200 OK */ SimpleSubjectView[];
 export type List2ApiArg = {
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
 };
 export type Create2ApiResponse = /** status 200 OK */ Subject;
 export type Create2ApiArg = {
@@ -3854,7 +3854,7 @@ export type List4ApiResponse = /** status 200 OK */ PaginatedSimpleSchoolView;
 export type List4ApiArg = {
   name?: string;
   abbr?: string;
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   page?: number;
   size?: number;
 };
@@ -3863,7 +3863,7 @@ export type Create4ApiArg = {
   name?: string;
   abbr?: string;
   state?: string;
-  type?: "FEDERAL" | "STATE" | "PRIVATE";
+  type?: 'FEDERAL' | 'STATE' | 'PRIVATE';
   body: {
     image?: Blob;
   };
@@ -3968,7 +3968,7 @@ export type List8ApiArg = {
   paperId?: string;
   examGroupId?: string;
   examId?: string;
-  difficulty?: "EASY" | "MEDIUM" | "HARD" | "RANDOM";
+  difficulty?: 'EASY' | 'MEDIUM' | 'HARD' | 'RANDOM';
   page?: number;
   size?: number;
 };
@@ -3980,7 +3980,7 @@ export type BulkUploadQuestionsData1ApiResponse =
   /** status 200 OK */ QuestionView[];
 export type BulkUploadQuestionsData1ApiArg = {
   paperId: string;
-  difficulty?: "EASY" | "MEDIUM" | "HARD" | "RANDOM";
+  difficulty?: 'EASY' | 'MEDIUM' | 'HARD' | 'RANDOM';
   body: {
     file: Blob;
   };
@@ -4096,8 +4096,8 @@ export type Create8ApiArg = {
 };
 export type WebhookApiResponse = unknown;
 export type WebhookApiArg = {
-  "X-Forwarded-For"?: string;
-  "x-paystack-signature": string;
+  'X-Forwarded-For'?: string;
+  'x-paystack-signature': string;
   body: object;
 };
 export type List14ApiResponse = /** status 200 OK */ PaginatedSimplePaperView;
@@ -4109,7 +4109,7 @@ export type List14ApiArg = {
   year?: number;
   subjectId?: string;
   isActive?: boolean;
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   page?: number;
   size?: number;
 };
@@ -4159,7 +4159,7 @@ export type Create10ApiArg = {
 };
 export type CreateKeypointV3ApiResponse = /** status 200 OK */ KeypointView;
 export type CreateKeypointV3ApiArg = {
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   paperId?: string;
   body: {
     file?: Blob;
@@ -4212,13 +4212,13 @@ export type List19ApiArg = {
   keyword?: string;
   paperId?: string;
   studentId: string;
-  difficulty?: "EASY" | "MEDIUM" | "HARD";
+  difficulty?: 'EASY' | 'MEDIUM' | 'HARD';
   page?: number;
   size?: number;
 };
 export type Create13ApiResponse = /** status 200 OK */ FlashcardView;
 export type Create13ApiArg = {
-  difficulty: "EASY" | "MEDIUM" | "HARD";
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
   paperId: string;
   body: {
     file?: Blob;
@@ -4227,8 +4227,8 @@ export type Create13ApiArg = {
 export type GenerateFlashcardsV3ApiResponse =
   /** status 200 OK */ FlashcardView;
 export type GenerateFlashcardsV3ApiArg = {
-  difficulty: "EASY" | "MEDIUM" | "HARD";
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   paperId?: string;
   body: {
     file?: Blob;
@@ -4236,7 +4236,7 @@ export type GenerateFlashcardsV3ApiArg = {
 };
 export type InferKnowledge1ApiResponse = /** status 200 OK */ FlashcardView;
 export type InferKnowledge1ApiArg = {
-  difficulty: "EASY" | "MEDIUM" | "HARD";
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
   paperId: string;
   body: {
     file?: Blob;
@@ -4245,7 +4245,7 @@ export type InferKnowledge1ApiArg = {
 export type InferKnowledgeWithStreaming1ApiResponse =
   /** status 200 OK */ ResponseBodyEmitter;
 export type InferKnowledgeWithStreaming1ApiArg = {
-  difficulty: "EASY" | "MEDIUM" | "HARD";
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
   paperId: string;
   cardsCount: number;
 };
@@ -4261,7 +4261,7 @@ export type ListFlagQuestionApiResponse =
   /** status 200 OK */ PaginatedFlagQuestionSimpleView;
 export type ListFlagQuestionApiArg = {
   keyword?: string;
-  issueType?: "QUESTION" | "ANSWER" | "DUPLICATE" | "OTHER";
+  issueType?: 'QUESTION' | 'ANSWER' | 'DUPLICATE' | 'OTHER';
   resolved?: boolean;
   questionId?: string;
   page?: number;
@@ -4326,9 +4326,9 @@ export type List23ApiResponse =
 export type List23ApiArg = {
   keyword?: string;
   enrolledCourseId?: string;
-  sortField?: "ID" | "ITEM_TITLE" | "ITEM_NUMBER" | "START_DATE";
-  status?: "IN_PROGRESS" | "COMPLETED";
-  sortOrder?: "ASC" | "DESC";
+  sortField?: 'ID' | 'ITEM_TITLE' | 'ITEM_NUMBER' | 'START_DATE';
+  status?: 'IN_PROGRESS' | 'COMPLETED';
+  sortOrder?: 'ASC' | 'DESC';
   page?: number;
   size?: number;
 };
@@ -4341,9 +4341,9 @@ export type List24ApiResponse =
 export type List24ApiArg = {
   keyword?: string;
   courseId?: string;
-  sortField?: "ID" | "COURSE_TITLE" | "CREATED_AT";
-  status?: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
-  sortOrder?: "ASC" | "DESC";
+  sortField?: 'ID' | 'COURSE_TITLE' | 'CREATED_AT';
+  status?: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
+  sortOrder?: 'ASC' | 'DESC';
   page?: number;
   size?: number;
 };
@@ -4425,7 +4425,7 @@ export type List32ApiArg = {
   examGroupId?: string;
   examId?: string;
   userId?: string;
-  status?: "APPROVED" | "DECLINED" | "PENDING";
+  status?: 'APPROVED' | 'DECLINED' | 'PENDING';
   page?: number;
   size?: number;
 };
@@ -4451,14 +4451,14 @@ export type List33ApiArg = {
   subjectId?: string;
   units?: number;
   sortField?:
-    | "ID"
-    | "TITLE"
-    | "DATE_CREATED"
-    | "CURRICULUM"
-    | "COURSE_CODE"
-    | "SUBJECT";
-  sortOrder?: "ASC" | "DESC";
-  aiStatus?: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED";
+    | 'ID'
+    | 'TITLE'
+    | 'DATE_CREATED'
+    | 'CURRICULUM'
+    | 'COURSE_CODE'
+    | 'SUBJECT';
+  sortOrder?: 'ASC' | 'DESC';
+  aiStatus?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
   offset?: number;
   size?: number;
 };
@@ -4527,44 +4527,40 @@ export type CategorizeQuestionsApiResponse =
 export type CategorizeQuestionsApiArg = {
   body: QuestionData[];
 };
-export type CategorizeQuestionApiResponse = /** status 200 OK */
-  | "EASY"
-  | "MEDIUM"
-  | "HARD"
-  | "RANDOM";
+export type CategorizeQuestionApiResponse =
+  /** status 200 OK */
+  'EASY' | 'MEDIUM' | 'HARD' | 'RANDOM';
 export type CategorizeQuestionApiArg = {
   questionId: string;
 };
-export type CategorizeAndPersistQuestionApiResponse = /** status 200 OK */
-  | "EASY"
-  | "MEDIUM"
-  | "HARD"
-  | "RANDOM";
+export type CategorizeAndPersistQuestionApiResponse =
+  /** status 200 OK */
+  'EASY' | 'MEDIUM' | 'HARD' | 'RANDOM';
 export type CategorizeAndPersistQuestionApiArg = {
   questionId: string;
 };
 export type CategorizeQuestionsByPaperApiResponse = /** status 200 OK */ {
-  [key: string]: "EASY" | "MEDIUM" | "HARD" | "RANDOM";
+  [key: string]: 'EASY' | 'MEDIUM' | 'HARD' | 'RANDOM';
 };
 export type CategorizeQuestionsByPaperApiArg = {
   paperId: string;
 };
 export type CategorizeAndPersistQuestionsByPaperApiResponse =
   /** status 200 OK */ {
-    [key: string]: "EASY" | "MEDIUM" | "HARD" | "RANDOM";
+    [key: string]: 'EASY' | 'MEDIUM' | 'HARD' | 'RANDOM';
   };
 export type CategorizeAndPersistQuestionsByPaperApiArg = {
   paperId: string;
 };
 export type CategorizeQuestionsByIdsApiResponse = /** status 200 OK */ {
-  [key: string]: "EASY" | "MEDIUM" | "HARD" | "RANDOM";
+  [key: string]: 'EASY' | 'MEDIUM' | 'HARD' | 'RANDOM';
 };
 export type CategorizeQuestionsByIdsApiArg = {
   body: string[];
 };
 export type CategorizeAndPersistQuestionsByIdsApiResponse =
   /** status 200 OK */ {
-    [key: string]: "EASY" | "MEDIUM" | "HARD" | "RANDOM";
+    [key: string]: 'EASY' | 'MEDIUM' | 'HARD' | 'RANDOM';
   };
 export type CategorizeAndPersistQuestionsByIdsApiArg = {
   body: string[];
@@ -4595,10 +4591,10 @@ export type BatchStreamingApiArg = {
   optionsCount: number;
   questionsCount: number;
   questionType:
-    | "SINGLE_CHOICE"
-    | "MULTIPLE_CHOICE"
-    | "SHORT_TEXT"
-    | "LONG_TEXT";
+    | 'SINGLE_CHOICE'
+    | 'MULTIPLE_CHOICE'
+    | 'SHORT_TEXT'
+    | 'LONG_TEXT';
   body: {
     contentFile?: Blob;
   };
@@ -4610,10 +4606,10 @@ export type InferKnowledge2ApiArg = {
   optionsCount: number;
   questionsCount: number;
   questionType:
-    | "SINGLE_CHOICE"
-    | "MULTIPLE_CHOICE"
-    | "SHORT_TEXT"
-    | "LONG_TEXT";
+    | 'SINGLE_CHOICE'
+    | 'MULTIPLE_CHOICE'
+    | 'SHORT_TEXT'
+    | 'LONG_TEXT';
   body: {
     contentFile?: Blob;
   };
@@ -4626,10 +4622,10 @@ export type InferKnowledgeStreamingApiArg = {
   optionsCount: number;
   questionsCount: number;
   questionType:
-    | "SINGLE_CHOICE"
-    | "MULTIPLE_CHOICE"
-    | "SHORT_TEXT"
-    | "LONG_TEXT";
+    | 'SINGLE_CHOICE'
+    | 'MULTIPLE_CHOICE'
+    | 'SHORT_TEXT'
+    | 'LONG_TEXT';
 };
 export type SaveApiResponse = /** status 200 OK */ object;
 export type SaveApiArg = {
@@ -4641,11 +4637,11 @@ export type GenerateQuestions2ApiResponse =
 export type GenerateQuestions2ApiArg = {
   paperId: string;
   questionCount?: number;
-  "question-type":
-    | "SINGLE_CHOICE"
-    | "MULTIPLE_CHOICE"
-    | "SHORT_TEXT"
-    | "LONG_TEXT";
+  'question-type':
+    | 'SINGLE_CHOICE'
+    | 'MULTIPLE_CHOICE'
+    | 'SHORT_TEXT'
+    | 'LONG_TEXT';
   optionCount?: number;
   body: {
     curriculumFile?: Blob;
@@ -4781,7 +4777,7 @@ export type Update23ApiArg = {
 export type UpdateAiStatusApiResponse = unknown;
 export type UpdateAiStatusApiArg = {
   id: string;
-  aiStatus: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED";
+  aiStatus: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
   aiError?: string;
 };
 export type RegenerateApiResponse =
@@ -4799,7 +4795,7 @@ export type UpdateProgressApiArg = {
 export type UpdateAiStatus1ApiResponse = unknown;
 export type UpdateAiStatus1ApiArg = {
   id: string;
-  aiStatus: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "RETRYING";
+  aiStatus: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED' | 'RETRYING';
   aiError?: string;
 };
 export type Get17ApiResponse = /** status 200 OK */ ApiTokenView;
@@ -5132,7 +5128,7 @@ export type GetPapersApiArg = {
   examGroupId?: string;
   year?: number;
   subjectId?: string;
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   page?: number;
   size?: number;
 };
@@ -5175,8 +5171,8 @@ export type List15ApiResponse = /** status 200 OK */ PaginatedLessonView;
 export type List15ApiArg = {
   keyword?: string;
   lessonGroupId?: string;
-  sortField?: "ID" | "LESSON_NUMBER" | "TITLE";
-  sortOrder?: "ASC" | "DESC";
+  sortField?: 'ID' | 'LESSON_NUMBER' | 'TITLE';
+  sortOrder?: 'ASC' | 'DESC';
   offset?: number;
   size?: number;
 };
@@ -5191,9 +5187,9 @@ export type List16ApiArg = {
   lessonId?: string;
   lessonGroupId?: string;
   courseId?: string;
-  type?: "VIDEO" | "ARTICLE" | "QUIZ" | "EXERCISE" | "FLASHCARD" | "UNKNOWN";
-  sortField?: "ID" | "ITEM_NUMBER" | "TITLE";
-  sortOrder?: "ASC" | "DESC";
+  type?: 'VIDEO' | 'ARTICLE' | 'QUIZ' | 'EXERCISE' | 'FLASHCARD' | 'UNKNOWN';
+  sortField?: 'ID' | 'ITEM_NUMBER' | 'TITLE';
+  sortOrder?: 'ASC' | 'DESC';
   offset?: number;
   size?: number;
 };
@@ -5203,15 +5199,15 @@ export type Count1ApiArg = {
   lessonId?: string;
   lessonGroupId?: string;
   courseId?: string;
-  type?: "VIDEO" | "ARTICLE" | "QUIZ" | "EXERCISE" | "FLASHCARD" | "UNKNOWN";
+  type?: 'VIDEO' | 'ARTICLE' | 'QUIZ' | 'EXERCISE' | 'FLASHCARD' | 'UNKNOWN';
 };
 export type List17ApiResponse = /** status 200 OK */ PaginatedLessonGroupView;
 export type List17ApiArg = {
   courseId?: string;
   keyword?: string;
   groupNumber?: number;
-  sortField?: "ID" | "NAME" | "GROUP_NUMBER";
-  sortOrder?: "ASC" | "DESC";
+  sortField?: 'ID' | 'NAME' | 'GROUP_NUMBER';
+  sortOrder?: 'ASC' | 'DESC';
   offset?: number;
   size?: number;
 };
@@ -5264,7 +5260,7 @@ export type GetUsageByStudentApiArg = {
 export type CountActionsByStudentApiResponse = /** status 200 OK */ number;
 export type CountActionsByStudentApiArg = {
   studentId: string;
-  actionType: "TAP_TO_FLIP" | "SKIP" | "COMPLETE";
+  actionType: 'TAP_TO_FLIP' | 'SKIP' | 'COMPLETE';
 };
 export type GetSessionByIdApiResponse =
   /** status 200 OK */ FlashcardSessionView;
@@ -5394,9 +5390,9 @@ export type ListMineApiResponse =
 export type ListMineApiArg = {
   keyword?: string;
   courseId?: string;
-  sortField?: "ID" | "COURSE_TITLE" | "CREATED_AT";
-  status?: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
-  sortOrder?: "ASC" | "DESC";
+  sortField?: 'ID' | 'COURSE_TITLE' | 'CREATED_AT';
+  status?: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
+  sortOrder?: 'ASC' | 'DESC';
   page?: number;
   size?: number;
 };
@@ -5433,7 +5429,7 @@ export type List25ApiArg = {
   from?: string;
   to?: string;
   username?: string;
-  status?: "PENDING" | "SUCCESS" | "FAILED";
+  status?: 'PENDING' | 'SUCCESS' | 'FAILED';
   studentId?: string;
   page?: number;
   size?: number;
@@ -5442,7 +5438,7 @@ export type VerifyApiResponse = /** status 200 OK */ TransactionSimpleView;
 export type VerifyApiArg = {
   transactionId?: string;
   referenceId?: string;
-  platform?: "TELCO" | "PAYSTACK" | "STRIPE" | "MTN_NIGERIA";
+  platform?: 'TELCO' | 'PAYSTACK' | 'STRIPE' | 'MTN_NIGERIA';
 };
 export type List26ApiResponse = /** status 200 OK */ {
   [key: string]: number;
@@ -5458,7 +5454,7 @@ export type List27ApiResponse =
 export type List27ApiArg = {
   from?: string;
   to?: string;
-  status?: "PENDING" | "SUCCESS" | "FAILED";
+  status?: 'PENDING' | 'SUCCESS' | 'FAILED';
   page?: number;
   size?: number;
 };
@@ -5466,7 +5462,7 @@ export type Verify1ApiResponse = /** status 200 OK */ TransactionSimpleView;
 export type Verify1ApiArg = {
   transactionId?: string;
   referenceId?: string;
-  platform?: "TELCO" | "PAYSTACK" | "STRIPE" | "MTN_NIGERIA";
+  platform?: 'TELCO' | 'PAYSTACK' | 'STRIPE' | 'MTN_NIGERIA';
 };
 export type List28ApiResponse =
   /** status 200 OK */ PaginatedSubscriptionHistoryView;
@@ -5481,13 +5477,13 @@ export type GetPlanLimitApiResponse = /** status 200 OK */ {
 };
 export type GetPlanLimitApiArg = {
   property:
-    | "FLASHCARD"
-    | "KEYPOINTS"
-    | "PRACTICE_QUESTIONS"
-    | "MONTHLY_QUIZATON"
-    | "LEADERBOARD"
-    | "QUIZATON_CERTIFICATE"
-    | "STUDY_PAL";
+    | 'FLASHCARD'
+    | 'KEYPOINTS'
+    | 'PRACTICE_QUESTIONS'
+    | 'MONTHLY_QUIZATON'
+    | 'LEADERBOARD'
+    | 'QUIZATON_CERTIFICATE'
+    | 'STUDY_PAL';
 };
 export type GetSubscriptionApiResponse = /** status 200 OK */ SubscriptionView;
 export type GetSubscriptionApiArg = void;
@@ -5516,10 +5512,10 @@ export type ValidateStudentEmailApiArg = {
 export type GoogleLoginApiResponse = /** status 200 OK */ string;
 export type GoogleLoginApiArg = {
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
   callbackUrl: string;
 };
 export type GetSubmissionsApiResponse = /** status 200 OK */ SubmissionsView[];
@@ -5537,14 +5533,14 @@ export type ListMine1ApiArg = {
   subjectId?: string;
   units?: number;
   sortField?:
-    | "ID"
-    | "TITLE"
-    | "DATE_CREATED"
-    | "CURRICULUM"
-    | "COURSE_CODE"
-    | "SUBJECT";
-  sortOrder?: "ASC" | "DESC";
-  aiStatus?: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED";
+    | 'ID'
+    | 'TITLE'
+    | 'DATE_CREATED'
+    | 'CURRICULUM'
+    | 'COURSE_CODE'
+    | 'SUBJECT';
+  sortOrder?: 'ASC' | 'DESC';
+  aiStatus?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
   offset?: number;
   size?: number;
 };
@@ -5553,18 +5549,18 @@ export type CountMineApiArg = {
   keyword?: string;
   subjectId?: string;
   units?: number;
-  aiStatus?: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED";
+  aiStatus?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
 };
 export type Count3ApiResponse = /** status 200 OK */ number;
 export type Count3ApiArg = {
   keyword?: string;
   subjectId?: string;
   units?: number;
-  aiStatus?: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED";
+  aiStatus?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
 };
 export type GetByAiStatusApiResponse = /** status 200 OK */ CourseView[];
 export type GetByAiStatusApiArg = {
-  aiStatus: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED";
+  aiStatus: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
 };
 export type Get16ApiResponse = /** status 200 OK */ CourseGenerationRequestView;
 export type Get16ApiArg = {
@@ -5587,7 +5583,7 @@ export type GetByProgressPercentageApiArg = {
 export type GetByAiStatus1ApiResponse =
   /** status 200 OK */ CourseGenerationRequestView[];
 export type GetByAiStatus1ApiArg = {
-  aiStatus: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "RETRYING";
+  aiStatus: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED' | 'RETRYING';
 };
 export type GetByAiJobIdApiResponse =
   /** status 200 OK */ CourseGenerationRequestView;
@@ -5650,7 +5646,7 @@ export type List36ApiResponse = /** status 200 OK */ PaginatedStaffView;
 export type List36ApiArg = {
   search?: string;
   schoolId?: string;
-  role?: "ADMIN" | "SUPER_ADMIN";
+  role?: 'ADMIN' | 'SUPER_ADMIN';
   offset?: number;
   size?: number;
 };
@@ -5658,7 +5654,7 @@ export type ListUsersApiResponse = /** status 200 OK */ PaginatedAdminUserView;
 export type ListUsersApiArg = {
   keyword?: string;
   schoolId?: string;
-  schoolType?: "FEDERAL" | "STATE" | "PRIVATE";
+  schoolType?: 'FEDERAL' | 'STATE' | 'PRIVATE';
   page?: number;
   size?: number;
 };
@@ -5724,39 +5720,39 @@ export type Delete21ApiArg = {
 export type TelcoView = {
   id?: string;
   sender?: number;
-  platform?: "SMS" | "USSD" | "WAP" | "APP";
-  planType?: "TRIAL" | "DAILY" | "WEEKLY" | "MONTHLY" | "QUARTERLY" | "YEARLY";
-  network?: "MTN" | "AIRTEL" | "GL0" | "NINE_MOBILE";
+  platform?: 'SMS' | 'USSD' | 'WAP' | 'APP';
+  planType?: 'TRIAL' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'YEARLY';
+  network?: 'MTN' | 'AIRTEL' | 'GL0' | 'NINE_MOBILE';
   planCode?: number;
   confirmationMessage?: string;
 };
 export type TelcoRequest = {
-  planType: "TRIAL" | "DAILY" | "WEEKLY" | "MONTHLY" | "QUARTERLY" | "YEARLY";
-  network: "MTN" | "AIRTEL" | "GL0" | "NINE_MOBILE";
+  planType: 'TRIAL' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'YEARLY';
+  network: 'MTN' | 'AIRTEL' | 'GL0' | 'NINE_MOBILE';
   planCode: number;
   confirmationMessage: string;
 };
 export type PlanView = {
   id?: string;
-  type?: "TRIAL" | "DAILY" | "WEEKLY" | "MONTHLY" | "QUARTERLY" | "YEARLY";
+  type?: 'TRIAL' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'YEARLY';
   createdAt?: string;
   price?: number;
-  platform?: "TELCO" | "PAYSTACK" | "STRIPE" | "MTN_NIGERIA";
+  platform?: 'TELCO' | 'PAYSTACK' | 'STRIPE' | 'MTN_NIGERIA';
   createdBy?: string;
 };
 export type SubscriptionPackageAddonView = {
   name?:
-    | "FLASHCARD"
-    | "KEYPOINTS"
-    | "PRACTICE_QUESTIONS"
-    | "MONTHLY_QUIZATON"
-    | "LEADERBOARD"
-    | "QUIZATON_CERTIFICATE"
-    | "STUDY_PAL";
+    | 'FLASHCARD'
+    | 'KEYPOINTS'
+    | 'PRACTICE_QUESTIONS'
+    | 'MONTHLY_QUIZATON'
+    | 'LEADERBOARD'
+    | 'QUIZATON_CERTIFICATE'
+    | 'STUDY_PAL';
   value?: string;
   id?: string;
   duration?: string;
-  durationType?: "DAILY" | "MONTHLY";
+  durationType?: 'DAILY' | 'MONTHLY';
   plan?: PlanView;
 };
 export type SubscriptionPackagePlanView = {
@@ -5766,33 +5762,33 @@ export type SubscriptionPackagePlanView = {
 };
 export type SubscriptionPackagePropertyView = {
   name?:
-    | "FLASHCARD"
-    | "KEYPOINTS"
-    | "PRACTICE_QUESTIONS"
-    | "MONTHLY_QUIZATON"
-    | "LEADERBOARD"
-    | "QUIZATON_CERTIFICATE"
-    | "STUDY_PAL";
+    | 'FLASHCARD'
+    | 'KEYPOINTS'
+    | 'PRACTICE_QUESTIONS'
+    | 'MONTHLY_QUIZATON'
+    | 'LEADERBOARD'
+    | 'QUIZATON_CERTIFICATE'
+    | 'STUDY_PAL';
   value?: string;
   id?: string;
   duration?: string;
-  durationType?: "DAILY" | "MONTHLY";
+  durationType?: 'DAILY' | 'MONTHLY';
 };
 export type SubscriptionPackageView = {
   name?: string;
   id?: string;
   description?: string;
   isActive?: boolean;
-  code?: "BASIC_PLAN" | "STANDARD_PLAN" | "PREMIUM_PLAN";
+  code?: 'BASIC_PLAN' | 'STANDARD_PLAN' | 'PREMIUM_PLAN';
   institutionId?: string;
   addOn?: SubscriptionPackageAddonView[];
   packagePlan?: SubscriptionPackagePlanView[];
   propertyPlan?: SubscriptionPackagePropertyView[];
 };
 export type PlanRequest = {
-  type: "TRIAL" | "DAILY" | "WEEKLY" | "MONTHLY" | "QUARTERLY" | "YEARLY";
+  type: 'TRIAL' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'YEARLY';
   price: number;
-  platform: "TELCO" | "PAYSTACK" | "STRIPE" | "MTN_NIGERIA";
+  platform: 'TELCO' | 'PAYSTACK' | 'STRIPE' | 'MTN_NIGERIA';
 };
 export type SubscriptionPackagePlanRequest = {
   plan: PlanRequest;
@@ -5800,19 +5796,19 @@ export type SubscriptionPackagePlanRequest = {
 };
 export type SubscriptionPackagePropertyRequest = {
   name:
-    | "FLASHCARD"
-    | "KEYPOINTS"
-    | "PRACTICE_QUESTIONS"
-    | "MONTHLY_QUIZATON"
-    | "LEADERBOARD"
-    | "QUIZATON_CERTIFICATE"
-    | "STUDY_PAL";
+    | 'FLASHCARD'
+    | 'KEYPOINTS'
+    | 'PRACTICE_QUESTIONS'
+    | 'MONTHLY_QUIZATON'
+    | 'LEADERBOARD'
+    | 'QUIZATON_CERTIFICATE'
+    | 'STUDY_PAL';
   value: string;
   duration: string;
-  durationType: "DAILY" | "MONTHLY";
+  durationType: 'DAILY' | 'MONTHLY';
 };
 export type SubscriptionPackageRequest = {
-  code: "BASIC_PLAN" | "STANDARD_PLAN" | "PREMIUM_PLAN";
+  code: 'BASIC_PLAN' | 'STANDARD_PLAN' | 'PREMIUM_PLAN';
   name: string;
   description: string;
   isActive?: boolean;
@@ -5823,23 +5819,23 @@ export type SubscriptionPackageAddonRequest = {
   subscriptionPackageId: string;
   plan: PlanRequest;
   name:
-    | "FLASHCARD"
-    | "KEYPOINTS"
-    | "PRACTICE_QUESTIONS"
-    | "MONTHLY_QUIZATON"
-    | "LEADERBOARD"
-    | "QUIZATON_CERTIFICATE"
-    | "STUDY_PAL";
+    | 'FLASHCARD'
+    | 'KEYPOINTS'
+    | 'PRACTICE_QUESTIONS'
+    | 'MONTHLY_QUIZATON'
+    | 'LEADERBOARD'
+    | 'QUIZATON_CERTIFICATE'
+    | 'STUDY_PAL';
   value?: string;
   duration: string;
-  durationType: "DAILY" | "MONTHLY";
+  durationType: 'DAILY' | 'MONTHLY';
 };
 export type Subject = {
   id?: string;
   name: string;
   description?: string;
   institutionId: string;
-  curriculum: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   createdBy: string;
   updatedBy?: string;
   createdAt?: string;
@@ -5848,7 +5844,7 @@ export type Subject = {
 export type SubjectRequest = {
   name: string;
   description?: string;
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
 };
 export type StreakNotificationSettingsDto = {
   completionNotificationEnabled?: boolean;
@@ -5883,10 +5879,10 @@ export type School = {
   name: string;
   abbr?: string;
   state?: string;
-  type?: "FEDERAL" | "STATE" | "PRIVATE";
+  type?: 'FEDERAL' | 'STATE' | 'PRIVATE';
   logo?: string;
   institutionId: string;
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   createdBy: string;
   updatedBy?: string;
   createdAt?: string;
@@ -5939,7 +5935,7 @@ export type Quizathon = {
   description?: string;
   price?: number;
   bannerUrl?: string;
-  registrationMode?: "REGISTRATION" | "WAITLIST" | "CLOSED";
+  registrationMode?: 'REGISTRATION' | 'WAITLIST' | 'CLOSED';
   isOpenForAllUsers?: boolean;
   institutionId: string;
   createdAt?: string;
@@ -5955,7 +5951,7 @@ export type QuizathonRequest = {
   price?: number;
   bannerUrl?: string;
   isOpenForAllUsers?: boolean;
-  registrationMode?: "REGISTRATION" | "WAITLIST" | "CLOSED";
+  registrationMode?: 'REGISTRATION' | 'WAITLIST' | 'CLOSED';
 };
 export type Department = {
   id?: string;
@@ -6019,7 +6015,7 @@ export type AnswerOptionView = {
 };
 export type QuestionView = {
   id?: string;
-  type?: "SINGLE_CHOICE" | "MULTIPLE_CHOICE" | "SHORT_TEXT" | "LONG_TEXT";
+  type?: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
   text?: string;
   topic?: string;
   tags?: string[];
@@ -6029,7 +6025,7 @@ export type QuestionView = {
   solution?: string;
   aiCategorized?: boolean;
   aiCategorizationReason?: string;
-  difficulty?: "EASY" | "MEDIUM" | "HARD" | "RANDOM";
+  difficulty?: 'EASY' | 'MEDIUM' | 'HARD' | 'RANDOM';
   imageUrl?: string;
   questionNumber?: number;
   point?: number;
@@ -6042,8 +6038,8 @@ export type AnswerOption = {
 };
 export type QuestionUpdateRequest = {
   questionNumber?: number;
-  type: "SINGLE_CHOICE" | "MULTIPLE_CHOICE" | "SHORT_TEXT" | "LONG_TEXT";
-  difficulty: "EASY" | "MEDIUM" | "HARD" | "RANDOM";
+  type: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD' | 'RANDOM';
   topic: string;
   point?: number;
   paperId: string;
@@ -6079,7 +6075,7 @@ export type PaperView = {
   isActive?: boolean;
   duration?: number;
   curriculumUrl?: string;
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   createdAt?: string;
   exam?: ExamView;
   instruction?: string;
@@ -6090,7 +6086,7 @@ export type PaperRequest = {
   instruction?: string;
   subjectId: string;
   examId: string;
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   curriculumUrl?: string;
   active?: boolean;
 };
@@ -6135,7 +6131,7 @@ export type FlashcardView = {
   createdAt?: string;
   studentId?: string;
   paper?: SimplePaperView;
-  difficulty?: "EASY" | "MEDIUM" | "HARD";
+  difficulty?: 'EASY' | 'MEDIUM' | 'HARD';
   cards?: CardView[];
   updatedAt?: string;
 };
@@ -6147,7 +6143,7 @@ export type FlashcardSessionView = {
   flashcardId?: string;
   studentId?: string;
   flashcardTitle?: string;
-  flashcardDifficulty?: "EASY" | "MEDIUM" | "HARD";
+  flashcardDifficulty?: 'EASY' | 'MEDIUM' | 'HARD';
   sessionStart?: string;
   sessionEnd?: string;
   totalCardsStudied?: number;
@@ -6155,7 +6151,7 @@ export type FlashcardSessionView = {
   totalTimeSpentSeconds?: number;
   averageTimePerCardSeconds?: number;
   completionPercentage?: number;
-  sessionStatus?: "ACTIVE" | "COMPLETED" | "PAUSED" | "ABANDONED";
+  sessionStatus?: 'ACTIVE' | 'COMPLETED' | 'PAUSED' | 'ABANDONED';
   createdAt?: string;
   updatedAt?: string;
 };
@@ -6198,7 +6194,7 @@ export type SimpleCourseView = {
   description?: string;
   units?: number;
   title?: string;
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   createdAt?: string;
   bannerUrl?: string;
   courseCode?: string;
@@ -6206,13 +6202,13 @@ export type SimpleCourseView = {
   coverImageUrl?: string;
   certificateUrl?: string;
   courseUrl?: string;
-  accessLevel?: "PRIVATE" | "PUBLIC";
-  lessonGroupType?: "HOUR" | "DAY" | "WEEK" | "MONTH" | "TERM" | "SEMESTER";
+  accessLevel?: 'PRIVATE' | 'PUBLIC';
+  lessonGroupType?: 'HOUR' | 'DAY' | 'WEEK' | 'MONTH' | 'TERM' | 'SEMESTER';
 };
 export type EnrolledCourseView = {
   id?: string;
   userId?: string;
-  status?: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
+  status?: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
   startDate?: string;
   completionDate?: string;
   createdAt?: string;
@@ -6220,7 +6216,7 @@ export type EnrolledCourseView = {
 };
 export type EnrolledCourseRequest = {
   courseId?: string;
-  status?: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
+  status?: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
 };
 export type CustomAnswerOptionView = {
   id?: string;
@@ -6230,11 +6226,11 @@ export type CustomAnswerOptionView = {
 };
 export type CustomQuestionView = {
   id?: string;
-  type?: "SINGLE_CHOICE" | "MULTIPLE_CHOICE" | "SHORT_TEXT" | "LONG_TEXT";
+  type?: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
   text?: string;
   topic?: string;
   section?: SectionView;
-  status?: "APPROVED" | "DECLINED" | "PENDING";
+  status?: 'APPROVED' | 'DECLINED' | 'PENDING';
   answerOptions?: CustomAnswerOptionView[];
   solution?: string;
   imageUrl?: string;
@@ -6243,7 +6239,7 @@ export type CustomQuestionView = {
   createdBy?: string;
 };
 export type CustomQuestionUpdateRequest = {
-  type: "SINGLE_CHOICE" | "MULTIPLE_CHOICE" | "SHORT_TEXT" | "LONG_TEXT";
+  type: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
   topic: string;
   paperId: string;
   text: string;
@@ -6261,9 +6257,9 @@ export type SimpleSchoolView = {
   name?: string;
   id?: string;
   state?: string;
-  type?: "FEDERAL" | "STATE" | "PRIVATE";
+  type?: 'FEDERAL' | 'STATE' | 'PRIVATE';
   abbr?: string;
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   createdAt?: string;
   logo?: string;
   updatedAt?: string;
@@ -6301,8 +6297,8 @@ export type UserProfileNinRequest = {
 };
 export type SimpleTelcoView = {
   id?: string;
-  planType?: "TRIAL" | "DAILY" | "WEEKLY" | "MONTHLY" | "QUARTERLY" | "YEARLY";
-  network?: "MTN" | "AIRTEL" | "GL0" | "NINE_MOBILE";
+  planType?: 'TRIAL' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'YEARLY';
+  network?: 'MTN' | 'AIRTEL' | 'GL0' | 'NINE_MOBILE';
 };
 export type PaginatedSimpleTelcoView = {
   count?: number;
@@ -6318,7 +6314,7 @@ export type SimpleSubjectView = {
   name?: string;
   id?: string;
   description?: string;
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
 };
 export type SolutionRequest = {
   question: string;
@@ -6403,7 +6399,7 @@ export type QuizathonView = {
   title?: string;
   institutionId?: string;
   createdAt?: string;
-  registrationMode?: "REGISTRATION" | "WAITLIST" | "CLOSED";
+  registrationMode?: 'REGISTRATION' | 'WAITLIST' | 'CLOSED';
   totalParticipants?: number;
   maxParticipants?: number;
   isOpenForAllUsers?: boolean;
@@ -6441,7 +6437,7 @@ export type SimpleQuizathonView = {
   description?: string;
   isActive?: boolean;
   title?: string;
-  registrationMode?: "REGISTRATION" | "WAITLIST" | "CLOSED";
+  registrationMode?: 'REGISTRATION' | 'WAITLIST' | 'CLOSED';
   maxParticipants?: number;
   isOpenForAllUsers?: boolean;
   startAt?: string;
@@ -6467,7 +6463,7 @@ export type PaginatedSimpleParticipantView = {
 };
 export type SimpleQuestionView = {
   id?: string;
-  type?: "SINGLE_CHOICE" | "MULTIPLE_CHOICE" | "SHORT_TEXT" | "LONG_TEXT";
+  type?: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
   text?: string;
   topic?: string;
   tags?: string[];
@@ -6475,7 +6471,7 @@ export type SimpleQuestionView = {
   answerOptions?: AnswerOptionView[];
   aiCategorized?: boolean;
   aiCategorizationReason?: string;
-  difficulty?: "EASY" | "MEDIUM" | "HARD" | "RANDOM";
+  difficulty?: 'EASY' | 'MEDIUM' | 'HARD' | 'RANDOM';
   imageUrl?: string;
   questionNumber?: number;
   point?: number;
@@ -6487,8 +6483,8 @@ export type PaginatedSimpleQuestionView = {
 };
 export type QuestionRequest = {
   questionNumber?: number;
-  type: "SINGLE_CHOICE" | "MULTIPLE_CHOICE" | "SHORT_TEXT" | "LONG_TEXT";
-  difficulty: "EASY" | "MEDIUM" | "HARD" | "RANDOM";
+  type: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD' | 'RANDOM';
   topic: string;
   point?: number;
   paperId: string;
@@ -6501,28 +6497,28 @@ export type QuestionRequest = {
   answerOptions?: AnswerOption[];
 };
 export type ProfileShareEventRequest = {
-  eventType?: "PROFILE_SHARED" | "PROFILE_CLICKED";
+  eventType?: 'PROFILE_SHARED' | 'PROFILE_CLICKED';
   sharePlatform?:
-    | "WHATSAPP"
-    | "TELEGRAM"
-    | "FACEBOOK"
-    | "LINKEDIN"
-    | "X"
-    | "INSTAGRAM"
-    | "COPY_LINK";
+    | 'WHATSAPP'
+    | 'TELEGRAM'
+    | 'FACEBOOK'
+    | 'LINKEDIN'
+    | 'X'
+    | 'INSTAGRAM'
+    | 'COPY_LINK';
   deviceInfo?: string;
 };
 export type ProfileShareEventResponse = {
   message?: string;
-  eventType?: "PROFILE_SHARED" | "PROFILE_CLICKED";
+  eventType?: 'PROFILE_SHARED' | 'PROFILE_CLICKED';
   sharePlatform?:
-    | "WHATSAPP"
-    | "TELEGRAM"
-    | "FACEBOOK"
-    | "LINKEDIN"
-    | "X"
-    | "INSTAGRAM"
-    | "COPY_LINK";
+    | 'WHATSAPP'
+    | 'TELEGRAM'
+    | 'FACEBOOK'
+    | 'LINKEDIN'
+    | 'X'
+    | 'INSTAGRAM'
+    | 'COPY_LINK';
 };
 export type SubjectSimpleView = {
   name?: string;
@@ -6591,8 +6587,8 @@ export type SimpleTrackTimerSimpleView = {
 export type StudentPaperSimpleView = {
   result?: StudentResultSimpleView;
   id?: string;
-  status?: "NOT_STARTED" | "STARTED" | "COMPLETED";
-  mode?: "LEARNING_MODE" | "REAL_MODE";
+  status?: 'NOT_STARTED' | 'STARTED' | 'COMPLETED';
+  mode?: 'LEARNING_MODE' | 'REAL_MODE';
   timeElapsed?: number;
   createdAt?: string;
   paper?: PaperSimpleView;
@@ -6607,15 +6603,15 @@ export type PaginatedStudentPaperSimpleView = {
 };
 export type StudentPaperView = {
   id?: string;
-  status?: "NOT_STARTED" | "STARTED" | "COMPLETED";
-  mode?: "LEARNING_MODE" | "REAL_MODE";
+  status?: 'NOT_STARTED' | 'STARTED' | 'COMPLETED';
+  mode?: 'LEARNING_MODE' | 'REAL_MODE';
   timeElapsed?: number;
   paper?: PaperView;
 };
 export type StudentPaperRequest = {
   paperId: string;
   size: number;
-  mode: "LEARNING_MODE" | "REAL_MODE";
+  mode: 'LEARNING_MODE' | 'REAL_MODE';
   retakeStudentPaperId?: string;
   captcha?: string;
 };
@@ -6650,10 +6646,10 @@ export type BookmarkRequest = {
 export type StudentAnswerView = {
   id?: string;
   questionType?:
-    | "SINGLE_CHOICE"
-    | "MULTIPLE_CHOICE"
-    | "SHORT_TEXT"
-    | "LONG_TEXT";
+    | 'SINGLE_CHOICE'
+    | 'MULTIPLE_CHOICE'
+    | 'SHORT_TEXT'
+    | 'LONG_TEXT';
   answerText?: string;
   answerIds?: string[];
   questionId?: string;
@@ -6691,7 +6687,7 @@ export type UserRoleResponse = {
 };
 export type ContactResponse = {
   contact?: string;
-  contactType?: "EMAIL" | "PHONE_NUMBER";
+  contactType?: 'EMAIL' | 'PHONE_NUMBER';
 };
 export type UserResponse = {
   id?: string;
@@ -6851,8 +6847,8 @@ export type Section = {
 export type Question = {
   id?: string;
   questionNumber?: number;
-  type: "SINGLE_CHOICE" | "MULTIPLE_CHOICE" | "SHORT_TEXT" | "LONG_TEXT";
-  difficulty?: "EASY" | "MEDIUM" | "HARD" | "RANDOM";
+  type: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
+  difficulty?: 'EASY' | 'MEDIUM' | 'HARD' | 'RANDOM';
   topic?: string;
   point?: number;
   paper: Paper;
@@ -6880,7 +6876,7 @@ export type Paper = {
   subject?: Subject;
   instruction?: string;
   questions?: Question[];
-  curriculum: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   curriculumUrl?: string;
   institutionId: string;
   createdBy: string;
@@ -6895,8 +6891,8 @@ export type Flashcard = {
   paper: Paper;
   cards?: Card[];
   studentId: string;
-  difficulty: "EASY" | "MEDIUM" | "HARD";
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   institutionId: string;
   createdAt?: string;
   updatedAt?: string;
@@ -6914,7 +6910,7 @@ export type FlashcardUsageView = {
   id?: string;
   studentId?: string;
   card?: Card;
-  actionType?: "TAP_TO_FLIP" | "SKIP" | "COMPLETE";
+  actionType?: 'TAP_TO_FLIP' | 'SKIP' | 'COMPLETE';
   timeSpentSeconds?: number;
   sessionId?: string;
   notes?: string;
@@ -6923,7 +6919,7 @@ export type FlashcardUsageView = {
 export type FlashcardUsageRequest = {
   studentId: string;
   card?: Card;
-  actionType: "TAP_TO_FLIP" | "SKIP" | "COMPLETE";
+  actionType: 'TAP_TO_FLIP' | 'SKIP' | 'COMPLETE';
   timeSpentSeconds?: number;
   sessionId?: string;
   notes?: string;
@@ -6948,7 +6944,7 @@ export type PaginatedFlagQuestionSimpleView = {
   items?: FlagQuestionSimpleView[];
 };
 export type QuestionIssueType = {
-  type: "QUESTION" | "ANSWER" | "DUPLICATE" | "OTHER";
+  type: 'QUESTION' | 'ANSWER' | 'DUPLICATE' | 'OTHER';
 };
 export type FlagQuestionView = {
   message?: string;
@@ -6966,7 +6962,7 @@ export type FlagQuestionView = {
 };
 export type FlagQuestionRequest = {
   questionId: string;
-  issueType: ("QUESTION" | "ANSWER" | "DUPLICATE" | "OTHER")[];
+  issueType: ('QUESTION' | 'ANSWER' | 'DUPLICATE' | 'OTHER')[];
   message?: string;
 };
 export type ResolveFlagQuestionRequest = {
@@ -7008,7 +7004,7 @@ export type EvaluationRequest = {
 };
 export type SimpleEnrolledLessonItemView = {
   id?: string;
-  status?: "IN_PROGRESS" | "COMPLETED";
+  status?: 'IN_PROGRESS' | 'COMPLETED';
   startDate?: string;
   completionDate?: string;
   lessonItemId?: string;
@@ -7020,7 +7016,7 @@ export type PaginatedSimpleEnrolledLessonItemView = {
 };
 export type LessonItemTitleView = {
   id?: string;
-  type?: "VIDEO" | "ARTICLE" | "QUIZ" | "EXERCISE" | "FLASHCARD" | "UNKNOWN";
+  type?: 'VIDEO' | 'ARTICLE' | 'QUIZ' | 'EXERCISE' | 'FLASHCARD' | 'UNKNOWN';
   title?: string;
   lessonId?: string;
   itemNumber?: number;
@@ -7029,19 +7025,19 @@ export type LessonItemTitleView = {
 export type EnrolledLessonItemView = {
   id?: string;
   userId?: string;
-  status?: "IN_PROGRESS" | "COMPLETED";
+  status?: 'IN_PROGRESS' | 'COMPLETED';
   startDate?: string;
   completionDate?: string;
   lessonItem?: LessonItemTitleView;
 };
 export type EnrolledLessonItemCreateRequest = {
   lessonItemId: string;
-  status: "IN_PROGRESS" | "COMPLETED";
+  status: 'IN_PROGRESS' | 'COMPLETED';
 };
 export type SimpleEnrolledCourseView = {
   id?: string;
   userId?: string;
-  status?: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
+  status?: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
   startDate?: string;
   completionDate?: string;
   createdAt?: string;
@@ -7053,12 +7049,12 @@ export type PaginatedSimpleEnrolledCourseView = {
   items?: SimpleEnrolledCourseView[];
 };
 export type PlanDescription = {
-  type: "TRIAL" | "DAILY" | "WEEKLY" | "MONTHLY" | "QUARTERLY" | "YEARLY";
-  platform: "TELCO" | "PAYSTACK" | "STRIPE" | "MTN_NIGERIA";
+  type: 'TRIAL' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'YEARLY';
+  platform: 'TELCO' | 'PAYSTACK' | 'STRIPE' | 'MTN_NIGERIA';
 };
 export type Phone = {
   phoneNumber: string;
-  network: "MTN" | "AIRTEL" | "GL0" | "NINE_MOBILE";
+  network: 'MTN' | 'AIRTEL' | 'GL0' | 'NINE_MOBILE';
 };
 export type SubscriptionRequest = {
   planId?: string;
@@ -7067,43 +7063,43 @@ export type SubscriptionRequest = {
 };
 export type PhoneRegisterRequest = {
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
   phoneNumber: string;
 };
 export type PhoneLoginRequest = {
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
   phoneNumber: string;
 };
 export type DistinctionResendVerification = {
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
   username: string;
 };
 export type DistinctionUserConfirmRequest = {
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
   userId: string;
   token: string;
 };
 export type DistinctionTokenLoginRequest = {
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
   token: string;
 };
 export type DistinctionRegistrationResponse = {
@@ -7119,10 +7115,10 @@ export type DinstinctionRegistrationRequest = {
   lastName: string;
   otherName?: string;
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
   email: string;
   phone: string;
   password: string;
@@ -7141,10 +7137,10 @@ export type DistinctionUploadedUserRegistrationRequest = {
   lastName: string;
   otherName?: string;
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
   email: string;
   phone: string;
   password: string;
@@ -7155,28 +7151,28 @@ export type DistinctionUploadedUserRegistrationRequest = {
 };
 export type DistinctionPasswordReset = {
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
   userId: string;
   token: string;
   password: string;
 };
 export type DistinctionPasswordResetRequest = {
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
   username: string;
 };
 export type DistinctionLoginRequest = {
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
   username: string;
   password: string;
 };
@@ -7190,11 +7186,11 @@ export type DepartmentRequest = {
 };
 export type SimpleCustomQuestionView = {
   id?: string;
-  type?: "SINGLE_CHOICE" | "MULTIPLE_CHOICE" | "SHORT_TEXT" | "LONG_TEXT";
+  type?: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
   text?: string;
   topic?: string;
   section?: SectionView;
-  status?: "APPROVED" | "DECLINED" | "PENDING";
+  status?: 'APPROVED' | 'DECLINED' | 'PENDING';
   createdAt?: string;
   paperName?: string;
   imageUrl?: string;
@@ -7206,7 +7202,7 @@ export type PaginatedSimpleCustomQuestionView = {
   items?: SimpleCustomQuestionView[];
 };
 export type CustomQuestionRequest = {
-  type: "SINGLE_CHOICE" | "MULTIPLE_CHOICE" | "SHORT_TEXT" | "LONG_TEXT";
+  type: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
   topic: string;
   paperId: string;
   text: string;
@@ -7219,7 +7215,7 @@ export type CustomQuestionRequest = {
 };
 export type CustomQuestionStatusRequest = {
   questionId: string;
-  status: "APPROVED" | "DECLINED" | "PENDING";
+  status: 'APPROVED' | 'DECLINED' | 'PENDING';
 };
 export type PaginatedSimpleCourseView = {
   count?: number;
@@ -7231,7 +7227,7 @@ export type CourseGenerationRequestView = {
   query?: string;
   retryCount?: number;
   aiError?: string;
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   createdAt?: string;
   lastTriedAt?: string;
   progressStage?: string;
@@ -7244,7 +7240,7 @@ export type CourseGenerationRequestView = {
   lastRetryTime?: string;
   retryDelaySeconds?: number;
   aiJobId?: string;
-  aiStatus?: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | "RETRYING";
+  aiStatus?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED' | 'RETRYING';
   courseCode?: string;
   aiModelVersion?: string;
   progressPercentage?: number;
@@ -7252,7 +7248,7 @@ export type CourseGenerationRequestView = {
 export type CourseCreateRequest = {
   name: string;
   courseCode?: string;
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
 };
 export type SimpleChatThreadView = {
   id?: string;
@@ -7276,13 +7272,13 @@ export type ChatRequest = {
   topics?: string;
   curriculum?: string;
   useCase?:
-    | "QUESTION_GENERATION"
-    | "FLASHCARD_GENERATION"
-    | "KEYPOINT_GENERATION"
-    | "WELCOME_MESSAGE"
-    | "TITLE_GEN"
-    | "CHATBOT_RESPONSE"
-    | "QA_SUGGESTION";
+    | 'QUESTION_GENERATION'
+    | 'FLASHCARD_GENERATION'
+    | 'KEYPOINT_GENERATION'
+    | 'WELCOME_MESSAGE'
+    | 'TITLE_GEN'
+    | 'CHATBOT_RESPONSE'
+    | 'QA_SUGGESTION';
   prompt?: string;
   context?: string;
   paperId?: string;
@@ -7296,13 +7292,13 @@ export type NewThreadRequest = {
   topics?: string;
   curriculum?: string;
   useCase?:
-    | "QUESTION_GENERATION"
-    | "FLASHCARD_GENERATION"
-    | "KEYPOINT_GENERATION"
-    | "WELCOME_MESSAGE"
-    | "TITLE_GEN"
-    | "CHATBOT_RESPONSE"
-    | "QA_SUGGESTION";
+    | 'QUESTION_GENERATION'
+    | 'FLASHCARD_GENERATION'
+    | 'KEYPOINT_GENERATION'
+    | 'WELCOME_MESSAGE'
+    | 'TITLE_GEN'
+    | 'CHATBOT_RESPONSE'
+    | 'QA_SUGGESTION';
   prompt?: string;
   paperId?: string;
 };
@@ -7354,8 +7350,8 @@ export type RegisterStaffDto = {
   email?: string;
   phoneNumber?: string;
   otherName?: string;
-  gender?: "M" | "F";
-  role?: "ADMIN" | "SUPER_ADMIN";
+  gender?: 'M' | 'F';
+  role?: 'ADMIN' | 'SUPER_ADMIN';
   school?: School;
   password?: string;
 };
@@ -7364,23 +7360,23 @@ export type StaffRegistrationRequest = {
   lastName: string;
   otherName?: string;
   schoolId?: string;
-  gender: "M" | "F";
-  role: "ADMIN" | "SUPER_ADMIN";
+  gender: 'M' | 'F';
+  role: 'ADMIN' | 'SUPER_ADMIN';
   email: string;
   phone: string;
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
 };
 export type StaffView = {
   id?: string;
   firstName?: string;
   lastName?: string;
   otherName?: string;
-  gender?: "M" | "F";
-  role?: "ADMIN" | "SUPER_ADMIN";
+  gender?: 'M' | 'F';
+  role?: 'ADMIN' | 'SUPER_ADMIN';
   school?: School;
   email?: string;
   phoneNumber?: string;
@@ -7395,10 +7391,10 @@ export type StaffLoginRequest = {
   username: string;
   password: string;
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
 };
 export type VerifyNinDto = {
   isSuccessful?: boolean;
@@ -7422,7 +7418,7 @@ export type ReferralDto = {
 };
 export type SimpleLessonItemView = {
   id?: string;
-  type?: "VIDEO" | "ARTICLE" | "QUIZ" | "EXERCISE" | "FLASHCARD" | "UNKNOWN";
+  type?: 'VIDEO' | 'ARTICLE' | 'QUIZ' | 'EXERCISE' | 'FLASHCARD' | 'UNKNOWN';
   content?: string;
   description?: string;
   title?: string;
@@ -7444,7 +7440,7 @@ export type LessonUpdateRequest = {
 };
 export type LessonItemView = {
   id?: string;
-  type?: "VIDEO" | "ARTICLE" | "QUIZ" | "EXERCISE" | "FLASHCARD" | "UNKNOWN";
+  type?: 'VIDEO' | 'ARTICLE' | 'QUIZ' | 'EXERCISE' | 'FLASHCARD' | 'UNKNOWN';
   content?: string;
   description?: string;
   title?: string;
@@ -7478,7 +7474,7 @@ export type FacultyUpdateRequest = {
   name?: string;
 };
 export type EnrolledLessonItemUpdateRequest = {
-  status: "IN_PROGRESS" | "COMPLETED";
+  status: 'IN_PROGRESS' | 'COMPLETED';
 };
 export type DepartmentUpdateRequest = {
   name?: string;
@@ -7491,13 +7487,13 @@ export type CourseView = {
   level?: string;
   title?: string;
   tags?: string[];
-  experienceLevel?: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+  experienceLevel?: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED';
   aiError?: string;
-  curriculum?: "NUC" | "NBTE" | "NCCE" | "OTHERS";
+  curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
   createdAt?: string;
   bannerUrl?: string;
   aiJobId?: string;
-  aiStatus?: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED";
+  aiStatus?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
   courseCode?: string;
   learningObjectives?: string[];
   lessonGroups?: LessonGroupView[];
@@ -7505,8 +7501,8 @@ export type CourseView = {
   coverImageUrl?: string;
   certificateUrl?: string;
   courseUrl?: string;
-  accessLevel?: "PRIVATE" | "PUBLIC";
-  lessonGroupType?: "HOUR" | "DAY" | "WEEK" | "MONTH" | "TERM" | "SEMESTER";
+  accessLevel?: 'PRIVATE' | 'PUBLIC';
+  lessonGroupType?: 'HOUR' | 'DAY' | 'WEEK' | 'MONTH' | 'TERM' | 'SEMESTER';
 };
 export type CourseUpdateRequest = {
   title?: string;
@@ -7521,7 +7517,7 @@ export type CourseUpdateRequest = {
   learningObjectives?: string[];
   units?: number;
   courseUrl?: string;
-  accessLevel?: "PRIVATE" | "PUBLIC";
+  accessLevel?: 'PRIVATE' | 'PUBLIC';
 };
 export type ApiTokenUpdateRequest = {
   isDisabled?: boolean;
@@ -7531,15 +7527,15 @@ export type StaffUpdateRequest = {
   lastName: string;
   otherName?: string;
   schoolId?: string;
-  gender: "M" | "F";
-  role: "ADMIN" | "SUPER_ADMIN";
+  gender: 'M' | 'F';
+  role: 'ADMIN' | 'SUPER_ADMIN';
   email: string;
   phone: string;
   platform:
-    | "DISTINCTION_NG"
-    | "DISTINCTION_APP"
-    | "SCHOOLS_DISTINCTION_APP"
-    | "DISTINCTION_ADMIN";
+    | 'DISTINCTION_NG'
+    | 'DISTINCTION_APP'
+    | 'SCHOOLS_DISTINCTION_APP'
+    | 'DISTINCTION_ADMIN';
 };
 export type UserStreakStatusDto = {
   currentStreak?: number;
@@ -7801,7 +7797,7 @@ export type StudentPaperSolutionWithAnswersView = {
   studentPaperId?: string;
   questionNumber?: number;
   questionText?: string;
-  type?: "SINGLE_CHOICE" | "MULTIPLE_CHOICE" | "SHORT_TEXT" | "LONG_TEXT";
+  type?: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
   topic?: string;
   solution?: string;
   point?: number;
@@ -7825,7 +7821,7 @@ export type TrackTimerView = {
 };
 export type StudentPaperSolutionView = {
   id?: string;
-  type?: "SINGLE_CHOICE" | "MULTIPLE_CHOICE" | "SHORT_TEXT" | "LONG_TEXT";
+  type?: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
   text?: string;
   topic?: string;
   tags?: string[];
@@ -7979,14 +7975,14 @@ export type Achievement = {
   unlocked?: boolean;
   unlockedAt?: string;
   type?:
-    | "FIRST_SESSION"
-    | "WEEKLY_GOAL"
-    | "STREAK_3_DAYS"
-    | "STREAK_7_DAYS"
-    | "STREAK_30_DAYS"
-    | "COMPLETION_MASTER"
-    | "TIME_DEDICATED"
-    | "CONSISTENT_LEARNER";
+    | 'FIRST_SESSION'
+    | 'WEEKLY_GOAL'
+    | 'STREAK_3_DAYS'
+    | 'STREAK_7_DAYS'
+    | 'STREAK_30_DAYS'
+    | 'COMPLETION_MASTER'
+    | 'TIME_DEDICATED'
+    | 'CONSISTENT_LEARNER';
   progress?: number;
   target?: number;
   progressPercentage?: number;
@@ -8052,7 +8048,7 @@ export type InstitutionAnalytics = {
 export type ContentAnalytics = {
   flashcardId?: string;
   flashcardTitle?: string;
-  difficulty?: "EASY" | "MEDIUM" | "HARD";
+  difficulty?: 'EASY' | 'MEDIUM' | 'HARD';
   institutionId?: string;
   totalSessions?: number;
   totalCardsStudied?: number;
@@ -8180,7 +8176,7 @@ export type EmailDashboardData = {
 };
 export type TransactionSimpleView = {
   id?: string;
-  status?: "PENDING" | "SUCCESS" | "FAILED";
+  status?: 'PENDING' | 'SUCCESS' | 'FAILED';
   username?: string;
   createdAt?: string;
   studentId?: string;
@@ -8199,7 +8195,7 @@ export type SubscriptionPackageLiteView = {
   id?: string;
   description?: string;
   isActive?: boolean;
-  code?: "BASIC_PLAN" | "STANDARD_PLAN" | "PREMIUM_PLAN";
+  code?: 'BASIC_PLAN' | 'STANDARD_PLAN' | 'PREMIUM_PLAN';
   institutionId?: string;
 };
 export type SubscriptionHistoryView = {
@@ -8223,7 +8219,7 @@ export type SubPackageView = {
   id?: string;
   description?: string;
   isActive?: boolean;
-  code?: "BASIC_PLAN" | "STANDARD_PLAN" | "PREMIUM_PLAN";
+  code?: 'BASIC_PLAN' | 'STANDARD_PLAN' | 'PREMIUM_PLAN';
   institutionId?: string;
   addOn?: SubscriptionPackageAddonView[];
   packagePlan?: SubscriptionPackagePlanView[];
@@ -8337,7 +8333,7 @@ export type AdminUserView = {
   email?: string;
   matriculationNumber?: string;
   phoneNumber?: string;
-  schoolType?: "FEDERAL" | "STATE" | "PRIVATE";
+  schoolType?: 'FEDERAL' | 'STATE' | 'PRIVATE';
   referralCode?: string;
   stateOfOrigin?: string;
   profileImage?: string;
