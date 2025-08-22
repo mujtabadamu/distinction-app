@@ -5,10 +5,10 @@
 export type ApiTokenView = {
     description?: string;
     token?: string;
-    createdAt?: string;
+    createdBy?: string;
     updatedAt?: string;
     isDisabled?: boolean;
-    createdBy?: string;
+    createdAt?: string;
     name?: string;
     id?: string;
 };

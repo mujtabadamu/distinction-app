@@ -3,11 +3,11 @@
 /* tslint:disable */
 /* eslint-disable */
 export type SubmissionsView = {
-    createdAt?: string;
-    paperId?: string;
-    userId?: string;
     paperName?: string;
-    questionCount?: number;
+    paperId?: string;
     createdBy?: string;
+    userId?: string;
+    createdAt?: string;
+    questionCount?: number;
 };
 

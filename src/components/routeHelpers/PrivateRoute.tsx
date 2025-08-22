@@ -24,7 +24,9 @@ const PrivateRoute = ({ children }: Props) => {
   const auth = !!(localUser && accessToken && isAuthenticated);
   console.log('private route', localUser, isAuthenticated);
   const { profile: profileData, isLoading } = useUserProfile();
-  const { schoolList, getSchoolList, isLoadingSchools } = useQuizathon();
+  const { schoolList, getSchoolList, isLoadingSchools } = useQuizathon({
+    studentId: localUser?.user?.id || '',
+  });
   const profileCompleteModalHandler = useDisclosure();
 
   const loading = isLoading || isLoadingSchools;

@@ -4,9 +4,9 @@
 /* eslint-disable */
 import type { ChatThreadView } from './ChatThreadView';
 export type ChatBotAssistantView = {
+    studentId?: string;
     createdAt?: string;
     chatThreads?: Array<ChatThreadView>;
-    studentId?: string;
     id?: string;
 };
 

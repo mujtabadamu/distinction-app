@@ -4,23 +4,23 @@ import {
   useCallback,
   useEffect,
   useState,
+  useMemo,
 } from 'react';
 import { Box, Grid, Spacer, Text } from '@flexisaf/flexibull2';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch } from '../../store/store';
 import { AnimatePresence, motion } from 'framer-motion';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
 
-import {
-  selectMostRecentStartedPractice,
-  // selectShowContinuePractice,
-} from '../../redux/statistics/selectors';
-import { selectCurrentUser } from '../../redux/auth/selectors';
 // import ContinuePractice from '../continuePractice';
 
 import Theme from '../../utils/theme';
-import { setShowContinuePractice } from '../../redux/statistics/reducer';
+import { setShowContinuePractice } from '../../store/statisticsSlice';
+import { useAuthSlice } from 'pages/auth/authSlice';
+import useRecentPracticesQuery, {
+  IRecentPractice,
+} from '../../hooks/practice/useRecentPracticesQuery';
 
 export interface INavItem {
   link: string;
@@ -49,7 +49,7 @@ const NavItem = ({
   showOverlay,
 }: INavItemComponent) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   if (isPrimaryAction)
     return (
@@ -106,15 +106,23 @@ const BottomNav = ({
   disabled: boolean;
 }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const hasChatbot = location.pathname.includes('/chatbot');
-  // const showContinuePractice = useSelector(selectShowContinuePractice);
 
-  const mostRecent = useSelector(selectMostRecentStartedPractice);
-  const user = useSelector(selectCurrentUser);
+  // Use RTK Query hook for recent practices
+  const { recentPractices } = useRecentPracticesQuery();
+  const { user } = useAuthSlice();
   const [active, setActive] = useState<string | null>(null);
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
+
+  // Find the most recent started practice from RTK Query data - memoized to prevent re-renders
+  const mostRecent = useMemo(
+    () =>
+      recentPractices?.find((p: IRecentPractice) => p.status === 'STARTED') ||
+      null,
+    [recentPractices]
+  );
 
   const checkMostRecent = useCallback(() => {
     if (mostRecent) {
@@ -122,11 +130,11 @@ const BottomNav = ({
     } else {
       dispatch(setShowContinuePractice(false));
     }
-  }, [mostRecent]);
+  }, [mostRecent, dispatch]);
 
   useEffect(() => {
     checkMostRecent();
-  }, [mostRecent]);
+  }, [checkMostRecent]);
 
   useEffect(() => {
     setActive(window.location.pathname.slice(1));
@@ -138,7 +146,7 @@ const BottomNav = ({
         await navigator.share({
           title: 'Distinction',
           url: 'https://distinction.app',
-          text: `${user?.firstName} is inviting you to check out Distinction, where you can practice for your upcoming exams.`,
+          text: `${user?.user?.firstName} is inviting you to check out Distinction, where you can practice for your upcoming exams.`,
         });
 
         alert('Thanks for sharing');

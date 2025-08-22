@@ -28,7 +28,7 @@ export class PortalStudentPapersService {
      * @returns PaginatedStudentPaperSimpleView OK
      * @throws ApiError
      */
-    public static list10({
+    public static list11({
         keyword,
         examGroupId,
         paperId,
@@ -136,7 +136,7 @@ export class PortalStudentPapersService {
      * @returns BookmarkView OK
      * @throws ApiError
      */
-    public static list11({
+    public static list12({
         id,
     }: {
         id: string,

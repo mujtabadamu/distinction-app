@@ -41,7 +41,7 @@ import { capitalizeFirstLetter, thousandFormatter } from 'utils/helpers';
 import moment from 'moment';
 import Skeleton from 'react-loading-skeleton';
 import { useLocation } from 'react-router-dom';
-import { TableWrapper } from 'pages/referrals';
+// import { TableWrapper } from 'pages/referrals';
 import { PLAN_FEATURES } from './subscription/billingPlans';
 import useDisclosure from 'hooks/general/useDisclosure';
 import DeleteModal from 'components/deleteModal/DeleteModal';
@@ -49,17 +49,21 @@ import ProfileHeaderSection from './components/profileHeaderSection';
 import { NiNWrapper } from './style';
 import useQuizathon from 'pages/quizathon/hooks/useQuizathon';
 import { getLevelOptionsByCurriculum } from 'utils/constants';
+import { useAuthSlice } from 'pages/auth/authSlice';
 
 type ViewType = 'plan' | 'history';
 
 const Profile = () => {
+  const { user } = useAuthSlice();
   const [activeView, setActiveView] = useState<ViewType>('plan');
   const ninVerificationHandler = useDisclosure();
   const subscriptionPlansHandler = useDisclosure();
   const subscriptionCancelHandler = useDisclosure();
 
   const { profileData, isLoadingProfile } = useProfile();
-  const { schoolList, getSchoolList } = useQuizathon();
+  const { schoolList, getSchoolList } = useQuizathon({
+    studentId: user?.user?.id || undefined,
+  });
   const location = useLocation();
   const {
     // getActivePlan,
@@ -133,12 +137,12 @@ const Profile = () => {
 
   const handleReload = () => {
     subscriptionCancelHandler.onClose();
-    getActivePlan();
+    // getActivePlan();
   };
 
   useEffect(() => {
     if (activeView === 'plan') {
-      getActivePlan();
+      // getActivePlan();
     } else {
       const payload = {
         page: page - 1,
@@ -419,7 +423,7 @@ const Profile = () => {
                   <>
                     {subscriptionHistory?.items &&
                     subscriptionHistory?.items?.length > 0 ? (
-                      <TableWrapper>
+                      <>
                         <Table>
                           <table>
                             <thead>
@@ -473,7 +477,7 @@ const Profile = () => {
                           current={page}
                           style={{ margin: '0' }}
                         />
-                      </TableWrapper>
+                      </>
                     ) : (
                       <EmptyState
                         image={<img src={FolderIcon} alt="folder_icon" />}

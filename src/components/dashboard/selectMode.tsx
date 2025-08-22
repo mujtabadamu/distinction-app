@@ -4,7 +4,7 @@ import { Tag } from 'antd';
 
 import { ModeWrapper } from '../../styles/dashboard/dashboard.styles';
 import Theme from '../../utils/theme';
-import { ExamGroup } from '../../redux/examGroups/typings';
+import { ExamGroup } from 'store/result';
 
 interface Props {
   mode: null | 'real' | 'learning';

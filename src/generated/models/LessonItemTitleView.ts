@@ -8,6 +8,6 @@ export type LessonItemTitleView = {
     itemNumber?: number;
     studyTimeSecs?: number;
     id?: string;
-    type?: 'VIDEO' | 'ARTICLE' | 'QUIZ' | 'EXERCISE' | 'FLASHCARD';
+    type?: 'VIDEO' | 'ARTICLE' | 'QUIZ' | 'EXERCISE' | 'FLASHCARD' | 'UNKNOWN';
 };
 

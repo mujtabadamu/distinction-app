@@ -6,12 +6,12 @@ import type { CardView } from './CardView';
 import type { SimplePaperView } from './SimplePaperView';
 export type FlashcardView = {
     title?: string;
-    createdAt?: string;
-    studentId?: string;
-    difficulty?: 'EASY' | 'MEDIUM' | 'HARD';
     paper?: SimplePaperView;
+    studentId?: string;
     cards?: Array<CardView>;
     updatedAt?: string;
+    createdAt?: string;
+    difficulty?: 'EASY' | 'MEDIUM' | 'HARD';
     id?: string;
 };
 

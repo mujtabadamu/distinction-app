@@ -15,6 +15,6 @@ export type CourseUpdateRequest = {
     learningObjectives?: Array<string>;
     units?: number;
     courseUrl?: string;
-    accessLevel?: 'PRIVATE' | 'PUBLIC';
+    accessLevel?: 'PRIVATE' | 'INVITE' | 'PUBLIC';
 };
 

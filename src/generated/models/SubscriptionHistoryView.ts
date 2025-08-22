@@ -5,13 +5,13 @@
 import type { SubscriptionPackageAddonView } from './SubscriptionPackageAddonView';
 import type { SubscriptionPackageLiteView } from './SubscriptionPackageLiteView';
 export type SubscriptionHistoryView = {
+    endAt?: string;
+    planType?: string;
+    subscriptionPackage?: SubscriptionPackageLiteView;
     username?: string;
     createdAt?: string;
     startAt?: string;
-    endAt?: string;
-    subscriptionPackage?: SubscriptionPackageLiteView;
     price?: number;
-    planType?: string;
     addOn?: SubscriptionPackageAddonView;
     id?: string;
 };

@@ -15,12 +15,13 @@ export class CoursesService {
      * @returns PaginatedSimpleCourseView OK
      * @throws ApiError
      */
-    public static list32({
+    public static list33({
         keyword,
         subjectId,
         units,
         sortField,
         sortOrder,
+        aiStatus,
         offset,
         size = 10,
     }: {
@@ -29,6 +30,7 @@ export class CoursesService {
         units?: number,
         sortField?: 'ID' | 'TITLE' | 'DATE_CREATED' | 'CURRICULUM' | 'COURSE_CODE' | 'SUBJECT',
         sortOrder?: 'ASC' | 'DESC',
+        aiStatus?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED',
         offset?: number,
         size?: number,
     }): CancelablePromise<PaginatedSimpleCourseView> {
@@ -41,6 +43,7 @@ export class CoursesService {
                 'units': units,
                 'sortField': sortField,
                 'sortOrder': sortOrder,
+                'aiStatus': aiStatus,
                 'offset': offset,
                 'size': size,
             },
@@ -133,6 +136,34 @@ export class CoursesService {
         });
     }
     /**
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static updateAiStatus({
+        id,
+        aiStatus,
+        aiError,
+    }: {
+        id: string,
+        aiStatus: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED',
+        aiError?: string,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/courses/{id}/ai-status',
+            path: {
+                'id': id,
+            },
+            query: {
+                'aiStatus': aiStatus,
+                'aiError': aiError,
+            },
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
      * @returns CourseGenerationRequestView OK
      * @throws ApiError
      */
@@ -162,6 +193,7 @@ export class CoursesService {
         units,
         sortField,
         sortOrder,
+        aiStatus,
         offset,
         size = 10,
     }: {
@@ -170,6 +202,7 @@ export class CoursesService {
         units?: number,
         sortField?: 'ID' | 'TITLE' | 'DATE_CREATED' | 'CURRICULUM' | 'COURSE_CODE' | 'SUBJECT',
         sortOrder?: 'ASC' | 'DESC',
+        aiStatus?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED',
         offset?: number,
         size?: number,
     }): CancelablePromise<PaginatedSimpleCourseView> {
@@ -182,6 +215,7 @@ export class CoursesService {
                 'units': units,
                 'sortField': sortField,
                 'sortOrder': sortOrder,
+                'aiStatus': aiStatus,
                 'offset': offset,
                 'size': size,
             },
@@ -198,10 +232,12 @@ export class CoursesService {
         keyword,
         subjectId,
         units,
+        aiStatus,
     }: {
         keyword?: string,
         subjectId?: string,
         units?: number,
+        aiStatus?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED',
     }): CancelablePromise<number> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -210,6 +246,7 @@ export class CoursesService {
                 'keyword': keyword,
                 'subjectId': subjectId,
                 'units': units,
+                'aiStatus': aiStatus,
             },
             errors: {
                 400: `Bad Request`,
@@ -224,10 +261,12 @@ export class CoursesService {
         keyword,
         subjectId,
         units,
+        aiStatus,
     }: {
         keyword?: string,
         subjectId?: string,
         units?: number,
+        aiStatus?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED',
     }): CancelablePromise<number> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -236,6 +275,27 @@ export class CoursesService {
                 'keyword': keyword,
                 'subjectId': subjectId,
                 'units': units,
+                'aiStatus': aiStatus,
+            },
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
+     * @returns CourseView OK
+     * @throws ApiError
+     */
+    public static getByAiStatus({
+        aiStatus,
+    }: {
+        aiStatus: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED',
+    }): CancelablePromise<Array<CourseView>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/courses/ai-status/{aiStatus}',
+            path: {
+                'aiStatus': aiStatus,
             },
             errors: {
                 400: `Bad Request`,

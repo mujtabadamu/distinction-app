@@ -12,6 +12,7 @@ export type Quizathon = {
     description?: string;
     price?: number;
     bannerUrl?: string;
+    registrationMode?: 'REGISTRATION' | 'WAITLIST' | 'CLOSED';
     isOpenForAllUsers?: boolean;
     institutionId: string;
     createdAt?: string;

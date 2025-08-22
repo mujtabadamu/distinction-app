@@ -4,10 +4,10 @@
 /* eslint-disable */
 export type SimpleApiTokenView = {
     description?: string;
-    createdAt?: string;
+    createdBy?: string;
     updatedAt?: string;
     isDisabled?: boolean;
-    createdBy?: string;
+    createdAt?: string;
     name?: string;
     id?: string;
 };

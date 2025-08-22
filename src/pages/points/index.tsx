@@ -3,10 +3,7 @@ import ProgressCard from './components/ProgressCard';
 import BreadCrumbs from 'components/breadcrumb';
 import RankingBadges from './components/RankingBadges';
 import EarnPoints from './components/EarnPoints';
-import usePointAccumulation from 'pages/points/hooks/usePointAccumulation';
 import { useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { selectCurrentUser } from 'redux/auth/selectors';
 import StarterBadge from 'assets/images/starter_badge.svg';
 import NavigatorBadge from 'assets/images/navigator_badge.svg';
 import PathfinderBadge from 'assets/images/pathfinder_badge.svg';
@@ -18,19 +15,24 @@ import Skeleton from 'react-loading-skeleton';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import StreakTracker from './components/StreakTracker';
+import { useAuthSlice } from 'pages/auth/authSlice';
+import {
+  useEnhancedGetTotalPointsQuery,
+  useEnhancedGetBadgesQuery,
+} from 'store/enhancedApi';
 
 const Index = () => {
-  const user = useSelector(selectCurrentUser);
-  const userId = user?.id as string;
+  // const user = useSelector(selectCurrentUser);
+  const { user } = useAuthSlice();
+  const userId = user?.user?.id;
+
   const navigate = useNavigate();
-  const {
-    getBadges,
-    getTotalPoints,
-    badges,
-    isLoadingBadges,
-    totalPoints,
-    isLoadingPoints,
-  } = usePointAccumulation();
+
+  // Use RTK Query hooks directly
+  const { data: badges, isLoading: isLoadingBadges } =
+    useEnhancedGetBadgesQuery();
+  const { data: totalPoints, isLoading: isLoadingPoints } =
+    useEnhancedGetTotalPointsQuery({ userId: userId ?? '' }, { skip: !userId });
 
   const { activeBadge, nextBadgeMaxPoints } = useMemo(() => {
     if (!badges?.badges || !totalPoints) {
@@ -108,9 +110,8 @@ const Index = () => {
   }, [activeBadge, totalPoints, nextBadgeMaxPoints]);
 
   useEffect(() => {
-    getBadges();
-    getTotalPoints(userId);
-  }, []);
+    // No need to call getBadges or getTotalPoints, RTK Query handles fetching
+  }, [userId]);
 
   return (
     <Box pad="1.5rem">
@@ -127,7 +128,7 @@ const Index = () => {
             default="minmax(300px, auto) minmax(200px, 300px)"
             md="1fr"
           >
-            <StreakTracker />
+            <StreakTracker showInfo showEarnButton />
             <ProgressCard {...progressData} />
           </CustomGrid>
           <Spacer space={32} />

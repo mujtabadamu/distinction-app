@@ -143,3 +143,17 @@ export const formatPrize = (prizeAmount: number) => {
   const prizeInWords = numberToWords(prizeAmount);
   return `${prizeInWords} Naira`;
 };
+
+export const formatPrizeOneAlphabet = (prizeAmount: number) => {
+  if (!prizeAmount || prizeAmount === 0) {
+    return '';
+  }
+
+  if (prizeAmount >= 1000000) {
+    return `${(prizeAmount / 1000000).toFixed(1)}M`;
+  } else if (prizeAmount >= 1000) {
+    return `${(prizeAmount / 1000).toFixed(1)}K`;
+  } else {
+    return prizeAmount.toString();
+  }
+};

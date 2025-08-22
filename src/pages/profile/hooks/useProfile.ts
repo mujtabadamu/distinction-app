@@ -1,17 +1,20 @@
-import { useState } from 'react';
-import { apiWrapper } from 'utils/http-client';
-import {
-  DistinctionProfileEventsService,
-  DistinctionProfileService,
-  PublicUserProfileDTO,
-  UserProfileNinRequest,
-} from 'generated/index';
+import { useState, useEffect } from 'react';
+import { PublicUserProfileDTO, UserProfileNinRequest } from 'generated/index';
 import { handleError } from 'utils/errorHandlers';
 import { Notify } from '@flexisaf/flexibull2';
-// import { setUser, useUserSlice } from 'pages/auth/userSlice';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../../store/store';
 import { useUserProfile } from 'pages/auth/userProfileSlice';
 import { setUserProfile } from 'pages/auth/userProfileSlice';
+import { useAuthSlice } from 'pages/auth/authSlice';
+import {
+  useEnhancedGetUserProfileByStudentIdQuery,
+  useEnhancedEditUserProfileMutation,
+  useEnhancedEditUserProfileNinMutation,
+  useEnhancedVerifyProfileNinMutation,
+  useEnhancedGetPublicUserProfileQuery,
+  useEnhancedTrackProfileShareEventMutation,
+  useEnhancedTrackPublicProfileClickMutation,
+} from 'store/enhancedApi';
 
 interface EditProfilePayload {
   phoneNumber: string;
@@ -23,53 +26,92 @@ interface EditProfilePayload {
   stateOfOrigin: string;
   schoolId: string;
   level: string;
-  otherName?: string;
-  nin: string;
   dateOfBirth: string;
+  otherName?: string;
+  bio?: string;
   formData?: {
     profileImage?: Blob;
   };
 }
 
 const useProfile = () => {
-  const [isLoadingProfile, setIsLoadingProfile] = useState<boolean>(false);
-  const [isEditingProfile, setIsEditingProfile] = useState<boolean>(false);
-  const [isVerifyingNin, setIsVerifyingNin] = useState<boolean>(false);
-  const [isUpdatingNin, setIsUpdatingNin] = useState<boolean>(false);
   const [isPublicProfileError, setIsPublicProfileError] =
     useState<boolean>(false);
   const [publicProfile, setPublicProfile] =
     useState<PublicUserProfileDTO | null>(null);
-  const [isLoadingPublicProfile, setIsLoadingPublicProfile] =
-    useState<boolean>(false);
+  const [currentStudentId, setCurrentStudentId] = useState<string>('');
+  const [currentUsername, setCurrentUsername] = useState<string>('');
   const { profile: profileData } = useUserProfile();
-  const dispatch = useDispatch();
+  const { user: authUser } = useAuthSlice();
+  const dispatch = useAppDispatch();
+
+  // Enhanced API hooks
+  const {
+    data: userProfileData,
+    isLoading: isLoadingProfile,
+    refetch: refetchProfile,
+  } = useEnhancedGetUserProfileByStudentIdQuery(currentStudentId, {
+    skip: !currentStudentId, // Skip if no studentId
+  });
+
+  const [editProfileMutation, { isLoading: isEditingProfile }] =
+    useEnhancedEditUserProfileMutation();
+  const [editProfileNinMutation, { isLoading: isUpdatingNin }] =
+    useEnhancedEditUserProfileNinMutation();
+  const [verifyProfileNinMutation, { isLoading: isVerifyingNin }] =
+    useEnhancedVerifyProfileNinMutation();
+  const [trackProfileShareEventMutation] =
+    useEnhancedTrackProfileShareEventMutation();
+  const [trackPublicProfileClickMutation] =
+    useEnhancedTrackPublicProfileClickMutation();
+
+  const {
+    data: publicProfileData,
+    isLoading: isLoadingPublicProfile,
+    refetch: refetchPublicProfile,
+  } = useEnhancedGetPublicUserProfileQuery(currentUsername, {
+    skip: !currentUsername, // Skip if no username
+  });
+
+  // Handle profile data updates
+  useEffect(() => {
+    if (userProfileData) {
+      dispatch(setUserProfile(userProfileData));
+    }
+  }, [userProfileData, dispatch]);
+
+  useEffect(() => {
+    if (publicProfileData) {
+      setPublicProfile(publicProfileData);
+    }
+  }, [publicProfileData]);
+
+  // Automatically fetch profile data when component mounts
+  useEffect(() => {
+    const studentId = authUser?.user?.id;
+    if (studentId && !currentStudentId) {
+      setCurrentStudentId(studentId);
+    }
+  }, [authUser?.user?.id, currentStudentId]);
 
   const getProfileData = async (studentId: string) => {
-    setIsLoadingProfile(true);
     try {
-      const data = await apiWrapper(() =>
-        DistinctionProfileService.getUserProfile({ studentId })
-      );
-      dispatch(setUserProfile(data));
-      setIsLoadingProfile(false);
+      setCurrentStudentId(studentId);
+      // The query will automatically run when currentStudentId is set
+      // We'll handle the data in a useEffect
     } catch (error) {
-      setIsLoadingProfile(false);
       if (error instanceof Error) {
         console.error(error.message);
       }
     }
   };
+
   const getPublicProfileData = async (username: string) => {
-    setIsLoadingPublicProfile(true);
     try {
-      const data = await apiWrapper(() =>
-        DistinctionProfileService.getPublicUserProfile({ username })
-      );
-      setPublicProfile(data);
-      setIsLoadingPublicProfile(false);
+      setCurrentUsername(username);
+      // The query will automatically run when currentUsername is set
+      // We'll handle the data in a useEffect
     } catch (error) {
-      setIsLoadingPublicProfile(false);
       if (error instanceof Error) {
         console.error(error.message);
         setIsPublicProfileError(true);
@@ -78,20 +120,16 @@ const useProfile = () => {
   };
 
   const editProfile = async (payload: EditProfilePayload, cb: () => void) => {
-    setIsEditingProfile(true);
     try {
-      const response = await apiWrapper(() =>
-        DistinctionProfileService.editUserProfile(payload)
-      );
+      const response = await editProfileMutation(payload).unwrap();
       dispatch(setUserProfile(response));
       Notify('Profile Edited successfully', { status: 'success' });
       cb();
-      setIsEditingProfile(false);
     } catch (error) {
-      setIsEditingProfile(false);
       handleError(error);
     }
   };
+
   const trackPublicProfileShare = async (payload: {
     sharedPlatform: string;
   }) => {
@@ -108,15 +146,12 @@ const useProfile = () => {
       eventType: 'PROFILE_SHARED' as const,
     };
     try {
-      await apiWrapper(() =>
-        DistinctionProfileEventsService.trackProfileShareEvent({
-          requestBody: requestData,
-        })
-      );
+      await trackProfileShareEventMutation(requestData).unwrap();
     } catch (error) {
       handleError(error);
     }
   };
+
   const trackPublicProfileView = async (payload: {
     sharedPlatform: string;
     username: string;
@@ -134,12 +169,10 @@ const useProfile = () => {
       eventType: 'PROFILE_CLICKED' as const,
     };
     try {
-      await apiWrapper(() =>
-        DistinctionProfileEventsService.trackPublicProfileClick({
-          requestBody: requestData,
-          username: payload.username,
-        })
-      );
+      await trackPublicProfileClickMutation({
+        username: payload.username,
+        requestBody: requestData,
+      }).unwrap();
     } catch (error) {
       handleError(error);
     }
@@ -149,37 +182,28 @@ const useProfile = () => {
     requestBody: UserProfileNinRequest,
     cb: () => void
   ) => {
-    setIsUpdatingNin(true);
     try {
-      await apiWrapper(() =>
-        DistinctionProfileService.editUserProfileNin({ requestBody })
-      );
+      await editProfileNinMutation(requestBody).unwrap();
       cb();
-      setIsUpdatingNin(false);
     } catch (error) {
-      setIsUpdatingNin(false);
       handleError(error);
     }
   };
+
   const verifyNin = async (cb: () => void) => {
-    setIsVerifyingNin(true);
     try {
-      const result = await apiWrapper(() =>
-        DistinctionProfileService.verifyProfileNin()
-      );
+      const result = await verifyProfileNinMutation(undefined).unwrap();
       if (result.isSuccessful) {
         Notify(`Nin verified successfully`, { status: 'success' });
       } else {
         Notify(`${result.errorMessage}`, { status: 'error' });
       }
-
       cb();
-      setIsVerifyingNin(false);
     } catch (error) {
-      setIsVerifyingNin(false);
       handleError(error);
     }
   };
+
   return {
     isLoadingProfile,
     profileData,

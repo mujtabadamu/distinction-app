@@ -4,8 +4,8 @@
 /* eslint-disable */
 import type { SubjectSimpleView } from './SubjectSimpleView';
 export type StudentPracticeSimpleView = {
-    subject?: SubjectSimpleView;
     score?: number;
+    subject?: SubjectSimpleView;
     createdAt?: string;
     questionCount?: number;
     completed?: boolean;

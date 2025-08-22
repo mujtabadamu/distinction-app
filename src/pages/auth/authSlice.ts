@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // import { UserProfileDTO } from 'generated/index';
 import { useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from '../../store/store';
 import { Login2ApiResponse } from 'store/result';
 
 interface AuthState {
@@ -48,6 +48,22 @@ export const authSlice = createSlice({
       state.accessToken = action.payload.user.accessToken || null;
       state.refreshToken = action.payload.user.refreshToken || null;
       state.isAuthenticated = true;
+
+      // Also update localStorage for backward compatibility
+      if (typeof window !== 'undefined') {
+        if (action.payload.user.accessToken) {
+          localStorage.setItem(
+            'ds_access_token',
+            action.payload.user.accessToken
+          );
+        }
+        if (action.payload.user.refreshToken) {
+          localStorage.setItem(
+            'ds_refresh_token',
+            action.payload.user.refreshToken
+          );
+        }
+      }
     },
     setTokens: (
       state: AuthState,
@@ -56,6 +72,12 @@ export const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.isAuthenticated = true;
+
+      // Also update localStorage for backward compatibility
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('ds_access_token', action.payload.accessToken);
+        localStorage.setItem('ds_refresh_token', action.payload.refreshToken);
+      }
     },
     updateAccessToken: (
       state: AuthState,
@@ -65,12 +87,24 @@ export const authSlice = createSlice({
       if (state.user) {
         state.user.accessToken = action.payload.accessToken;
       }
+
+      // Also update localStorage for backward compatibility
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('ds_access_token', action.payload.accessToken);
+      }
     },
     logout: (state) => {
       state.user = null;
       state.accessToken = null;
       state.refreshToken = null;
       state.isAuthenticated = false;
+
+      // Also clear localStorage for backward compatibility
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('ds_access_token');
+        localStorage.removeItem('ds_refresh_token');
+        localStorage.removeItem('ds_user');
+      }
     },
     setNeedsVerification: (state, action) => {
       state.needsVerification = action.payload;

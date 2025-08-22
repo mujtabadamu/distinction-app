@@ -14,7 +14,7 @@ export class FacultiesService {
      * @returns PaginatedFacultyView OK
      * @throws ApiError
      */
-    public static list19({
+    public static list20({
         name,
         keyword,
         page,

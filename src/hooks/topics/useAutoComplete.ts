@@ -1,14 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import {
-  selectIsFetchingTopics,
-  selectTopicsData,
-} from '../../redux/topics/selectors';
-import {
-  clearTopics as clearTopicsStart,
-  fetchAutoCompleteTopicsStart,
-} from '../../redux/topics/reducer';
 import { useDebounce } from 'use-debounce';
 
 interface AutoCompleteProps {
@@ -18,24 +8,21 @@ interface AutoCompleteProps {
 const useAutoCompleteGet = ({ key }: AutoCompleteProps) => {
   const [topic, setTopic] = useState<string>('');
   const [selectedTopic, setSelectedTopic] = useState<string>('');
-  const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsFetchingTopics);
-  const topicList = useSelector(selectTopicsData);
   const [debouncedSearchText] = useDebounce(topic, 400);
 
+  // TODO: Implement topics API when available
+  const topicList: any[] = [];
+  const isLoading: boolean = false;
+
   const clearTopics = () => {
-    dispatch(clearTopicsStart());
+    // TODO: Implement clear topics when API is available
+    console.warn('Clear topics not yet implemented');
   };
 
   useEffect(() => {
     if (topic.length > 2 && topic !== selectedTopic) {
-      dispatch(
-        fetchAutoCompleteTopicsStart({
-          key,
-          term: 'topics',
-          filter: debouncedSearchText,
-        })
-      );
+      // TODO: Implement topics API call when available
+      console.warn('Topics API not yet implemented');
     }
   }, [debouncedSearchText]);
 

@@ -5,8 +5,8 @@
 import type { StudentAnswerView } from './StudentAnswerView';
 export type TrackTimerView = {
     startTime?: number;
-    studentAnswers?: Array<StudentAnswerView>;
     timeElapsed?: number;
+    studentAnswers?: Array<StudentAnswerView>;
     id?: string;
 };
 

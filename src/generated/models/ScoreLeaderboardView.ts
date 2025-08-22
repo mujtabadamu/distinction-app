@@ -4,14 +4,14 @@
 /* eslint-disable */
 export type ScoreLeaderboardView = {
     position?: number;
-    email?: string;
-    participantId?: string;
-    lastUpdatedAt?: string;
     studentId?: string;
+    email?: string;
     totalScore?: number;
     accuracy?: number;
     participantName?: string;
     schoolName?: string;
+    lastUpdatedAt?: string;
+    participantId?: string;
     totalAttemptedQuestions?: number;
 };
 

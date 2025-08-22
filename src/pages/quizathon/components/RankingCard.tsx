@@ -15,6 +15,7 @@ import useSubscriptionBilling from 'pages/profile/hooks/useSubscriptionBilling';
 import PlanLimitBlock from 'pages/profile/subscription/PlanLimitBlock';
 import SubscriptionPlansModal from 'pages/profile/subscription/SubscriptionPlansModal';
 import useDisclosure from 'hooks/general/useDisclosure';
+import { useAuthSlice } from 'pages/auth/authSlice';
 
 interface RankingCardProps {
   participantInfo: ScoreLeaderboardView | undefined;
@@ -51,6 +52,7 @@ const RankingCard: React.FC<RankingCardProps> = ({
   scoreLabel = 'Score',
   // activeTab,
 }) => {
+  const { user } = useAuthSlice();
   const contentRef = useRef<HTMLDivElement>(null);
   const {
     generateCertificate,
@@ -59,7 +61,9 @@ const RankingCard: React.FC<RankingCardProps> = ({
     getActiveQuizathon,
     hasQuizathonEnded,
     hasQuizathonStarted,
-  } = useQuizathon();
+  } = useQuizathon({
+    studentId: user?.user?.id || undefined,
+  });
 
   const {
     getFeatureLimit,

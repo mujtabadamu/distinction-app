@@ -26,7 +26,7 @@ const EmailConfirm = () => {
   const [failedVerification, setFailedVerification] = useState(false);
 
   // NEW RTK QUERY HOOK
-  const [confirmEmail, { isLoading }] = useEnhancedConfirmEmailMutation();
+  const [confirmEmail] = useEnhancedConfirmEmailMutation();
 
   useEffect(() => {
     if (!token || !userId) {

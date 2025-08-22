@@ -6,11 +6,11 @@ import type { PointView } from './PointView';
 import type { SimplePaperView } from './SimplePaperView';
 export type KeypointView = {
     title?: string;
-    createdAt?: string;
+    paper?: SimplePaperView;
     studentId?: string;
     points?: Array<PointView>;
-    paper?: SimplePaperView;
     updatedAt?: string;
+    createdAt?: string;
     id?: string;
 };
 

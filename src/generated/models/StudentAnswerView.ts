@@ -3,9 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 export type StudentAnswerView = {
-    questionType?: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
     questionId?: string;
     answerIds?: Array<string>;
+    questionType?: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
     answerText?: string;
     id?: string;
 };

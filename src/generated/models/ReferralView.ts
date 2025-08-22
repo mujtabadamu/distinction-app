@@ -3,17 +3,17 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ReferralView = {
-    referralCode?: string;
+    used?: boolean;
+    kycVerified?: boolean;
+    correctQuestionsCount?: number;
     referrerId?: string;
     referredEmail?: string;
     referredName?: string;
-    createdAt?: string;
     usedAt?: string;
-    verified?: boolean;
-    used?: boolean;
+    referralCode?: string;
     claimed?: boolean;
-    kycVerified?: boolean;
-    correctQuestionsCount?: number;
+    verified?: boolean;
+    createdAt?: string;
     questionCount?: number;
     id?: string;
 };

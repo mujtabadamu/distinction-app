@@ -1,5 +1,7 @@
 import { LessonGroupView } from 'generated/index';
 import { safeJsonParse } from './helpers';
+import uniqueId from 'lodash/uniqueId';
+import type { FlashcardView, CardView } from 'generated/index';
 
 export enum LessonType {
   Video = 'VIDEO',
@@ -87,3 +89,62 @@ export const processArticleContent = (content: string) => {
   const parsed = safeJsonParse<string>(content);
   return parsed ?? 'Unable to render article...';
 };
+
+function simpleHash(str: string): string {
+  let hash = 0,
+    i,
+    chr;
+  if (str.length === 0) return '0';
+  for (i = 0; i < str.length; i++) {
+    chr = str.charCodeAt(i);
+    hash = (hash << 5) - hash + chr;
+    hash |= 0;
+  }
+  return Math.abs(hash).toString(36);
+}
+
+export function parseFlashcardWithId(content: string): FlashcardView {
+  let cards: CardView[] = [];
+  try {
+    const parsed = JSON.parse(content);
+    if (Array.isArray(parsed)) {
+      cards = parsed;
+    }
+  } catch {
+    cards = [];
+  }
+
+  const cardsWithIds = cards.map((card) => {
+    if (card.id) return card;
+    let generatedId = '';
+    try {
+      generatedId = 'card_' + simpleHash(JSON.stringify(card));
+    } catch {
+      generatedId = uniqueId('card_');
+    }
+    return { ...card, id: generatedId };
+  });
+
+  return { cards: cardsWithIds };
+}
+
+export type CompletionTracker = {
+  lessonGroups: { id: string; isCompleted: boolean }[];
+  lessons: { id: string; isCompleted: boolean }[];
+  completedLessonGroupsCount: number;
+  completedLessonsCount: number;
+  lessonGroupMap: Record<string, { id: string; isCompleted: boolean }>;
+  lessonMap: Record<string, { id: string; isCompleted: boolean }>;
+};
+
+export interface StudyTimeItem {
+  id: string;
+  studyTime: number; // time in seconds
+}
+
+export interface StudyTime {
+  lessonGroups: StudyTimeItem[];
+  lessons: StudyTimeItem[];
+  lessonItems: StudyTimeItem[];
+  totalStudyTime: number; // total time in seconds
+}

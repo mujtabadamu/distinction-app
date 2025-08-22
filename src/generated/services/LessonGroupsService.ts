@@ -57,7 +57,7 @@ export class LessonGroupsService {
      * @returns PaginatedLessonGroupView OK
      * @throws ApiError
      */
-    public static list16({
+    public static list17({
         courseId,
         keyword,
         groupNumber,

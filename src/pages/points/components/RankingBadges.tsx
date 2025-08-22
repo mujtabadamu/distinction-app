@@ -104,8 +104,12 @@ const fadeIn = keyframes`
 export const PointBannerContainer = styled.div<{ background?: string }>`
   background: ${(props) => (props.background ? props.background : '#101a33')};
   border-radius: 8px;
-  padding: 1.3rem;
+  padding: 1rem;
   animation: ${fadeIn} 0.5s ease-out;
+
+  @media (max-width: 768px) {
+    padding: 0.8rem;
+  }
 `;
 
 const Title = styled.h2`

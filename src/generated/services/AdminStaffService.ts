@@ -180,7 +180,7 @@ export class AdminStaffService {
      * @returns PaginatedStaffView OK
      * @throws ApiError
      */
-    public static list35({
+    public static list36({
         search,
         schoolId,
         role,

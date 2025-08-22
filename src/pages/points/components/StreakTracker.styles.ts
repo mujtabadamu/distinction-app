@@ -121,12 +121,16 @@ export const HeaderRow = styled.div`
 
 export const FireIconContainer = styled.div`
   position: relative;
-  margin-right: 1rem;
+  margin-right: 0.8rem;
   width: 2.5rem;
   height: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    margin-right: 0.6rem;
+  }
 `;
 
 export const AnimatedFireIcon = styled(FaFire)`

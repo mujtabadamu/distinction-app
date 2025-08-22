@@ -4,11 +4,11 @@
 /* eslint-disable */
 export type AirtimeRewardRequestView = {
     status?: string;
-    phoneNumber?: string;
-    requestedAmount?: number;
-    network?: string;
     approvedAmount?: number;
     requestedAt?: string;
+    network?: string;
+    phoneNumber?: string;
+    requestedAmount?: number;
     message?: string;
 };
 

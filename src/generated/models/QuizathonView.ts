@@ -5,17 +5,18 @@
 export type QuizathonView = {
     description?: string;
     title?: string;
-    institutionId?: string;
-    createdAt?: string;
-    startAt?: string;
     isActive?: boolean;
-    price?: number;
+    institutionId?: string;
     updatedAt?: string;
+    createdAt?: string;
+    registrationMode?: 'REGISTRATION' | 'WAITLIST' | 'CLOSED';
+    startAt?: string;
     stopAt?: string;
     totalParticipants?: number;
     maxParticipants?: number;
-    isOpenForAllUsers?: boolean;
+    price?: number;
     bannerUrl?: string;
+    isOpenForAllUsers?: boolean;
     totalSchools?: number;
     id?: string;
 };

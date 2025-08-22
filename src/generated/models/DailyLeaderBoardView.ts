@@ -5,9 +5,9 @@
 import type { SchoolInformationView } from './SchoolInformationView';
 import type { UserInfoMiniView } from './UserInfoMiniView';
 export type DailyLeaderBoardView = {
-    createdAt?: string;
     schoolInformation?: SchoolInformationView;
     updatedAt?: string;
+    createdAt?: string;
     totalScores?: number;
     totalQuestionsAttempted?: number;
     id?: string;

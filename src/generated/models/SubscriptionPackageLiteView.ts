@@ -5,8 +5,8 @@
 export type SubscriptionPackageLiteView = {
     description?: string;
     code?: 'BASIC_PLAN' | 'STANDARD_PLAN' | 'PREMIUM_PLAN';
-    institutionId?: string;
     isActive?: boolean;
+    institutionId?: string;
     name?: string;
     id?: string;
 };

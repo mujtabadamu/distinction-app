@@ -14,7 +14,23 @@ import useSubjects from 'hooks/general/useSubjects';
 import usePapersGet from 'hooks/papers/usePapersGet';
 import { useState } from 'react';
 import devices from 'utils/devices';
-import { Paper } from 'redux/papers/typings';
+// Type for paper - aligned with distinction-app
+interface Paper {
+  createdat: string;
+  exam: {
+    examGroupName: string;
+    name: string;
+    year: number;
+    examGroupId: string;
+  };
+  subjectId: string;
+  id: string;
+  instruction: string;
+  isActive: boolean;
+  name: string;
+  averageRating: number;
+  subjectName: string;
+}
 import styled from 'styled-components';
 import { capitalizeFirstLetterOFEachWord } from 'utils/helpers';
 const AvailableCourses = () => {

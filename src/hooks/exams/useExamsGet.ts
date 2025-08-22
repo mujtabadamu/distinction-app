@@ -1,13 +1,12 @@
-import { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchExamsStart } from '../../redux/exams/reducer';
-import { GetExamsPayload } from '../../redux/exams/typings';
+import { useEnhancedGetExamsQuery } from '../../store/enhancedApi';
 
-// import { fetchSubjectsStart } from '../../redux/subjects/reducer';
-import {
-  selectIsFetchingExams,
-  selectExamsList,
-} from '../../redux/exams/selectors';
+interface GetExamsPayload {
+  name?: string;
+  year?: number;
+  examGroupId?: string;
+  page?: number;
+  size?: number;
+}
 
 const useExamsGet = ({
   name,
@@ -16,20 +15,23 @@ const useExamsGet = ({
   page,
   size,
 }: GetExamsPayload) => {
-  const dispatch = useDispatch();
-  const isFetching = useSelector(selectIsFetchingExams);
-  const exams = useSelector(selectExamsList);
-
-  const fetchExams = useCallback(() => {
-    dispatch(fetchExamsStart({ name, year, examGroupId, page, size }));
-  }, [name, year, examGroupId, page, size]);
-
-  useEffect(() => {
-    fetchExams();
-  }, [dispatch, name, year, examGroupId, page, size]);
+  // Use enhanced RTK Query hook
+  const { data: exams, isLoading: loadingExams } = useEnhancedGetExamsQuery(
+    {
+      name,
+      year,
+      examGroupId,
+      page,
+      size,
+    },
+    {
+      // Skip query if no parameters are provided
+      skip: !name && !year && !examGroupId,
+    }
+  );
 
   return {
-    loadingExams: isFetching,
+    loadingExams,
     exams,
   };
 };

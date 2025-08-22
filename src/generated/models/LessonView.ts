@@ -5,10 +5,10 @@
 import type { SimpleLessonItemView } from './SimpleLessonItemView';
 export type LessonView = {
     description?: string;
-    lessonNumber?: number;
-    lessonItems?: Array<SimpleLessonItemView>;
     title?: string;
     lessonGroupId?: string;
+    lessonNumber?: number;
+    lessonItems?: Array<SimpleLessonItemView>;
     id?: string;
 };
 

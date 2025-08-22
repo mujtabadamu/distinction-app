@@ -4,9 +4,6 @@ import styled from 'styled-components';
 import QuickLinks from './components/QuickLinks';
 import PracticeSummary from './PerformanceSummary';
 import Theme from 'utils/theme';
-import { useSelector } from 'react-redux';
-import { selectCurrentUser } from 'redux/auth/selectors';
-import usePointAccumulation from '../points/hooks/usePointAccumulation';
 import { formatTime, thousandFormatter } from 'utils/helpers';
 import useStatistic from './hooks/useStatistic';
 import EmptyState from 'components/emptyState/emptyState';
@@ -21,18 +18,34 @@ import OverallPerformance from './OverallPerformance';
 import TourManager from 'components/onboarding/TourManager';
 import StreakTracker from 'pages/points/components/StreakTracker';
 import { ExpandableCard } from './components/expandableCard';
-// import useProfile from 'pages/profile/hooks/useProfile';
 import { RiVerifiedBadgeFill } from 'react-icons/ri';
 import UserEmptyState from 'assets/images/ImageEmptyState.svg';
 import useStreak from 'pages/points/hooks/useStreak';
 import { useUserProfile } from 'pages/auth/userProfileSlice';
+import { useAuthSlice } from 'pages/auth/authSlice';
+import {
+  useEnhancedGetTotalPointsQuery,
+  useEnhancedGetActiveQuizathonQuery,
+} from 'store/enhancedApi';
+import NotificationCard from './components/NotificationCard';
+import UpcomingEventCard from './components/UpComingEventCard';
 
 const StudentDashboard = () => {
-  const user = useSelector(selectCurrentUser);
+  const { user: authUser } = useAuthSlice();
+  const user = authUser?.user;
   const { profile: profileData } = useUserProfile();
   const navigate = useNavigate();
-  const { getTotalPoints, totalPoints, isLoadingPoints } =
-    usePointAccumulation();
+
+  // Use RTK Query for total points
+  const { data: totalPoints, isLoading: isLoadingPoints } =
+    useEnhancedGetTotalPointsQuery(
+      { userId: user?.id || '' },
+      { skip: !user?.id }
+    );
+
+  // Quizathon data for notifications
+  const { data: activeQuizathon, isLoading: isLoadingActiveQuizathon } =
+    useEnhancedGetActiveQuizathonQuery();
   const { streakStats } = useStreak();
   const {
     getScoreStats,
@@ -40,7 +53,7 @@ const StudentDashboard = () => {
     isLoadingScoreStats,
     getTimeStats,
     timeStats,
-  } = useStatistic();
+  } = useStatistic({}); // Pass empty object to get all time stats
   const { getPracticeCourse, loadingGroupedCourse, coursePractice } =
     usePracticeHistory();
   const { activePlan } = useSubscriptionBilling();
@@ -125,7 +138,6 @@ const StudentDashboard = () => {
   const performanceData = formatOverallPerformanceData();
 
   useEffect(() => {
-    getTotalPoints(user?.id ?? '');
     getScoreStats();
     getTimeStats();
     getPracticeCourse();
@@ -207,6 +219,12 @@ const StudentDashboard = () => {
               {currentStreak}-day streak. You're unstoppable
             </NotificationBanner>
           )}
+
+          {/* Quizathon Notification Card */}
+          <NotificationCard
+            quizathon={activeQuizathon}
+            isLoadingActiveQuizathon={isLoadingActiveQuizathon}
+          />
 
           <Box
             background="white"
@@ -367,6 +385,18 @@ const StudentDashboard = () => {
               )}
             </Box>
           )}
+
+          {/* Upcoming Events Card */}
+          <Box
+            style={{
+              marginTop: '20px',
+            }}
+          >
+            <UpcomingEventCard
+              events={activeQuizathon}
+              isLoadingEvents={isLoadingActiveQuizathon}
+            />
+          </Box>
         </Sidebar>
       </GridContainer>
       <TourManager />

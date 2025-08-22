@@ -4,13 +4,13 @@
 /* eslint-disable */
 import type { School } from './School';
 export type StaffView = {
-    school?: School;
-    email?: string;
+    role?: 'ADMIN' | 'SUPER_ADMIN';
     firstName?: string;
     lastName?: string;
     gender?: 'M' | 'F';
     otherName?: string;
-    role?: 'ADMIN' | 'SUPER_ADMIN';
+    email?: string;
+    school?: School;
     phoneNumber?: string;
     id?: string;
 };

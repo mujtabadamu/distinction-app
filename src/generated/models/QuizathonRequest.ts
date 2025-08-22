@@ -12,5 +12,6 @@ export type QuizathonRequest = {
     price?: number;
     bannerUrl?: string;
     isOpenForAllUsers?: boolean;
+    registrationMode?: 'REGISTRATION' | 'WAITLIST' | 'CLOSED';
 };
 

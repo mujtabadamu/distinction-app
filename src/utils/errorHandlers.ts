@@ -70,14 +70,16 @@ export const handleError = (err: any, obj?: IObj | IObj[], show = true) => {
       console.error(err);
     }
   }
-  // eslint-disable-next-line prefer-const
-  let { response, body, status } = err;
+
+  let { response } = err;
+  const { body, status } = err;
   if (body && !response) {
     response = {
       data: body,
       status: body.status || status,
     };
   }
+
   let msg;
   let statusCode: number;
   const constMessage =
@@ -132,6 +134,10 @@ export const handleError = (err: any, obj?: IObj | IObj[], show = true) => {
     Notify(showMsg, { status: 'error', position: 'top-right' });
   }
   return { success: false, statusCode, message: msg };
+};
+
+export const handleErrorWithoutNotify = (err: any) => {
+  return handleError(err, undefined, false);
 };
 
 export const parseAsRtkQueryError = (

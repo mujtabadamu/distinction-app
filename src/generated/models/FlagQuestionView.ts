@@ -5,16 +5,16 @@
 import type { QuestionIssueType } from './QuestionIssueType';
 import type { QuestionView } from './QuestionView';
 export type FlagQuestionView = {
+    createdBy?: string;
+    createdAt?: string;
+    question?: QuestionView;
+    resolved?: boolean;
+    issues?: Array<QuestionIssueType>;
     flagCount?: number;
     duplicateCount?: number;
     answerIssuePercentage?: number;
     questionIssuePercentage?: number;
     duplicateIssuePercentage?: number;
-    createdAt?: string;
-    resolved?: boolean;
-    question?: QuestionView;
-    issues?: Array<QuestionIssueType>;
-    createdBy?: string;
     message?: string;
     id?: string;
 };

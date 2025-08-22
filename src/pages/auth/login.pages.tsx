@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch } from '../../store/store';
 
 // NEW RTK QUERY IMPORTS
 import { useEnhancedLogin2Mutation } from '../../store/enhancedApi';
@@ -36,10 +36,8 @@ import Theme from '../../utils/theme';
 import fontSize from '../../utils/typography';
 import 'react-phone-input-2/lib/style.css';
 import styled from 'styled-components';
-import { setAuth, setNeedsVerification } from './authSlice';
+import { setAuth, setNeedsVerification, useAuthSlice } from './authSlice';
 import {
-  setLocalAccessToken,
-  setLocalRefreshToken,
   setLocalUser,
   formattedDate,
   formattedTime,
@@ -60,11 +58,14 @@ const getDefaultLoginInformation = () => ({
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { pushEvent } = useDataLayer();
 
   // NEW RTK QUERY HOOKS
   const [login, { isLoading }] = useEnhancedLogin2Mutation();
+
+  // Get auth state from RTK Query auth slice
+  const { needsVerification } = useAuthSlice();
 
   // Google login state
   const [loadingGoogleAuth, setLoadingGoogleAuth] = useState(false);
@@ -76,11 +77,6 @@ const Login = () => {
       show: false,
       data: null,
     });
-
-  // Get verification state from Redux
-  const userNeedVerification = useSelector(
-    (state: any) => state.currentUser?.needsVerification
-  );
 
   const {
     register,
@@ -360,7 +356,7 @@ const Login = () => {
         </ForgotPasswordModalBody>
       </Modal>
 
-      <Modal open={userNeedVerification} outerclick>
+      <Modal open={needsVerification} outerclick>
         <ForgotPasswordModalBody>
           <VerificationModal
             activeEmail={watch('email')}

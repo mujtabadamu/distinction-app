@@ -1,35 +1,36 @@
-import { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchSingleTotalQuestion } from '../../redux/statistics/reducer';
-import {
-selectSingleTotalQuestion
-} from '../../redux/statistics/selectors';
+import { useEffect } from 'react';
+import { useEnhancedGetQuestionStatisticsQuery } from '../../store/enhancedApi';
+
 interface IUseLearningStatisticsQuery {
   paperId: string | undefined;
 }
+
 const useGetSingleTotalQuestion = ({
-  paperId
+  paperId,
 }: IUseLearningStatisticsQuery) => {
-  const dispatch = useDispatch();
-  const totalSingleQuestion= useSelector(
-    selectSingleTotalQuestion
+  const {
+    data: totalSingleQuestion,
+    isLoading,
+    refetch,
+  } = useEnhancedGetQuestionStatisticsQuery(
+    {
+      paperId: paperId || '',
+    },
+    {
+      skip: !paperId, // Skip the query if paperId is not provided
+    }
   );
- 
-  const getTotalQuestion = useCallback(() => {
-    dispatch(
-        fetchSingleTotalQuestion({
-        data: {
-            paperId:paperId || "",
-        },
-      })
-    );
-  }, [paperId]);
+
   useEffect(() => {
-    if(!paperId) return
-    getTotalQuestion();
-  }, [paperId]);
+    if (paperId) {
+      refetch();
+    }
+  }, [paperId, refetch]);
+
   return {
-    totalSingleQuestion
+    totalSingleQuestion: totalSingleQuestion?.totalQuestions || 0,
+    isLoading,
   };
 };
+
 export default useGetSingleTotalQuestion;

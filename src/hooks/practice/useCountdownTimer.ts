@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/store';
 import { setTimer, usePracticeTimer } from './useTimerSlice';
 
 interface UseCountdownTimerProps {
@@ -13,7 +13,7 @@ const useCountdownTimer = ({
   onTimerEnd,
   onEveryMinute,
 }: UseCountdownTimerProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const storedTime = usePracticeTimer();
   const initialTimeInSeconds = initialTime * 60;
 
@@ -98,7 +98,7 @@ const useCountdownTimer = ({
           }
 
           // Ensure onTimerEnd is called only once
-          if (newTimeLeft <= 0 && onTimerEnd ) {
+          if (newTimeLeft <= 0 && onTimerEnd) {
             timerEndCalledRef.current = true;
             onTimerEnd();
             setIsRunning(false);

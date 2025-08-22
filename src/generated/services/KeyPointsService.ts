@@ -39,7 +39,7 @@ export class KeyPointsService {
      * @returns PaginatedKeypointView OK
      * @throws ApiError
      */
-    public static list17({
+    public static list18({
         studentId,
         keyword,
         paperId,

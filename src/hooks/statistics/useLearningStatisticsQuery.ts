@@ -1,12 +1,5 @@
-import { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { fetchLearningStatisticsStart } from '../../redux/statistics/reducer';
-import {
-  selectIsFetchingLearningStatistics,
-  selectLearningStatistics,
-} from '../../redux/statistics/selectors';
-import usePaginationWrapper from 'hooks/general/usePaginationWrapper';
+import { useEnhancedGetUserStatisticsQuery } from '../../store/enhancedApi';
+import usePaginationWrapper from '../general/usePaginationWrapper';
 
 interface IUseLearningStatisticsQuery {
   date?: string | undefined;
@@ -15,13 +8,8 @@ interface IUseLearningStatisticsQuery {
 
 const useLearningStatisticsQuery = ({
   date,
-  paperId
+  paperId,
 }: IUseLearningStatisticsQuery) => {
-  const dispatch = useDispatch();
-  const isFetchingLearningStatistics = useSelector(
-    selectIsFetchingLearningStatistics
-  );
-  const learningStatistics = useSelector(selectLearningStatistics);
   const {
     limit,
     offset,
@@ -36,34 +24,59 @@ const useLearningStatisticsQuery = ({
     pageOptions,
   } = usePaginationWrapper({ defaultLimit: 10 });
 
-  const getLearningStatistics = useCallback(() => {
-    dispatch(
-      fetchLearningStatisticsStart({
-        data: {
-          recentPapersData: { paperId, date , size:limit,  page: (page - 1), },
-          scoreData: { paperId , date  },
-          timeSpent: { paperId , date},
-        },
-      })
-    );
-  }, [paperId, date,page,limit]);
-
-  useEffect(() => {
-    if (learningStatistics) {
-      setPageable({
-        total_elements: learningStatistics?.recentPapers?.count,
-        total_pages: learningStatistics?.recentPapers?.pages,
-        number_of_elements: learningStatistics?.recentPapers?.items?.length,
-      });
+  // Use enhanced RTK Query hook with error handling
+  const {
+    data: learningStatistics,
+    isLoading: loadingLearningStats,
+    error,
+  } = useEnhancedGetUserStatisticsQuery(
+    {
+      paperId,
+      date,
+      page: page - 1,
+      size: limit,
+    },
+    {
+      skip: !paperId && !date,
     }
-  }, [learningStatistics, setPageable ]);
+  );
 
-  useEffect(() => {
-    getLearningStatistics();
-  }, [paperId, date , page ]);
+  // Return default values if there's an error (like 404)
+  if (error) {
+    return {
+      loadingLearningStats: false,
+      learningStats: {
+        recentPapers: {
+          count: 0,
+          pages: 0,
+          items: [],
+        },
+      },
+      limit,
+      offset,
+      setOffset,
+      setLimit,
+      totalElements,
+      totalPages,
+      numberOfElements,
+      setPageable,
+      page,
+      setPage,
+      pageOptions,
+    };
+  }
+
+  // Update pagination when data changes
+  if (learningStatistics?.recentPapers) {
+    setPageable({
+      total_elements: learningStatistics.recentPapers.count,
+      total_pages: learningStatistics.recentPapers.pages,
+      number_of_elements: learningStatistics.recentPapers.items?.length,
+    });
+  }
 
   return {
-    loadingLearningStats: isFetchingLearningStatistics,
+    loadingLearningStats,
     learningStats: learningStatistics,
     limit,
     offset,

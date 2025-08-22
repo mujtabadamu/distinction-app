@@ -77,7 +77,7 @@ export class PapersService {
      * @returns PaginatedSimplePaperView OK
      * @throws ApiError
      */
-    public static list13({
+    public static list14({
         keyword,
         name,
         examId,

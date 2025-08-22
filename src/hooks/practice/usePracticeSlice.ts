@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from 'redux/store';
+import { RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
@@ -70,12 +70,12 @@ export const { setQuestionAnswer, clearQuestionAnswers, resetPracticeState } =
   userPracticeSlice.actions;
 
 export const useQuestionAnswerMap = () =>
-  useSelector((state: RootState) => state.practice.questionAnswerMap);
+  useSelector((state: RootState) => state.practice?.questionAnswerMap || {});
 
 // And if you need it as an array somewhere, you can convert it:
 export const useQuestionAnswerArray = () => {
   const map = useSelector(
-    (state: RootState) => state.practice.questionAnswerMap
+    (state: RootState) => state.practice?.questionAnswerMap || {}
   );
   return Object.entries(map)
     .sort(([keyA], [keyB]) => parseInt(keyA) - parseInt(keyB))

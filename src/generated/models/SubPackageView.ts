@@ -8,11 +8,11 @@ import type { SubscriptionPackagePropertyView } from './SubscriptionPackagePrope
 export type SubPackageView = {
     description?: string;
     code?: 'BASIC_PLAN' | 'STANDARD_PLAN' | 'PREMIUM_PLAN';
-    propertyPlan?: Array<SubscriptionPackagePropertyView>;
-    institutionId?: string;
-    isActive?: boolean;
     packagePlan?: Array<SubscriptionPackagePlanView>;
+    isActive?: boolean;
+    institutionId?: string;
     addOn?: Array<SubscriptionPackageAddonView>;
+    propertyPlan?: Array<SubscriptionPackagePropertyView>;
     name?: string;
     id?: string;
 };

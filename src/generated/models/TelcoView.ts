@@ -3,12 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 export type TelcoView = {
-    platform?: 'SMS' | 'USSD' | 'WAP' | 'APP';
-    sender?: number;
     planType?: 'TRIAL' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'YEARLY';
+    sender?: number;
+    network?: 'MTN' | 'AIRTEL' | 'GL0' | 'NINE_MOBILE';
     planCode?: number;
     confirmationMessage?: string;
-    network?: 'MTN' | 'AIRTEL' | 'GL0' | 'NINE_MOBILE';
+    platform?: 'SMS' | 'USSD' | 'WAP' | 'APP';
     id?: string;
 };
 

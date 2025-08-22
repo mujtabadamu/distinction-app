@@ -12,7 +12,9 @@ const VerifyCertificate = () => {
   const participantId = searchParams.get('participant');
 
   const { verifyCertificate, certificateData, isGeneratingCertificate } =
-    useQuizathon();
+    useQuizathon({
+      studentId: undefined, // This page doesn't need user context
+    });
 
   useEffect(() => {
     if (!participantId) return;

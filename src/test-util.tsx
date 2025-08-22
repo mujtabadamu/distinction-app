@@ -2,7 +2,7 @@ import { render as rtlRender } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { ReactNode } from 'react';
-import studentPapers from './redux/studentPapers/reducer';
+import studentPapers from './hooks/studentPapers/useStudentPaperSlice';
 
 // Create a function to configure test store with all necessary reducers
 const createTestStore = (preloadedState = {}) => {

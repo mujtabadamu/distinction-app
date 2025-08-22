@@ -24,9 +24,8 @@ import moment from 'moment';
 import { capitalizeFirstLetter } from 'utils/helpers';
 import { StudentPaperSimpleView } from 'generated/index';
 import useStudentPaperPost from 'hooks/studentPapers/useCreateStudentPaper';
-import { useDispatch } from 'react-redux';
-import { createStudentPaperSuccess } from 'redux/studentPapers/reducer';
-import { StudentPaperFull } from 'redux/studentPapers/typings';
+import { useAppDispatch } from '../../store/store';
+import { setSelectedPaper } from 'hooks/studentPapers/useStudentPaperSlice';
 import { isWithinRange } from 'pages/quizathon/quizathonProfile';
 import { setTimer } from 'hooks/practice/useTimerSlice';
 
@@ -52,7 +51,7 @@ const CoursePracticeHistory = () => {
     setOffset,
   } = usePracticeHistory();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [expandedCards, setExpandedCards] = useState<string[]>([]);
 
@@ -73,6 +72,7 @@ const CoursePracticeHistory = () => {
 
   const handleContinuePractice = async (practice: StudentPaperSimpleView) => {
     // Check if the practice is eligible
+    console.log('practice', practice);
     if (!isPracticeEligible(practice.createdAt as string)) {
       Notify('This practice is not eligible to continue', { status: 'info' });
       return;
@@ -80,7 +80,8 @@ const CoursePracticeHistory = () => {
 
     resetStudentPaper();
 
-    dispatch(createStudentPaperSuccess(practice as StudentPaperFull));
+    // Set the student paper in local state for continue practice
+    dispatch(setSelectedPaper(practice));
 
     if (practice.mode === 'REAL_MODE') {
       const continueTimeInMins =
@@ -353,9 +354,9 @@ const CoursePracticeHistory = () => {
                       <td>
                         <Text>
                           {practice.mode !== 'LEARNING_MODE'
-                            ? practice.trackTimer?.timeElapsed
-                              ? `${practice.trackTimer?.timeElapsed} minutes`
-                              : 'Nill'
+                            ? (practice?.timeElapsed as number) < 1
+                              ? 'Nill'
+                              : `${practice?.timeElapsed} minutes`
                             : 'Nill'}
                         </Text>
                       </td>

@@ -3,10 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type CardView = {
-    createdAt?: string;
-    question?: string;
     answer?: string;
     updatedAt?: string;
+    createdAt?: string;
+    question?: string;
     id?: string;
 };
 

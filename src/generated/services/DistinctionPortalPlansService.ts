@@ -12,7 +12,7 @@ export class DistinctionPortalPlansService {
      * @returns PaginatedSubscriptionPackageView OK
      * @throws ApiError
      */
-    public static list28({
+    public static list29({
         institutionId,
         page,
         size = 10,
@@ -38,7 +38,7 @@ export class DistinctionPortalPlansService {
      * @returns PlanView OK
      * @throws ApiError
      */
-    public static list29({
+    public static list30({
         institutionId,
     }: {
         institutionId: string,

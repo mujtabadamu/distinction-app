@@ -30,11 +30,14 @@ import {
   capitalizeFirstLetterOFEachWord,
   thousandFormatter,
 } from 'utils/helpers';
-import usePointAccumulation from './hooks/usePointAccumulation';
 import useProfile from 'pages/profile/hooks/useProfile';
 import Skeleton from 'react-loading-skeleton';
 import LeaderboardCard from 'components/cards/leaderboard-card';
 import { DesktopTableWrapper } from 'styles/dashboard/dashboard.styles';
+import {
+  useEnhancedGetSchoolRankingQuery,
+  useEnhancedGetGlobalRankingQuery,
+} from 'store/enhancedApi';
 
 type ViewType = 'institution' | 'global';
 
@@ -49,70 +52,69 @@ const PointsRank = () => {
     setPage(1);
   };
 
-  const {
-    getSchoolRanking,
-    schoolRanking,
-    globalRanking,
-    getGlobalRanking,
-    isLoadingRanking,
-    getSchoolTopStudents,
-    topInstitutionStudents,
-    isLoadingTopStudents,
-    getDistinctionTopStudents,
-    topDistinctionStudents,
-    getIndividualStat,
-    individualStat,
-    isLoadingStat,
-  } = usePointAccumulation();
-
   const { profileData } = useProfile();
 
-  useEffect(() => {
-    if (activeView === 'institution') {
-      getSchoolTopStudents(
-        profileData?.schoolInformationView?.school?.id as string
-      );
-      getIndividualStat({
-        schoolId: profileData?.schoolInformationView?.school?.id as string,
-        userId: profileData?.studentId,
-      });
-    }
+  // Institution ranking
+  const schoolId = profileData?.schoolInformationView?.school?.id as string;
+  const userId = profileData?.studentId;
 
-    if (activeView === 'global') {
-      getDistinctionTopStudents();
-      getIndividualStat(
-        {
-          userId: profileData?.studentId,
-        },
-        true
-      );
-    }
-  }, [activeView]);
+  // School ranking
+  const {
+    data: schoolRanking,
+    isLoading: isLoadingSchoolRanking,
+    refetch: refetchSchoolRanking,
+  } = useEnhancedGetSchoolRankingQuery(
+    { schoolId, page, limit },
+    { skip: activeView !== 'institution' || !schoolId }
+  );
 
-  useEffect(() => {
-    if (activeView === 'institution') {
-      const payload = {
-        schoolId: profileData?.schoolInformationView?.school?.id as string,
-        page,
-        limit,
-      };
-      getSchoolRanking(payload);
-    }
+  // Global ranking
+  const {
+    data: globalRanking,
+    isLoading: isLoadingGlobalRanking,
+    refetch: refetchGlobalRanking,
+  } = useEnhancedGetGlobalRankingQuery(
+    { page, limit },
+    { skip: activeView !== 'global' }
+  );
 
-    if (activeView === 'global') {
-      const payload = {
-        page,
-        limit,
-      };
-      getGlobalRanking(payload);
-    }
-  }, [page, activeView]);
+  // Top institution students (top 3)
+  const { data: topInstitutionRanking, isLoading: isLoadingTopStudents } =
+    useEnhancedGetSchoolRankingQuery(
+      { schoolId, limit: 3 },
+      { skip: activeView !== 'institution' || !schoolId }
+    );
+
+  // Top distinction students (top 3)
+  const {
+    data: topDistinctionRanking,
+    isLoading: isLoadingDistinctionTopStudents,
+  } = useEnhancedGetGlobalRankingQuery(
+    { limit: 3 },
+    { skip: activeView !== 'global' }
+  );
+
+  // Individual stat (school/global)
+  const {
+    data: individualSchoolStat,
+    isLoading: isLoadingIndividualSchoolStat,
+  } = useEnhancedGetSchoolRankingQuery(
+    { schoolId, userId, limit: 1 },
+    { skip: activeView !== 'institution' || !schoolId || !userId }
+  );
+  const {
+    data: individualGlobalStat,
+    isLoading: isLoadingIndividualGlobalStat,
+  } = useEnhancedGetGlobalRankingQuery(
+    { userId },
+    { skip: activeView !== 'global' || !userId }
+  );
 
   const userRankingInfo = {
     schoolName: schoolRanking?.schoolName ?? '',
-    participantName: individualStat?.username,
-    totalScore: individualStat?.points,
-    position: individualStat?.rank,
+    participantName: individualSchoolStat?.ranking?.[0]?.username,
+    totalScore: individualSchoolStat?.ranking?.[0]?.points,
+    position: individualSchoolStat?.ranking?.[0]?.rank,
   };
 
   return (
@@ -143,13 +145,13 @@ const PointsRank = () => {
       <TabPanel active={activeView === 'institution'}>
         <Box label="Institution">
           <>
-            {isLoadingTopStudents || isLoadingRanking ? (
+            {isLoadingTopStudents || isLoadingSchoolRanking ? (
               <Skeleton height={200} />
             ) : (
               <RankingBanner
                 title={schoolRanking?.schoolName ?? 'School Name'}
                 subtitle="Top three(3) leaders in your institution as at today."
-                students={topInstitutionStudents}
+                students={topInstitutionRanking?.ranking ?? []}
               />
             )}
             <Spacer space={24} />
@@ -159,11 +161,15 @@ const PointsRank = () => {
               gap="24px"
               style={{ alignItems: 'flex-start' }}
             >
-              {isLoadingStat ? (
+              {isLoadingIndividualSchoolStat ? (
                 <Skeleton height={400} />
               ) : (
                 <RankingCard
-                  participantInfo={individualStat ? userRankingInfo : undefined}
+                  participantInfo={
+                    individualSchoolStat?.ranking?.[0]
+                      ? userRankingInfo
+                      : undefined
+                  }
                   enableCertificateDownload={false}
                   scoreLabel="Points"
                   positionLabel="Rank"
@@ -176,7 +182,7 @@ const PointsRank = () => {
                 />
               )}
 
-              {isLoadingRanking ? (
+              {isLoadingSchoolRanking ? (
                 <Skeleton height={400} />
               ) : (
                 <LeaderBoardContent>
@@ -275,14 +281,14 @@ const PointsRank = () => {
       <TabPanel active={activeView === 'global'}>
         <Box label="Global">
           <>
-            {isLoadingTopStudents || isLoadingRanking ? (
+            {isLoadingDistinctionTopStudents || isLoadingGlobalRanking ? (
               <Skeleton height={200} />
             ) : (
               <RankingBanner
                 bannerHeadingText="GLOBAL RANKING"
                 title="Current Global Leaders"
                 subtitle="Top three(3) leaders on distinction platform as at today."
-                students={topDistinctionStudents}
+                students={topDistinctionRanking?.ranking ?? []}
               />
             )}
             <Spacer space={24} />
@@ -292,11 +298,15 @@ const PointsRank = () => {
               gap="24px"
               style={{ alignItems: 'flex-start' }}
             >
-              {isLoadingStat ? (
+              {isLoadingIndividualGlobalStat ? (
                 <Skeleton height={400} />
               ) : (
                 <RankingCard
-                  participantInfo={individualStat ? userRankingInfo : undefined}
+                  participantInfo={
+                    individualGlobalStat?.ranking?.[0]
+                      ? userRankingInfo
+                      : undefined
+                  }
                   enableCertificateDownload={false}
                   scoreLabel="Points"
                   positionLabel="Rank"
@@ -308,7 +318,7 @@ const PointsRank = () => {
                 />
               )}
 
-              {isLoadingRanking ? (
+              {isLoadingGlobalRanking ? (
                 <Skeleton height={400} />
               ) : (
                 <LeaderBoardContent>

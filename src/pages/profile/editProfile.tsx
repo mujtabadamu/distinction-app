@@ -20,6 +20,7 @@ import { getLevelOptionsByCurriculum } from 'utils/constants';
 
 import useSubscriptionBilling from './hooks/useSubscriptionBilling';
 import ProfileHeaderSection from './components/profileHeaderSection';
+import { useAuthSlice } from 'pages/auth/authSlice';
 
 export type OptionI = {
   label: string;
@@ -63,6 +64,7 @@ export type ProfileI = {
 };
 
 const EditProfile = () => {
+  const { user } = useAuthSlice();
   const {
     register,
     handleSubmit,
@@ -80,7 +82,9 @@ const EditProfile = () => {
 
   const { profileData, isLoadingProfile, editProfile, isEditingProfile } =
     useProfile();
-  const { schoolList, getSchoolList } = useQuizathon();
+  const { schoolList, getSchoolList } = useQuizathon({
+    studentId: user?.user?.id || undefined,
+  });
   const { activePlan } = useSubscriptionBilling();
 
   // Get the selected institution's curriculum
@@ -100,15 +104,17 @@ const EditProfile = () => {
     };
 
     const payload = {
-      ...data,
-      department: capitalizeFirstLetterOFEachWord(data?.department),
-      email: profileData?.email as string,
-      studentId: profileData?.studentId as string,
-      gender: '',
-      schoolId: data?.institution?.value as string,
-      level: data?.level?.value as string,
-      stateOfOrigin: data?.stateOfOrigin?.value as string,
-      dateOfBirth: data?.dateOfBirth as string,
+      phoneNumber: data.phoneNumber,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      otherName: data.otherName || '',
+      gender: data.gender?.value || '',
+      matriculationNumber: data.matriculationNumber,
+      department: capitalizeFirstLetterOFEachWord(data.department),
+      stateOfOrigin: data.stateOfOrigin?.value || '',
+      schoolId: data.institution?.value || '',
+      level: data.level?.value || '',
+      dateOfBirth: data.dateOfBirth,
       formData,
     };
     editProfile(payload, () => {

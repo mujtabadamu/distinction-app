@@ -1,13 +1,13 @@
 import { Drawer, Empty, Row, Col, Space, Typography } from 'antd';
 import { Box } from '@flexisaf/flexibull2';
 import { QuestionBox } from '../custom/wrapper';
-import { QuestionAnswerMap } from '../../redux/studentPapers/typings';
-import { Question } from '../../redux/studentPractice/typings';
-import BookmarkTag from './bookmarkTag';
+import { QuestionAnswerMap } from '../../typings/studentPaper';
 import useQuestionBookmark from '../../hooks/bookmarks/useQuestionBookmark';
 import { MathJaxContext, MathJax } from 'better-react-mathjax';
 import styled from 'styled-components';
 import { useEffect, useRef } from 'react';
+import { Question } from 'store/result';
+import BookmarkTag from './bookmarkTag';
 
 interface IDrawers {
   showSolutionDrawer: boolean;

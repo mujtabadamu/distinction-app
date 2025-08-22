@@ -57,7 +57,7 @@ export class LessonsService {
      * @returns PaginatedLessonView OK
      * @throws ApiError
      */
-    public static list14({
+    public static list15({
         keyword,
         lessonGroupId,
         sortField,

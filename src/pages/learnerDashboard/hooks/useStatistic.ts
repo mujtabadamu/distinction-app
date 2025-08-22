@@ -1,56 +1,68 @@
-import {
-  MonthlyPracticeDto,
-  PointAccumulationSystemService,
-  PortalStatisticsService,
-  ScoreTotalStatisticsResponse,
-  TimeStatisticsResponse,
-} from 'generated/index';
 import { useState } from 'react';
-import { apiWrapper } from 'utils/http-client';
+import {
+  useEnhancedGetMonthlyPracticeQuery,
+  useEnhancedGetScoreTotalQuery,
+  useEnhancedGetTimeStatsQuery,
+} from '../../../store/enhancedApi';
 
 type MonthlyPracticeProps = { userId: string; year?: number };
 
-const useStatistic = () => {
-  const [monthlyPractice, setMonthlyPractice] =
-    useState<MonthlyPracticeDto | null>(null);
-  const [scoreStats, setScoreStats] =
-    useState<ScoreTotalStatisticsResponse | null>(null);
-  const [timeStats, setTimeStats] = useState<TimeStatisticsResponse | null>(
-    null
+interface UseStatisticProps {
+  date?: string;
+  examGroupId?: string;
+  paperId?: string;
+  subjectId?: string;
+}
+
+const useStatistic = (props: UseStatisticProps = {}) => {
+  const { date, examGroupId, paperId, subjectId } = props;
+  const [currentUserId, setCurrentUserId] = useState<string>('');
+  const [currentYear, setCurrentYear] = useState<number | undefined>(undefined);
+
+  // RTK Query hooks for statistics
+  const {
+    data: monthlyPractice,
+    isLoading: isLoadingMonthlyStats,
+    // refetch: refetchMonthlyStats,
+  } = useEnhancedGetMonthlyPracticeQuery(
+    {
+      userId: currentUserId,
+      ...(currentYear && { year: currentYear }),
+    },
+    {
+      skip: !currentUserId, // Skip if no userId
+    }
   );
 
-  const [isLoadingMonthlyStats, setIsLoadingMonthlyStats] =
-    useState<boolean>(false);
-  const [isLoadingScoreStats, setIsLoadingScoreStats] =
-    useState<boolean>(false);
-  const [isLoadingTimeStats, setIsLoadingTimeStats] = useState<boolean>(false);
+  const {
+    data: scoreStats,
+    isLoading: isLoadingScoreStats,
+    refetch: refetchScoreStats,
+  } = useEnhancedGetScoreTotalQuery({});
+
+  const {
+    data: timeStats,
+    isLoading: isLoadingTimeStats,
+    refetch: refetchTimeStats,
+  } = useEnhancedGetTimeStatsQuery({
+    date,
+    examGroupId,
+    paperId,
+    subjectId,
+  });
 
   const getMonthlyPracticeStats = async (payload: MonthlyPracticeProps) => {
-    setIsLoadingMonthlyStats(true);
-    try {
-      const data = await apiWrapper(() =>
-        PointAccumulationSystemService.getMonthlyPractice({ ...payload })
-      );
-      setMonthlyPractice(data);
-      setIsLoadingMonthlyStats(false);
-    } catch (error) {
-      setIsLoadingMonthlyStats(false);
-      if (error instanceof Error) {
-        console.error(error.message);
-      }
+    setCurrentUserId(payload.userId);
+    if (payload.year) {
+      setCurrentYear(payload.year);
     }
+    // The query will automatically run when currentUserId or currentYear changes
   };
 
   const getScoreStats = async () => {
-    setIsLoadingScoreStats(true);
     try {
-      const data = await apiWrapper(() =>
-        PortalStatisticsService.scoreTotal({})
-      );
-      setScoreStats(data);
-      setIsLoadingScoreStats(false);
+      await refetchScoreStats();
     } catch (error) {
-      setIsLoadingScoreStats(false);
       if (error instanceof Error) {
         console.error(error.message);
       }
@@ -58,13 +70,9 @@ const useStatistic = () => {
   };
 
   const getTimeStats = async () => {
-    setIsLoadingTimeStats(true);
     try {
-      const data = await apiWrapper(() => PortalStatisticsService.time({}));
-      setTimeStats(data);
-      setIsLoadingTimeStats(false);
+      await refetchTimeStats();
     } catch (error) {
-      setIsLoadingTimeStats(false);
       if (error instanceof Error) {
         console.error(error.message);
       }

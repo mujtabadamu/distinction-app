@@ -3,9 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ReferralAdminStatisticsView = {
-    totalVerifiedUser?: number;
     totalReferralCount?: number;
     totalApproved?: number;
     totalNotApproved?: number;
+    totalVerifiedUser?: number;
 };
 

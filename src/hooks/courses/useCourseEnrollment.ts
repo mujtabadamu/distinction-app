@@ -1,11 +1,11 @@
-import { useAppDispatch } from 'redux/store';
+import { useAppDispatch } from '../../store/store';
 
-import { parseErrorMessage } from 'utils/errorHandlers';
-import { errorNotifier, successNotifier } from 'utils/helpers';
+import { parseErrorMessage } from '../../utils/errorHandlers';
+import { errorNotifier, successNotifier } from '../../utils/helpers';
 import {
-  enrolledCourseApi,
-  EnrolledCourseStatus,
-} from 'pages/courses/enrolledCourseApi';
+  useEnhancedGetCoursesQuery,
+  useEnhancedEnrollCourseMutation,
+} from '../../store/enhancedApi';
 import { EnrolledCourseView } from 'generated/index';
 
 // -----Messages-----
@@ -15,7 +15,7 @@ const ENROLLED_MESSAGE = 'Course enrolled successfully';
 export const useCoursesEnrollment = () => {
   const dispatch = useAppDispatch();
 
-  const enrolledCoursesQuery = enrolledCourseApi.useGetEnrolledCoursesQuery({
+  const enrolledCoursesQuery = useEnhancedGetCoursesQuery({
     size: 50,
   });
 
@@ -24,12 +24,10 @@ export const useCoursesEnrollment = () => {
   const coursesError = enrolledCoursesQuery.error;
 
   const [createEnrollment, { isLoading: isEnrolling, error: enrollmentError }] =
-    enrolledCourseApi.useCreateEnrolledCourseMutation();
+    useEnhancedEnrollCourseMutation();
 
   // NOTE: Will eventually change this to API call
-  const getCourseEnrollmentStatus = (
-    courseId: string
-  ): EnrolledCourseStatus | undefined => {
+  const getCourseEnrollmentStatus = (courseId: string): string | undefined => {
     const enrolledCourse = enrolledCourses.find(
       (course) => course.courseId === courseId
     );
@@ -41,22 +39,12 @@ export const useCoursesEnrollment = () => {
     try {
       const requestBody = {
         courseId,
-        status: 'NOT_STARTED' as EnrolledCourseStatus,
+        status: 'NOT_STARTED' as string,
       };
       const result = await createEnrollment({ requestBody }).unwrap();
       successNotifier(ENROLLED_MESSAGE);
-      dispatch(
-        enrolledCourseApi.util.updateQueryData(
-          'getEnrolledCourses',
-          {},
-          (draft) => {
-            if (draft?.items) {
-              draft.items.push(result as EnrolledCourseView);
-            }
-          }
-        )
-      );
 
+      // RTK Query will automatically update the cache
       return result;
     } catch (error) {
       errorNotifier(parseErrorMessage(error));

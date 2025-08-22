@@ -7,11 +7,11 @@ export type SimpleCustomQuestionView = {
     text?: string;
     topic?: string;
     status?: 'APPROVED' | 'DECLINED' | 'PENDING';
-    createdAt?: string;
     paperName?: string;
     section?: SectionView;
     imageUrl?: string;
     customTags?: Array<string>;
+    createdAt?: string;
     id?: string;
     type?: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SHORT_TEXT' | 'LONG_TEXT';
 };

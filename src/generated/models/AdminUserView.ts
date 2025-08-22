@@ -4,21 +4,21 @@
 /* eslint-disable */
 export type AdminUserView = {
     level?: string;
-    departmentName?: string;
-    institutionId?: string;
-    email?: string;
+    schoolType?: 'FEDERAL' | 'STATE' | 'PRIVATE';
+    stateOfOrigin?: string;
+    profileImage?: string;
     referralCode?: string;
+    studentId?: string;
+    institutionId?: string;
     firstName?: string;
     lastName?: string;
     gender?: string;
     otherName?: string;
+    email?: string;
     blocked?: boolean;
+    schoolName?: string;
     matriculationNumber?: string;
     phoneNumber?: string;
-    studentId?: string;
-    stateOfOrigin?: string;
-    profileImage?: string;
-    schoolType?: 'FEDERAL' | 'STATE' | 'PRIVATE';
-    schoolName?: string;
+    departmentName?: string;
 };
 

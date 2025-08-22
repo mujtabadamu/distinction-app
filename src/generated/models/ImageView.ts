@@ -4,10 +4,10 @@
 /* eslint-disable */
 export type ImageView = {
     imagePath?: string;
-    thumbnailPath?: string;
     folderId?: string;
     isPublic?: boolean;
     updatedAt?: string;
+    thumbnailPath?: string;
     name?: string;
     id?: string;
 };

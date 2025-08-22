@@ -5,11 +5,16 @@ import {
   TrackTimerView,
 } from 'generated/index';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { submitStudentPaperSuccess } from 'redux/studentPapers/reducer';
-import { SubmitPaperResponseSuccess } from 'redux/studentPapers/typings';
+import { useAppDispatch } from '../../store/store';
+import {
+  useEnhancedSaveStudentPaperProgressMutation,
+  useEnhancedTrackTimerMutation,
+} from '../../store/enhancedApi';
 import { handleError } from 'utils/errorHandlers';
 import { apiWrapper } from 'utils/http-client';
+import { SubmitPaperResponseSuccess } from '../../typings/studentPaper';
+import { setPaperResult } from '../studentPapers/useStudentPaperSlice';
+
 interface ScoreBreakdown {
   topic: string;
   questionCount: number;
@@ -37,13 +42,19 @@ interface Result {
 }
 
 const usePracticeSync = () => {
+  const dispatch = useAppDispatch();
   const [isTimeTrackerLoading, setIsTimeTrackerLoading] =
     useState<boolean>(false);
   const [isRetrievingTrackedDetails, setIsRetrievingTrackedDetails] =
     useState<boolean>(false);
   const [isSaving, setIsSaving] = useState(false);
   const [savedProgress, setSavedProgress] = useState<Result | null>(null);
-  const dispatch = useDispatch();
+
+  // RTK Query mutations
+  const [saveProgressMutation, { isLoading: isSavingProgress }] =
+    useEnhancedSaveStudentPaperProgressMutation();
+  const [trackTimerMutation, { isLoading: isTrackingTimer }] =
+    useEnhancedTrackTimerMutation();
 
   const [retrievedDetails, setRetrievedDetails] =
     useState<TrackTimerView | null>(null);
@@ -51,9 +62,7 @@ const usePracticeSync = () => {
   const trackTimer = async (payload: TracktimerRequest) => {
     setIsTimeTrackerLoading(true);
     try {
-      await apiWrapper(() =>
-        PortalStudentPapersService.trackTimer({ requestBody: payload })
-      );
+      await trackTimerMutation({ tracktimerRequest: payload });
       setIsTimeTrackerLoading(false);
     } catch (error) {
       setIsTimeTrackerLoading(false);
@@ -82,6 +91,7 @@ const usePracticeSync = () => {
       }
     }
   };
+
   const handleSaveProgress = async (
     id: string,
     requestBody: StudentAnswerProgressRequest
@@ -89,13 +99,16 @@ const usePracticeSync = () => {
     setIsSaving(true);
 
     try {
-      const data = await apiWrapper(() =>
-        PortalStudentPapersService.saveProgress({ id, requestBody })
-      );
+      const result = await saveProgressMutation({
+        id,
+        studentAnswerProgressRequest: requestBody,
+      }).unwrap();
 
       setIsSaving(false);
-      dispatch(submitStudentPaperSuccess(data as SubmitPaperResponseSuccess));
-      return data;
+      // Set the paper result in local state
+      dispatch(setPaperResult(result as SubmitPaperResponseSuccess));
+      setSavedProgress(result as Result);
+      return result;
     } catch (error) {
       setIsSaving(false);
       handleError(error);
@@ -104,12 +117,12 @@ const usePracticeSync = () => {
 
   return {
     trackTimer,
-    isTimeTrackerLoading,
+    isTimeTrackerLoading: isTimeTrackerLoading || isTrackingTimer,
     retrieveTrackedDetails,
     retrievedDetails,
     isRetrievingTrackedDetails,
     handleSaveProgress,
-    isSaving,
+    isSaving: isSaving || isSavingProgress,
     savedProgress,
     setSavedProgress,
   };

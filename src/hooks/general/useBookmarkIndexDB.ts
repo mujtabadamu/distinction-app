@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Dexie from 'dexie';
-import { BookmarksDb } from '../../redux/studentPapers/typings';
+import { BookmarksDb } from '../../typings/studentPaper';
 
 interface MyDatabase extends Dexie {
   bookmarkedQuestions: Dexie.Table<BookmarksDb>;

@@ -5,7 +5,7 @@ import useWebSocket, {
 import { CourseView, LessonGroupView } from 'generated/index';
 import { errorNotifier } from 'utils/helpers';
 import { COURSE_TAG_TYPE, courseApi } from 'pages/courses/course-api';
-import { useAppDispatch } from 'redux/store';
+import { useAppDispatch } from 'store/store';
 
 export type CourseImagePartial = Pick<
   CourseView,

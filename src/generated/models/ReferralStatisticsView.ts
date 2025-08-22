@@ -3,14 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ReferralStatisticsView = {
-    referrerId?: string;
     correctQuestionsCount?: number;
+    referrerId?: string;
+    totalVerifiedUser?: number;
     totalReferrals?: number;
     totalEarnings?: number;
     totalClaimed?: number;
     totalUnclaimed?: number;
     totalUsed?: number;
     totalUnused?: number;
-    totalVerifiedUser?: number;
 };
 

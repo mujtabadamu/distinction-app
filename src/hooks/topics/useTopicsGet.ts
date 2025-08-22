@@ -1,43 +1,34 @@
-import { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEnhancedGetTopicsQuery } from '../../store/enhancedApi';
 
-import {
-  selectIsFetchingTopics,
-  selectTopicsData,
-} from '../../redux/topics/selectors';
-import {
-  fetchTopicsStart,
-  clearTopics as clearTopicsStart,
-} from '../../redux/topics/reducer';
-import { TopicsPayload } from '../../redux/topics/typings';
+interface TopicsPayload {
+  examGroupId?: string;
+  subjectId?: string;
+  years?: number[];
+}
 
 const useTopicsGet = (data: TopicsPayload) => {
   const { examGroupId, subjectId, years } = data;
-  const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsFetchingTopics);
-  const topics = useSelector(selectTopicsData);
 
-  const getTopics = useCallback(() => {
-    dispatch(
-      fetchTopicsStart({
-        examGroupId,
-        subjectId,
-        years,
-      })
-    );
-  }, [examGroupId, subjectId, years]);
+  // Use enhanced RTK Query hook
+  const { data: topics, isLoading: loadingTopics } = useEnhancedGetTopicsQuery(
+    {
+      examGroupId,
+      subjectId,
+      years,
+    },
+    {
+      // Skip query if required parameters are missing
+      skip: !examGroupId || !subjectId,
+    }
+  );
 
   const clearTopics = () => {
-    dispatch(clearTopicsStart());
+    // RTK Query handles cache invalidation automatically
+    // This function is kept for backward compatibility
   };
 
-  useEffect(() => {
-    if (!examGroupId || !subjectId) return;
-    getTopics();
-  }, [examGroupId, subjectId, years]);
-
   return {
-    loadingTopics: isLoading,
+    loadingTopics,
     topics,
     clearTopics,
   };

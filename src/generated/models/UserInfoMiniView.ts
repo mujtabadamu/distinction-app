@@ -3,9 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 export type UserInfoMiniView = {
+    profileImage?: string;
+    studentId?: string;
     firstName?: string;
     lastName?: string;
-    studentId?: string;
-    profileImage?: string;
 };
 

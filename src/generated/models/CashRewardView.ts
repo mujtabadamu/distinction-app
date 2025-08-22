@@ -5,12 +5,12 @@
 import type { AdminView } from './AdminView';
 import type { UserInfoView } from './UserInfoView';
 export type CashRewardView = {
-    amount?: number;
-    accountNumber?: string;
-    bankName?: string;
-    approved?: boolean;
     admin?: AdminView;
     approvedAt?: string;
+    approved?: boolean;
+    accountNumber?: string;
+    bankName?: string;
+    amount?: number;
     id?: string;
     userInfo?: UserInfoView;
 };

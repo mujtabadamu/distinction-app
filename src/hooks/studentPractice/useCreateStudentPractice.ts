@@ -1,32 +1,44 @@
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createStudentPracticeStart } from '../../redux/studentPractice/reducer';
-
-import {
-  selectIsCreatingStudentPractice,
-  selectStudentPracticeData,
-} from '../../redux/studentPractice/selectors';
-import { PostStudentPracticePayload } from '../../redux/studentPractice/typings';
+import { useEnhancedStartStudentPracticeMutation } from '../../store/enhancedApi';
+import { StudentPracticeRequest } from '../../generated';
 import { clientErrorHandler } from '../../utils/errorHandlers';
 
+interface PostStudentPracticePayload {
+  data: StudentPracticeRequest;
+  callback?: () => void;
+}
+
 const useStudentPracticePost = () => {
-  const dispatch = useDispatch();
-  const isCreating = useSelector(selectIsCreatingStudentPractice);
-  const practice = useSelector(selectStudentPracticeData);
+  const [startStudentPractice, { isLoading: isCreatingStudentPractice }] =
+    useEnhancedStartStudentPracticeMutation();
 
   const createStudentPractice = useCallback(
-    (payload: PostStudentPracticePayload) => {
-      if (payload.data.paperId === '')
+    async (payload: PostStudentPracticePayload) => {
+      if (payload.data.paperId === '') {
         return clientErrorHandler('Please select a paper');
-      dispatch(createStudentPracticeStart(payload));
+      }
+
+      try {
+        const result = await startStudentPractice({
+          studentPracticeRequest: payload.data,
+        }).unwrap();
+
+        if (payload.callback) {
+          payload.callback();
+        }
+
+        return result;
+      } catch (error) {
+        console.error('Error creating student practice:', error);
+        throw error;
+      }
     },
-    [dispatch]
+    [startStudentPractice]
   );
 
   return {
     createStudentPractice,
-    isCreatingStudentPractice: isCreating,
-    studentPractice: practice,
+    isCreatingStudentPractice,
   };
 };
 

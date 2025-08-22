@@ -81,7 +81,7 @@ export class CreateAndEarnQuestionsService {
      * @returns PaginatedSimpleCustomQuestionView OK
      * @throws ApiError
      */
-    public static list31({
+    public static list32({
         keyword,
         topic,
         tag,

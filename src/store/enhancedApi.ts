@@ -4,7 +4,6 @@ import { Notify } from '@flexisaf/flexibull2';
 // Import only used types from generated API for type safety
 import type {
   // Auth
-
   Register1ApiResponse,
   Register1ApiArg,
   RefreshTokenApiResponse,
@@ -56,6 +55,8 @@ import type {
   GetTotalPointsApiArg,
   GetBadgesApiResponse,
   GetBadgesApiArg,
+  GetTotalQuestionsApiResponse,
+  GetTotalQuestionsApiArg,
   GetSchoolRankingApiResponse,
   GetSchoolRankingApiArg,
   GetGlobalRankingApiResponse,
@@ -75,8 +76,12 @@ import type {
   GetStudentAnswerSolutionsApiArg,
   RetrieveResultApiResponse,
   RetrieveResultApiArg,
-  GetCurrentUserStreakStatusApiResponse,
-  GetCurrentUserStreakStatusApiArg,
+  QuestionsApiResponse,
+  QuestionsApiArg,
+  StudentPaperView,
+  StudentResultView,
+  // GetCurrentUserStreakStatusApiResponse,
+  // GetCurrentUserStreakStatusApiArg,
   // Subscription Billing
   GetSubscriptionApiResponse,
   GetSubscriptionApiArg,
@@ -87,6 +92,138 @@ import type {
   GetPlanLimitApiArg,
   CancelSubscriptionApiResponse,
   CancelSubscriptionApiArg,
+  SubscribeApiResponse,
+  SubscribeApiArg,
+  // Quizathon types
+  PaginatedSimpleSchoolView,
+  SimpleParticipantView,
+  ParticipantRequest,
+  // Chatbot types
+  ChatRequest,
+  Participant,
+  PaginatedSimpleParticipantView,
+  PaginatedScoreLeaderboardView,
+  PaginatedAccuracyRankingView,
+  ParticipantResultStatsView,
+  SimpleQuizathonView,
+  PaginatedStudentPaperSimpleView,
+  ParticipantTimeElapsedView,
+  PaginatedQuizathonView,
+  Quizathon,
+  PaginatedSchoolLeaderboardView,
+  CertificateDto,
+  PaginatedDailyLeaderBoardView,
+  PaginatedGeniusScoreRankingView,
+  // PaginatedSimpleExamView,
+  GetExamsApiArg,
+  GetExamGroupsApiResponse,
+  GetExamGroupsApiArg,
+  PaginatedSimplePaperView,
+  GetPapersApiArg,
+  // Chatbot related types
+  GetMessages1ApiResponse,
+  GetMessages1ApiArg,
+  GetWelcomeMessage1ApiResponse,
+  GetWelcomeMessage1ApiArg,
+  NewThreadApiResponse,
+  NewThreadApiArg,
+  GetThreadsApiResponse,
+  GetThreadsApiArg,
+  DeleteThread1ApiResponse,
+  DeleteThread1ApiArg,
+  PaginatedSimpleExamGroupView,
+  UserProfileDto,
+  VerifyNinDto,
+  PublicUserProfileDto,
+} from './result';
+
+// Import profile types from generated models
+import type {
+  UserProfileNinRequest,
+  ProfileShareEventRequest,
+  ProfileShareEventResponse,
+  ProfileVisitCountResponse,
+  UserStreakStatusDto,
+  // Referral types
+  ReferralDto,
+  ReferralStatisticsView,
+  PaginatedReferralView,
+  AirtimeRewardDto,
+  RewardRequestDto,
+  // Flashcard types
+  Get11ApiResponse,
+  Get11ApiArg,
+  Update12ApiResponse,
+  Update12ApiArg,
+  Delete12ApiResponse,
+  Delete12ApiArg,
+  List19ApiResponse,
+  List19ApiArg,
+  Create13ApiResponse,
+  Create13ApiArg,
+  GenerateFlashcardsV3ApiResponse,
+  GenerateFlashcardsV3ApiArg,
+  InferKnowledge1ApiResponse,
+  InferKnowledge1ApiArg,
+  InferKnowledgeWithStreaming1ApiResponse,
+  InferKnowledgeWithStreaming1ApiArg,
+  RecordUsageApiResponse,
+  RecordUsageApiArg,
+  StartSessionApiResponse,
+  StartSessionApiArg,
+  GetUsageByStudentApiResponse,
+  GetUsageByStudentApiArg,
+  CountActionsByStudentApiResponse,
+  CountActionsByStudentApiArg,
+  GetSessionByIdApiResponse,
+  GetSessionByIdApiArg,
+  GetSessionStatusApiResponse,
+  GetSessionStatusApiArg,
+  GetSessionsByStudentApiResponse,
+  GetSessionsByStudentApiArg,
+  GetSessionStatisticsApiResponse,
+  GetSessionStatisticsApiArg,
+  GetActiveSessionApiResponse,
+  GetActiveSessionApiArg,
+  UpdateSessionStatisticsApiResponse,
+  UpdateSessionStatisticsApiArg,
+  ResumeSessionApiResponse,
+  ResumeSessionApiArg,
+  PauseSessionApiResponse,
+  PauseSessionApiArg,
+  EndSessionApiResponse,
+  EndSessionApiArg,
+  AbandonSessionApiResponse,
+  AbandonSessionApiArg,
+  GetWeeklySummaryApiResponse,
+  GetWeeklySummaryApiArg,
+  GetStudyTrendsApiResponse,
+  GetStudyTrendsApiArg,
+  GetStudyStreakApiResponse,
+  GetStudyStreakApiArg,
+  GetSessionHistoryApiResponse,
+  GetSessionHistoryApiArg,
+  GetDashboardOverviewApiResponse,
+  GetDashboardOverviewApiArg,
+  GetSessionOutcomesApiResponse,
+  GetSessionOutcomesApiArg,
+  GetAchievementsApiResponse,
+  GetAchievementsApiArg,
+  // Keypoint types
+  Get8ApiResponse,
+  Get8ApiArg,
+  Update10ApiResponse,
+  Update10ApiArg,
+  Delete10ApiResponse,
+  Delete10ApiArg,
+  List18ApiResponse,
+  List18ApiArg,
+  Create10ApiResponse,
+  Create10ApiArg,
+  CreateKeypointV3ApiResponse,
+  CreateKeypointV3ApiArg,
+  KeyPointPapersApiResponse,
+  KeyPointPapersApiArg,
 } from './result';
 
 // Define SubscriptionHistoryPayload locally since it's not exported from './result'
@@ -136,6 +273,8 @@ export const API_TAGS = {
   PROFILE: 'PROFILE',
   PREFERENCE: 'PREFERENCE',
   NOTIFICATION: 'NOTIFICATION',
+  CHATBOT: 'CHATBOT',
+  REFERRAL: 'REFERRAL',
 } as const;
 
 // Type for tag combinations
@@ -363,6 +502,18 @@ export const enhancedApi = baseApi.injectEndpoints({
       providesTags: [API_TAGS.EXAM],
     }),
 
+    enhancedGetExamGroups: build.query<
+      GetExamGroupsApiResponse,
+      GetExamGroupsApiArg
+    >({
+      query: (params) => ({
+        url: '/portal/exam-groups',
+        method: 'GET',
+        params,
+      }),
+      providesTags: [API_TAGS.EXAM],
+    }),
+
     enhancedGetExamPapers: build.query({
       query: ({ examId, params }) => ({
         url: `/portal/exams/${examId}/papers`,
@@ -443,7 +594,7 @@ export const enhancedApi = baseApi.injectEndpoints({
     // Enhanced student paper endpoints with proper types
     enhancedGetStudentPapers: build.query<List10ApiResponse, List10ApiArg>({
       query: (params) => ({
-        url: '/portal/student-practice',
+        url: '/portal/student-papers',
         method: 'GET',
         params: {
           keyword: params.keyword,
@@ -571,6 +722,18 @@ export const enhancedApi = baseApi.injectEndpoints({
         params,
       }),
       providesTags: [API_TAGS.USER, API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetQuestionStatistics: build.query<
+      GetTotalQuestionsApiResponse,
+      GetTotalQuestionsApiArg
+    >({
+      query: (params) => ({
+        url: '/statistics/questions',
+        method: 'GET',
+        params,
+      }),
+      providesTags: [API_TAGS.STATISTICS],
     }),
 
     enhancedGetCourseAnalytics: build.query({
@@ -716,12 +879,9 @@ export const enhancedApi = baseApi.injectEndpoints({
     }),
 
     // Enhanced streak endpoints
-    enhancedGetCurrentUserStreakStatus: build.query<
-      GetCurrentUserStreakStatusApiResponse,
-      GetCurrentUserStreakStatusApiArg
-    >({
+    enhancedGetCurrentUserStreakStatus: build.query<UserStreakStatusDto, void>({
       query: () => ({
-        url: `/streak/user-streak-stats`,
+        url: '/streak/user-streak-stats',
         method: 'GET',
       }),
       providesTags: [API_TAGS.USER, API_TAGS.STATISTICS],
@@ -780,6 +940,44 @@ export const enhancedApi = baseApi.injectEndpoints({
         },
       }),
       providesTags: [API_TAGS.STUDENT, API_TAGS.STUDENT_PAPER],
+    }),
+
+    enhancedGetStudentPaperQuestions: build.query<
+      QuestionsApiResponse,
+      QuestionsApiArg
+    >({
+      query: (params) => ({
+        url: `/portal/student-papers/${params.id}/questions`,
+        method: 'GET',
+        params: {
+          page: params.page,
+          size: params.size,
+        },
+      }),
+      providesTags: [API_TAGS.STUDENT, API_TAGS.STUDENT_PAPER],
+    }),
+
+    // Create student paper
+    enhancedCreateStudentPaper: build.mutation<
+      StudentPaperView,
+      {
+        paperId: string;
+        size: number;
+        mode: string;
+        captcha?: string;
+      }
+    >({
+      query: (params) => ({
+        url: '/portal/student-papers',
+        method: 'POST',
+        body: {
+          paperId: params.paperId,
+          size: params.size,
+          mode: params.mode,
+          ...(params.captcha && { captcha: params.captcha }),
+        },
+      }),
+      invalidatesTags: [API_TAGS.STUDENT, API_TAGS.STUDENT_PAPER],
     }),
 
     enhancedRetrieveResult: build.query<
@@ -847,6 +1045,1130 @@ export const enhancedApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [API_TAGS.USER, API_TAGS.PROFILE],
     }),
+
+    enhancedSubscribe: build.mutation<SubscribeApiResponse, SubscribeApiArg>({
+      query: (subscriptionRequest) => ({
+        url: '/distinction/portal/subscriptions/subscribe',
+        method: 'POST',
+        body: subscriptionRequest.subscriptionRequest,
+      }),
+      invalidatesTags: [API_TAGS.USER, API_TAGS.PROFILE],
+    }),
+
+    // Enhanced quizathon endpoints
+    enhancedGetSchoolList: build.query<
+      PaginatedSimpleSchoolView,
+      {
+        name?: string;
+        abbr?: string;
+        curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
+        page?: number;
+        size?: number;
+      }
+    >({
+      query: (params) => ({
+        url: '/schools',
+        method: 'GET',
+        params: {
+          name: params.name,
+          abbr: params.abbr,
+          curriculum: params.curriculum,
+          page: params.page,
+          size: params.size || -1,
+        },
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedSubmitStudentInfo: build.mutation<
+      SimpleParticipantView,
+      ParticipantRequest
+    >({
+      query: (participantRequest) => ({
+        url: '/quizathon/particpant',
+        method: 'POST',
+        body: participantRequest,
+      }),
+      invalidatesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedEditStudentInfo: build.mutation<
+      Participant,
+      { id: string; participantRequest: ParticipantRequest }
+    >({
+      query: ({ id, participantRequest }) => ({
+        url: `/quizathon/particpant/${id}`,
+        method: 'PUT',
+        body: participantRequest,
+      }),
+      invalidatesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGetParticipant: build.query<
+      PaginatedSimpleParticipantView,
+      {
+        quizathonId: string;
+        studentId?: string;
+        schoolId?: string;
+        keyword?: string;
+        page?: number;
+        size?: number;
+      }
+    >({
+      query: (params) => ({
+        url: '/quizathon/particpant',
+        method: 'GET',
+        params: {
+          quizathonId: params.quizathonId,
+          studentId: params.studentId,
+          schoolId: params.schoolId,
+          keyword: params.keyword,
+          page: params.page,
+          size: params.size,
+        },
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGetLeaderboard: build.query<
+      PaginatedScoreLeaderboardView,
+      {
+        studentId?: string;
+        quizathonId?: string;
+        schoolId?: string;
+        keyword?: string;
+        page?: number;
+        size?: number;
+      }
+    >({
+      query: (params) => ({
+        url: '/quizathon/leaderboard',
+        method: 'GET',
+        params: {
+          studentId: params.studentId,
+          quizathonId: params.quizathonId,
+          schoolId: params.schoolId,
+          keyword: params.keyword,
+          page: params.page,
+          size: params.size,
+        },
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGetIndividualLeaderboardStat: build.query<
+      PaginatedScoreLeaderboardView | PaginatedAccuracyRankingView,
+      {
+        params: {
+          studentId?: string;
+          quizathonId?: string;
+          schoolId?: string;
+          keyword?: string;
+          page?: number;
+          size?: number;
+        };
+        useAccuracy: boolean;
+      }
+    >({
+      query: ({ params, useAccuracy }) => ({
+        url: useAccuracy
+          ? '/quizathon/leaderboard-rankings'
+          : '/quizathon/leaderboard',
+        method: 'GET',
+        params: {
+          studentId: params.studentId,
+          quizathonId: params.quizathonId,
+          schoolId: params.schoolId,
+          keyword: params.keyword,
+          page: params.page,
+          size: params.size,
+        },
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGetParticipantStats: build.query<
+      ParticipantResultStatsView,
+      {
+        studentId: string;
+        quizathonId: string;
+      }
+    >({
+      query: (params) => ({
+        url: `/quizathon/participants/stats/${params.studentId}`,
+        method: 'GET',
+        params: {
+          quizathonId: params.quizathonId,
+        },
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGetActiveQuizathon: build.query<SimpleQuizathonView[], void>({
+      query: () => ({
+        url: '/quizathon/active',
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGetAllActiveQuizathon: build.query<SimpleQuizathonView[], void>({
+      query: () => ({
+        url: '/quizathon/active',
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGetQuizathonPapersTaken: build.query<
+      PaginatedStudentPaperSimpleView,
+      {
+        quizathonId: string;
+        page?: number;
+        size?: number;
+      }
+    >({
+      query: (params) => ({
+        url: '/portal/student-papers/quizathon',
+        method: 'GET',
+        params: {
+          quizathonId: params.quizathonId,
+          page: params.page,
+          size: params.size,
+        },
+      }),
+      providesTags: [API_TAGS.QUIZ, API_TAGS.STUDENT_PAPER],
+    }),
+
+    enhancedGetQuizathonElapsedTime: build.query<
+      ParticipantTimeElapsedView,
+      {
+        studentId: string;
+        quizathonId: string;
+      }
+    >({
+      query: (params) => ({
+        url: '/quizathon/time-elapsed',
+        method: 'GET',
+        params: {
+          studentId: params.studentId,
+          quizathonId: params.quizathonId,
+        },
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGetQuizathonHistory: build.query<
+      PaginatedQuizathonView,
+      {
+        keyword?: string;
+        status?: boolean;
+        page?: number;
+        size?: number;
+        studentId?: string;
+      }
+    >({
+      query: (params) => ({
+        url: '/quizathon',
+        method: 'GET',
+        params: {
+          keyword: params.keyword,
+          status: params.status,
+          page: params.page,
+          size: params.size,
+        },
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGetSingleQuizathon: build.query<Quizathon, string>({
+      query: (id) => ({
+        url: `/quizathon/${id}`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGetSchoolLeaderboard: build.query<
+      PaginatedSchoolLeaderboardView,
+      {
+        quizathonId?: string;
+        keyword?: string;
+        page?: number;
+        size?: number;
+      }
+    >({
+      query: (params) => ({
+        url: '/quizathon/university-leaderboard',
+        method: 'GET',
+        params: {
+          quizathonId: params.quizathonId,
+          keyword: params.keyword,
+          page: params.page,
+          size: params.size,
+        },
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGenerateCertificate: build.mutation<CertificateDto, string>({
+      query: (participantId) => ({
+        url: `/quizathon/certificate/${participantId}`,
+        method: 'GET',
+      }),
+      invalidatesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedVerifyCertificate: build.mutation<CertificateDto, string>({
+      query: (participantId) => ({
+        url: `/quizathon/certificate/verify/${participantId}`,
+        method: 'GET',
+      }),
+      invalidatesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGetAccuracyLeaderboard: build.query<
+      PaginatedAccuracyRankingView,
+      {
+        quizathonId?: string;
+        page?: number;
+        size?: number;
+        studentId?: string;
+      }
+    >({
+      query: (params) => ({
+        url: '/quizathon/leaderboard-rankings',
+        method: 'GET',
+        params: {
+          quizathonId: params.quizathonId,
+          page: params.page,
+          size: params.size,
+          studentId: params.studentId,
+        },
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGetGeniusLeaderboard: build.query<
+      PaginatedGeniusScoreRankingView,
+      {
+        quizathonId?: string;
+        page?: number;
+        size?: number;
+        studentId?: string;
+      }
+    >({
+      query: (params) => ({
+        url: '/quizathon/genius-score-leaderboard',
+        method: 'GET',
+        params: {
+          quizathonId: params.quizathonId,
+          page: params.page,
+          size: params.size,
+          studentId: params.studentId,
+        },
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    enhancedGetQuizathonDailyLeaderBoard: build.query<
+      PaginatedDailyLeaderBoardView,
+      {
+        studentId?: string;
+        quizathonId?: string;
+        date?: string;
+        page?: number;
+        size?: number;
+      }
+    >({
+      query: (params) => ({
+        url: '/quizathon/daily-leaderboard',
+        method: 'GET',
+        params: {
+          studentId: params.studentId,
+          quizathonId: params.quizathonId,
+          ...(params.date && { date: params.date }),
+          page: params.page,
+          size: params.size,
+        },
+      }),
+      providesTags: [API_TAGS.QUIZ],
+    }),
+
+    // Enhanced profile endpoints
+    enhancedGetUserProfileByStudentId: build.query<UserProfileDto, string>({
+      query: (studentId: string) => ({
+        url: '/Profile',
+        method: 'GET',
+        params: { studentId },
+      }),
+      providesTags: [API_TAGS.USER, API_TAGS.PROFILE],
+    }),
+
+    enhancedEditUserProfile: build.mutation<
+      UserProfileDto,
+      {
+        phoneNumber: string;
+        firstName: string;
+        lastName: string;
+        gender: string;
+        matriculationNumber: string;
+        department: string;
+        stateOfOrigin: string;
+        schoolId: string;
+        level: string;
+        dateOfBirth: string;
+        otherName?: string;
+        bio?: string;
+        formData?: {
+          profileImage?: Blob;
+        };
+      }
+    >({
+      query: (profileData) => {
+        const { formData, ...params } = profileData;
+
+        const queryParams = new URLSearchParams();
+        Object.entries(params).forEach(([key, value]) => {
+          if (value !== undefined && value !== null && value !== '') {
+            queryParams.append(key, String(value));
+          }
+        });
+
+        const url = `/Profile/?${queryParams.toString()}`;
+
+        const formDataObj = new FormData();
+        formDataObj.append('profileImage', formData?.profileImage as Blob);
+
+        return {
+          url,
+          method: 'PUT',
+          body: formDataObj,
+        };
+      },
+      invalidatesTags: [API_TAGS.USER, API_TAGS.PROFILE],
+    }),
+
+    enhancedEditUserProfileNin: build.mutation<
+      UserProfileDto,
+      UserProfileNinRequest
+    >({
+      query: (requestBody) => ({
+        url: '/Profile/nin/update',
+        method: 'PUT',
+        body: requestBody,
+      }),
+      invalidatesTags: [API_TAGS.USER, API_TAGS.PROFILE],
+    }),
+
+    enhancedVerifyProfileNin: build.mutation<VerifyNinDto, void>({
+      query: () => ({
+        url: '/Profile/verify/nin',
+        method: 'POST',
+      }),
+      invalidatesTags: [API_TAGS.USER, API_TAGS.PROFILE],
+    }),
+
+    enhancedGetPublicUserProfile: build.query<PublicUserProfileDto, string>({
+      query: (username: string) => ({
+        url: `/Profile/public/${username}`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.USER, API_TAGS.PROFILE],
+    }),
+
+    // Enhanced profile events endpoints
+    enhancedTrackProfileShareEvent: build.mutation<
+      ProfileShareEventResponse,
+      ProfileShareEventRequest
+    >({
+      query: (requestBody) => ({
+        url: '/profile/event/track-profile-shares',
+        method: 'POST',
+        body: requestBody,
+      }),
+    }),
+
+    enhancedTrackPublicProfileClick: build.mutation<
+      Record<string, any>,
+      { username: string; requestBody: ProfileShareEventRequest }
+    >({
+      query: ({ username, requestBody }) => ({
+        url: `/profile/event/track-public-profile/${username}`,
+        method: 'POST',
+        body: requestBody,
+      }),
+    }),
+
+    enhancedGetMyProfileVisitCount: build.query<
+      ProfileVisitCountResponse,
+      void
+    >({
+      query: () => ({
+        url: '/profile/event/count-profile-visits',
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.USER, API_TAGS.PROFILE],
+    }),
+
+    // Enhanced exam hooks
+    enhancedGetExamsQuery: build.query<
+      PaginatedSimpleExamGroupView,
+      GetExamsApiArg
+    >({
+      query: (params) => ({
+        url: '/exams',
+        method: 'GET',
+        params,
+      }),
+      providesTags: [API_TAGS.EXAM],
+    }),
+
+    // Enhanced papers hooks
+    enhancedGetPapersQuery: build.query<
+      PaginatedSimplePaperView,
+      GetPapersApiArg
+    >({
+      query: (params) => ({
+        url: '/portal/papers',
+        method: 'GET',
+        params,
+      }),
+      providesTags: [API_TAGS.PAPER],
+    }),
+
+    // Enhanced chatbot hooks
+    enhancedGetMessages1: build.query<
+      GetMessages1ApiResponse,
+      GetMessages1ApiArg
+    >({
+      query: (params) => ({
+        url: `/assistant/thread/${params.threadId}/sessions`,
+        method: 'GET',
+        params: {
+          limit: params.limit,
+          order: params.order,
+        },
+      }),
+      providesTags: [API_TAGS.CHATBOT],
+    }),
+
+    enhancedGetWelcomeMessage1: build.query<
+      GetWelcomeMessage1ApiResponse,
+      GetWelcomeMessage1ApiArg
+    >({
+      query: (params) => ({
+        url: '/assistant/welcome',
+        method: 'GET',
+        params: {
+          paperName: params.paperName,
+        },
+      }),
+      providesTags: [API_TAGS.CHATBOT],
+    }),
+
+    enhancedNewThread: build.mutation<NewThreadApiResponse, NewThreadApiArg>({
+      query: (params) => ({
+        url: '/assistant/thread/new-thread',
+        method: 'POST',
+        body: params.newThreadRequest,
+      }),
+      invalidatesTags: [API_TAGS.CHATBOT],
+    }),
+
+    enhancedGetThreads: build.query<GetThreadsApiResponse, GetThreadsApiArg>({
+      query: () => ({
+        url: '/assistant/threads',
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.CHATBOT],
+    }),
+
+    enhancedDeleteThread1: build.mutation<
+      DeleteThread1ApiResponse,
+      DeleteThread1ApiArg
+    >({
+      query: (params) => ({
+        url: `/assistant/thread/${params.threadId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [API_TAGS.CHATBOT],
+    }),
+
+    enhancedChatStream: build.mutation<
+      Response,
+      { threadId: string; chatRequest: ChatRequest }
+    >({
+      query: ({ threadId, chatRequest }) => ({
+        url: `/assistant/thread/${threadId}/chat-stream`,
+        method: 'POST',
+        body: chatRequest,
+        responseHandler: async (response) => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch response from server');
+          }
+          return response;
+        },
+      }),
+      invalidatesTags: [API_TAGS.CHATBOT],
+    }),
+
+    // Enhanced referral endpoints
+    enhancedCreateReferral: build.mutation<
+      ReferralDto,
+      { referredEmail: string }
+    >({
+      query: (params) => ({
+        url: '/Profile/refer',
+        method: 'POST',
+        params: {
+          referredEmail: params.referredEmail,
+        },
+      }),
+      invalidatesTags: [API_TAGS.REFERRAL],
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          Notify('Invitation sent successfully', { status: 'success' });
+        } catch (error) {
+          console.error('Create referral error:', error);
+        }
+      },
+    }),
+
+    enhancedGetReferralStatistics: build.query<
+      ReferralStatisticsView,
+      { studentId: string }
+    >({
+      query: (params) => ({
+        url: '/Profile/student/statistics',
+        method: 'GET',
+        params: {
+          studentId: params.studentId,
+        },
+      }),
+      providesTags: [API_TAGS.REFERRAL],
+    }),
+
+    enhancedGetStudentReferralCode: build.query<
+      Record<string, any>,
+      { studentId: string }
+    >({
+      query: (params) => ({
+        url: '/Profile/student/getReferralCode',
+        method: 'GET',
+        params: {
+          studentId: params.studentId,
+        },
+      }),
+      providesTags: [API_TAGS.REFERRAL],
+    }),
+
+    enhancedGetReferrals: build.query<
+      PaginatedReferralView,
+      {
+        studentId: string;
+        keyword?: string;
+        page?: number;
+        size?: number;
+      }
+    >({
+      query: (params) => ({
+        url: '/Profile/referrals',
+        method: 'GET',
+        params: {
+          studentId: params.studentId,
+          keyword: params.keyword,
+          page: params.page,
+          size: params.size,
+        },
+      }),
+      providesTags: [API_TAGS.REFERRAL],
+    }),
+
+    enhancedRequestReward: build.mutation<
+      AirtimeRewardDto,
+      { requestBody: RewardRequestDto }
+    >({
+      query: (params) => ({
+        url: '/rewards/request',
+        method: 'POST',
+        body: params.requestBody,
+      }),
+      invalidatesTags: [API_TAGS.REFERRAL],
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          Notify('Reward Claimed Successfully', { status: 'success' });
+        } catch (error) {
+          console.error('Request reward error:', error);
+        }
+      },
+    }),
+
+    enhancedGetAirtimeRewardsByStudentId: build.query<
+      AirtimeRewardDto[],
+      { studentId: string }
+    >({
+      query: (params) => ({
+        url: `/rewards/student-airtime-rewards/${params.studentId}`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.REFERRAL],
+    }),
+
+    // Flashcard endpoints
+    enhancedGetFlashcard: build.query<Get11ApiResponse, Get11ApiArg>({
+      query: (params) => ({
+        url: `/flashcards/${params.id}`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.CONTENT],
+    }),
+
+    enhancedUpdateFlashcard: build.mutation<
+      Update12ApiResponse,
+      Update12ApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcards/${params.id}/rename`,
+        method: 'PUT',
+        body: params.updateFlashcardRequest,
+      }),
+      invalidatesTags: [API_TAGS.CONTENT],
+    }),
+
+    enhancedDeleteFlashcard: build.mutation<
+      Delete12ApiResponse,
+      Delete12ApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcards/${params.id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [API_TAGS.CONTENT],
+    }),
+
+    enhancedListFlashcards: build.query<List19ApiResponse, List19ApiArg>({
+      query: (params) => ({
+        url: '/flashcards',
+        method: 'GET',
+        params: {
+          keyword: params.keyword,
+          paperId: params.paperId,
+          studentId: params.studentId,
+          difficulty: params.difficulty,
+          page: params.page,
+          size: params.size,
+        },
+      }),
+      providesTags: [API_TAGS.CONTENT],
+    }),
+
+    enhancedCreateFlashcard: build.mutation<
+      Create13ApiResponse,
+      Create13ApiArg
+    >({
+      query: (params) => ({
+        url: '/flashcards',
+        method: 'POST',
+        params: {
+          difficulty: params.difficulty,
+          paperId: params.paperId,
+        },
+        body: params.body,
+      }),
+      invalidatesTags: [API_TAGS.CONTENT],
+    }),
+
+    enhancedGenerateFlashcardsV3: build.mutation<
+      GenerateFlashcardsV3ApiResponse,
+      GenerateFlashcardsV3ApiArg
+    >({
+      query: (params) => ({
+        url: '/flashcards/v3',
+        method: 'POST',
+        params: {
+          difficulty: params.difficulty,
+          curriculum: params.curriculum,
+          paperId: params.paperId,
+        },
+        body: params.body,
+      }),
+      invalidatesTags: [API_TAGS.CONTENT],
+    }),
+
+    enhancedInferKnowledge1: build.mutation<
+      InferKnowledge1ApiResponse,
+      InferKnowledge1ApiArg
+    >({
+      query: (params) => ({
+        url: '/flashcards/v2',
+        method: 'POST',
+        params: {
+          difficulty: params.difficulty,
+          paperId: params.paperId,
+        },
+        body: params.body,
+      }),
+      invalidatesTags: [API_TAGS.CONTENT],
+    }),
+
+    enhancedInferKnowledgeWithStreaming1: build.mutation<
+      InferKnowledgeWithStreaming1ApiResponse,
+      InferKnowledgeWithStreaming1ApiArg
+    >({
+      query: (params) => ({
+        url: '/flashcards/v2-streaming',
+        method: 'POST',
+        params: {
+          difficulty: params.difficulty,
+          paperId: params.paperId,
+          cardsCount: params.cardsCount,
+        },
+      }),
+      invalidatesTags: [API_TAGS.CONTENT],
+    }),
+
+    enhancedRecordUsage: build.mutation<
+      RecordUsageApiResponse,
+      RecordUsageApiArg
+    >({
+      query: (params) => ({
+        url: '/flashcard-usage',
+        method: 'POST',
+        body: params.flashcardUsageRequest,
+      }),
+      invalidatesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedStartSession: build.mutation<
+      StartSessionApiResponse,
+      StartSessionApiArg
+    >({
+      query: (params) => ({
+        url: '/flashcard-sessions/start',
+        method: 'POST',
+        body: params.flashcardSessionRequest,
+      }),
+      invalidatesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetUsageByStudent: build.query<
+      GetUsageByStudentApiResponse,
+      GetUsageByStudentApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-usage/student/${params.studentId}`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedCountActionsByStudent: build.query<
+      CountActionsByStudentApiResponse,
+      CountActionsByStudentApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-usage/student/${params.studentId}/count/${params.actionType}`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetSessionById: build.query<
+      GetSessionByIdApiResponse,
+      GetSessionByIdApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-sessions/${params.sessionId}`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetSessionStatus: build.query<
+      GetSessionStatusApiResponse,
+      GetSessionStatusApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-sessions/${params.sessionId}/status`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetSessionsByStudent: build.query<
+      GetSessionsByStudentApiResponse,
+      GetSessionsByStudentApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-sessions/student/${params.studentId}`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetSessionStatistics: build.query<
+      GetSessionStatisticsApiResponse,
+      GetSessionStatisticsApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-sessions/student/${params.studentId}/statistics`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetActiveSession: build.query<
+      GetActiveSessionApiResponse,
+      GetActiveSessionApiArg
+    >({
+      query: (params) => ({
+        url: '/flashcard-sessions/active',
+        method: 'GET',
+        params: {
+          studentId: params.studentId,
+          flashcardId: params.flashcardId,
+        },
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedUpdateSessionStatistics: build.mutation<
+      UpdateSessionStatisticsApiResponse,
+      UpdateSessionStatisticsApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-sessions/${params.sessionId}/update-stats`,
+        method: 'PUT',
+      }),
+      invalidatesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedResumeSession: build.mutation<
+      ResumeSessionApiResponse,
+      ResumeSessionApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-sessions/${params.sessionId}/resume`,
+        method: 'PUT',
+      }),
+      invalidatesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedPauseSession: build.mutation<
+      PauseSessionApiResponse,
+      PauseSessionApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-sessions/${params.sessionId}/pause`,
+        method: 'PUT',
+      }),
+      invalidatesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedEndSession: build.mutation<EndSessionApiResponse, EndSessionApiArg>(
+      {
+        query: (params) => ({
+          url: `/flashcard-sessions/${params.sessionId}/end`,
+          method: 'PUT',
+          params: {
+            status: params.status,
+          },
+        }),
+        invalidatesTags: [API_TAGS.STATISTICS],
+      }
+    ),
+
+    enhancedAbandonSession: build.mutation<
+      AbandonSessionApiResponse,
+      AbandonSessionApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-sessions/${params.sessionId}/abandon`,
+        method: 'PUT',
+      }),
+      invalidatesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetWeeklySummary: build.query<
+      GetWeeklySummaryApiResponse,
+      GetWeeklySummaryApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-dashboard/student/${params.studentId}/weekly-summary`,
+        method: 'GET',
+        params: {
+          weekStart: params.weekStart,
+        },
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetStudyTrends: build.query<
+      GetStudyTrendsApiResponse,
+      GetStudyTrendsApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-dashboard/student/${params.studentId}/trends`,
+        method: 'GET',
+        params: {
+          days: params.days,
+        },
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetStudyStreak: build.query<
+      GetStudyStreakApiResponse,
+      GetStudyStreakApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-dashboard/student/${params.studentId}/streak`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetSessionHistory: build.query<
+      GetSessionHistoryApiResponse,
+      GetSessionHistoryApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-dashboard/student/${params.studentId}/sessions`,
+        method: 'GET',
+        params: {
+          page: params.page,
+          size: params.size,
+        },
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetDashboardOverview: build.query<
+      GetDashboardOverviewApiResponse,
+      GetDashboardOverviewApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-dashboard/student/${params.studentId}/overview`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetSessionOutcomes: build.query<
+      GetSessionOutcomesApiResponse,
+      GetSessionOutcomesApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-dashboard/student/${params.studentId}/outcomes`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    enhancedGetAchievements: build.query<
+      GetAchievementsApiResponse,
+      GetAchievementsApiArg
+    >({
+      query: (params) => ({
+        url: `/flashcard-dashboard/student/${params.studentId}/achievements`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.STATISTICS],
+    }),
+
+    // Keypoint endpoints
+    enhancedGetKeypoint: build.query<Get8ApiResponse, Get8ApiArg>({
+      query: (params) => ({
+        url: `/keypoints/${params.id}`,
+        method: 'GET',
+      }),
+      providesTags: [API_TAGS.CONTENT],
+    }),
+
+    enhancedUpdateKeypoint: build.mutation<Update10ApiResponse, Update10ApiArg>(
+      {
+        query: (params) => ({
+          url: `/keypoints/${params.id}/rename`,
+          method: 'PUT',
+          body: params.updateKeyPointRequest,
+        }),
+        invalidatesTags: [API_TAGS.CONTENT],
+      }
+    ),
+
+    enhancedDeleteKeypoint: build.mutation<Delete10ApiResponse, Delete10ApiArg>(
+      {
+        query: (params) => ({
+          url: `/keypoints/${params.id}`,
+          method: 'DELETE',
+        }),
+        invalidatesTags: [API_TAGS.CONTENT],
+      }
+    ),
+
+    enhancedListKeypoints: build.query<List18ApiResponse, List18ApiArg>({
+      query: (params) => ({
+        url: '/keypoints',
+        method: 'GET',
+        params: {
+          studentId: params.studentId,
+          keyword: params.keyword,
+          paperId: params.paperId,
+          page: params.page,
+          size: params.size,
+        },
+      }),
+      providesTags: [API_TAGS.CONTENT],
+    }),
+
+    enhancedCreateKeypoint: build.mutation<Create10ApiResponse, Create10ApiArg>(
+      {
+        query: (params) => ({
+          url: '/keypoints',
+          method: 'POST',
+          params: {
+            paperId: params.paperId,
+          },
+          body: params.body,
+        }),
+        invalidatesTags: [API_TAGS.CONTENT],
+      }
+    ),
+
+    enhancedCreateKeypointV3: build.mutation<
+      CreateKeypointV3ApiResponse,
+      CreateKeypointV3ApiArg
+    >({
+      query: (params) => ({
+        url: '/keypoints/v3',
+        method: 'POST',
+        params: {
+          curriculum: params.curriculum,
+          paperId: params.paperId,
+        },
+        body: params.body,
+      }),
+      invalidatesTags: [API_TAGS.CONTENT],
+    }),
+
+    enhancedKeypointPapers: build.query<
+      KeyPointPapersApiResponse,
+      KeyPointPapersApiArg
+    >({
+      query: (params) => ({
+        url: '/keypoints/papers',
+        method: 'GET',
+        params: {
+          studentId: params.studentId,
+          keyword: params.keyword,
+          paperId: params.paperId,
+        },
+      }),
+      providesTags: [API_TAGS.CONTENT],
+    }),
   }),
 });
 
@@ -867,6 +2189,14 @@ export const {
   // User profile hooks
   useEnhancedGetUserProfileQuery,
   useEnhancedUpdateUserProfileMutation,
+  useEnhancedGetUserProfileByStudentIdQuery,
+  useEnhancedEditUserProfileMutation,
+  useEnhancedEditUserProfileNinMutation,
+  useEnhancedVerifyProfileNinMutation,
+  useEnhancedGetPublicUserProfileQuery,
+  useEnhancedTrackProfileShareEventMutation,
+  useEnhancedTrackPublicProfileClickMutation,
+  useEnhancedGetMyProfileVisitCountQuery,
 
   // Course hooks
   useEnhancedGetCoursesQuery,
@@ -874,7 +2204,7 @@ export const {
 
   // Exam hooks
   useEnhancedGetExamsQuery,
-  useEnhancedGetExamPapersQuery,
+  useEnhancedGetExamGroupsQuery,
 
   // Practice hooks
   useEnhancedGetStudentPracticeQuery,
@@ -883,12 +2213,14 @@ export const {
 
   // Student paper hooks
   useEnhancedGetStudentPapersQuery,
+  useEnhancedCreateStudentPaperMutation,
   useEnhancedEnrollStudentPaperMutation,
   useEnhancedSubmitStudentPaperMutation,
   useEnhancedSaveStudentPaperProgressMutation,
 
   // Statistics hooks
   useEnhancedGetUserStatisticsQuery,
+  useEnhancedGetQuestionStatisticsQuery,
   useEnhancedGetCourseAnalyticsQuery,
 
   // Content hooks
@@ -927,6 +2259,7 @@ export const {
   useEnhancedListPracticesByPaperIdQuery,
   useEnhancedGetStudentAnswerSolutionsQuery,
   useEnhancedRetrieveResultQuery,
+  useEnhancedGetStudentPaperQuestionsQuery,
 
   // Streak hooks
   useEnhancedGetCurrentUserStreakStatusQuery,
@@ -937,6 +2270,87 @@ export const {
   useEnhancedGetSubscriptionHistoryQuery,
   useEnhancedGetFeatureLimitQuery,
   useEnhancedCancelSubscriptionMutation,
+  useEnhancedSubscribeMutation,
+
+  // Quizathon hooks
+  useEnhancedGetSchoolListQuery,
+  useEnhancedSubmitStudentInfoMutation,
+  useEnhancedEditStudentInfoMutation,
+  useEnhancedGetParticipantQuery,
+  useEnhancedGetLeaderboardQuery,
+  useEnhancedGetIndividualLeaderboardStatQuery,
+  useEnhancedGetParticipantStatsQuery,
+  useEnhancedGetActiveQuizathonQuery,
+  useEnhancedGetAllActiveQuizathonQuery,
+  useEnhancedGetQuizathonPapersTakenQuery,
+  useEnhancedGetQuizathonElapsedTimeQuery,
+  useEnhancedGetQuizathonHistoryQuery,
+  useEnhancedGetSingleQuizathonQuery,
+  useEnhancedGetSchoolLeaderboardQuery,
+  useEnhancedGenerateCertificateMutation,
+  useEnhancedVerifyCertificateMutation,
+  useEnhancedGetAccuracyLeaderboardQuery,
+  useEnhancedGetGeniusLeaderboardQuery,
+  useEnhancedGetQuizathonDailyLeaderBoardQuery,
+
+  // Enhanced papers hooks
+  // useEnhancedGetPapersQuery,
+
+  // Chatbot hooks
+  useEnhancedGetMessages1Query,
+  useEnhancedGetWelcomeMessage1Query,
+  useEnhancedNewThreadMutation,
+  useEnhancedGetThreadsQuery,
+  useEnhancedDeleteThread1Mutation,
+  useEnhancedChatStreamMutation,
+
+  // Referral hooks
+  useEnhancedCreateReferralMutation,
+  useEnhancedGetReferralStatisticsQuery,
+  useEnhancedGetStudentReferralCodeQuery,
+  useEnhancedGetReferralsQuery,
+  useEnhancedRequestRewardMutation,
+  useEnhancedGetAirtimeRewardsByStudentIdQuery,
+
+  // Flashcard hooks
+  useEnhancedGetFlashcardQuery,
+  useEnhancedUpdateFlashcardMutation,
+  useEnhancedDeleteFlashcardMutation,
+  useEnhancedListFlashcardsQuery,
+  useEnhancedCreateFlashcardMutation,
+  useEnhancedGenerateFlashcardsV3Mutation,
+  useEnhancedInferKnowledge1Mutation,
+  useEnhancedInferKnowledgeWithStreaming1Mutation,
+  useEnhancedRecordUsageMutation,
+  useEnhancedStartSessionMutation,
+  useEnhancedGetUsageByStudentQuery,
+  useEnhancedCountActionsByStudentQuery,
+  useEnhancedGetSessionByIdQuery,
+  useEnhancedGetSessionStatusQuery,
+  useEnhancedGetSessionsByStudentQuery,
+  useEnhancedGetSessionStatisticsQuery,
+  useEnhancedGetActiveSessionQuery,
+  useEnhancedUpdateSessionStatisticsMutation,
+  useEnhancedResumeSessionMutation,
+  useEnhancedPauseSessionMutation,
+  useEnhancedEndSessionMutation,
+  useEnhancedAbandonSessionMutation,
+  useEnhancedGetWeeklySummaryQuery,
+  useEnhancedGetStudyTrendsQuery,
+  useEnhancedGetStudyStreakQuery,
+  useEnhancedGetSessionHistoryQuery,
+  useEnhancedGetDashboardOverviewQuery,
+  useEnhancedGetSessionOutcomesQuery,
+  useEnhancedGetAchievementsQuery,
+
+  // Keypoint hooks
+  useEnhancedGetKeypointQuery,
+  useEnhancedUpdateKeypointMutation,
+  useEnhancedDeleteKeypointMutation,
+  useEnhancedListKeypointsQuery,
+  useEnhancedCreateKeypointMutation,
+  useEnhancedCreateKeypointV3Mutation,
+  useEnhancedKeypointPapersQuery,
 } = enhancedApi;
 
 // Utility functions for tag management

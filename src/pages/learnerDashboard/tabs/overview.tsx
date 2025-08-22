@@ -149,8 +149,8 @@ const Overview = () => {
           {recommendedPractice &&
             recommendedPractice.map((recommend) => (
               <RecommendedPracticeCard
-                CourseTitle={recommend.name}
-                recommendedPracticeId={recommend.id}
+                CourseTitle={recommend.name ?? ''}
+                recommendedPracticeId={recommend.id ?? ''}
               />
             ))}
         </div>

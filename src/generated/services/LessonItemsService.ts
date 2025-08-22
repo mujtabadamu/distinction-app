@@ -57,7 +57,7 @@ export class LessonItemsService {
      * @returns PaginatedLessonItemView OK
      * @throws ApiError
      */
-    public static list15({
+    public static list16({
         keyword,
         lessonId,
         lessonGroupId,
@@ -72,7 +72,7 @@ export class LessonItemsService {
         lessonId?: string,
         lessonGroupId?: string,
         courseId?: string,
-        type?: 'VIDEO' | 'ARTICLE' | 'QUIZ' | 'EXERCISE' | 'FLASHCARD',
+        type?: 'VIDEO' | 'ARTICLE' | 'QUIZ' | 'EXERCISE' | 'FLASHCARD' | 'UNKNOWN',
         sortField?: 'ID' | 'ITEM_NUMBER' | 'TITLE',
         sortOrder?: 'ASC' | 'DESC',
         offset?: number,
@@ -112,7 +112,7 @@ export class LessonItemsService {
         lessonId?: string,
         lessonGroupId?: string,
         courseId?: string,
-        type?: 'VIDEO' | 'ARTICLE' | 'QUIZ' | 'EXERCISE' | 'FLASHCARD',
+        type?: 'VIDEO' | 'ARTICLE' | 'QUIZ' | 'EXERCISE' | 'FLASHCARD' | 'UNKNOWN',
     }): CancelablePromise<number> {
         return __request(OpenAPI, {
             method: 'GET',

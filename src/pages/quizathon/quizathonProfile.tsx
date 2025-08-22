@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Box, Spacer, PageTitle } from '@flexisaf/flexibull2';
 import useQuizathon from './hooks/useQuizathon';
-import { useSelector } from 'react-redux';
-import { selectCurrentUser } from 'redux/auth/selectors';
 import CountDown, { BannerWrapper } from './components/countDown';
 import QuizProfileSkeleton from './components/quizProfileSkeleton';
 import TermsAndConditions from './components/termsAndConditions';
@@ -15,6 +13,7 @@ import FeatureSlider from './components/featureSlider';
 import AdSense from 'adsense/AdSense';
 import { HORIZONTAL_ADS } from 'adsense/adsConfig';
 import useSubscriptionBilling from 'pages/profile/hooks/useSubscriptionBilling';
+import { useAuthSlice } from 'pages/auth/authSlice';
 
 const now = moment();
 const startDate = moment('2024-11-30').startOf('day');
@@ -24,25 +23,21 @@ export const isWithinRange = now.isBetween(startDate, endDate, null, '[]');
 const QuizathonProfile = () => {
   const { id } = useParams<{ id: string }>();
   const [openAgreement, setOpenAgreement] = useState<boolean>(false);
+  // const user = useSelector(selectCurrentUser);
+  const { user } = useAuthSlice();
+  const userId = user?.user?.id;
 
   const {
     participantDetails,
-    getActiveQuizathon,
-    getParticipant,
     hasQuizathonEnded,
-    getSingleQuizathon,
     isLoadingQuizathon,
     singleQuizathon,
-    getAllActiveQuizathon,
     allActiveQuizathon,
-  } = useQuizathon();
+  } = useQuizathon({ quizathonId: id, studentId: userId });
 
   const { activePlan } = useSubscriptionBilling();
 
   const hasEnded = hasQuizathonEnded;
-
-  const user = useSelector(selectCurrentUser);
-  const userId = user?.id;
 
   const handleAccept = () => {
     localStorage.setItem(AGREEMENT_KEY, 'true');
@@ -51,17 +46,9 @@ const QuizathonProfile = () => {
 
   const isRegistered = !!participantDetails;
 
-  useEffect(() => {
-    getActiveQuizathon();
-    getParticipant({ studentId: userId || '', quizathonId: id || '' });
-    // getActivePlan();
-    getSingleQuizathon(id || '');
-    getAllActiveQuizathon();
-  }, []);
-
-  const refetchParticipantDetail = useCallback(() => {
-    getParticipant({ studentId: userId || '', quizathonId: id || '' });
-  }, []);
+  // const refetchParticipantDetail = useCallback(() => {
+  //   getParticipant({ studentId: userId || '', quizathonId: id || '' });
+  // }, []);
   useEffect(() => {
     const hasAcceptedConditions = localStorage.getItem(AGREEMENT_KEY);
 
@@ -99,7 +86,7 @@ const QuizathonProfile = () => {
           eventEndTime={new Date(singleQuizathon?.stopAt as string)}
           isRegistered={isRegistered}
           singleQuizathon={singleQuizathon}
-          refetch={refetchParticipantDetail}
+          // refetch={refetchParticipantDetail}
         />
       ) : (
         <BannerWrapper>

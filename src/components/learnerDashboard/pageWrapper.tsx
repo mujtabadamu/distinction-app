@@ -1,7 +1,5 @@
 import { Box, PageTitle, Text } from '@flexisaf/flexibull2';
-import { useSelector } from 'react-redux';
-
-import { selectCurrentUser } from '../../redux/auth/selectors';
+import { useAuthSlice } from '../../pages/auth/authSlice';
 import useBreakpointValue from '../../hooks/general/useBreakpointValue';
 import Theme from '../../utils/theme';
 import styled from 'styled-components';
@@ -17,7 +15,8 @@ interface IPageWrapper {
 
 const PageWrapper = ({ children, title }: IPageWrapper) => {
   // const { getActiveQuizathon, activeQuizathon } = useQuizathon();
-  const user = useSelector(selectCurrentUser);
+  const { user: loginResponse } = useAuthSlice();
+  const user = loginResponse?.user;
   const padding = useBreakpointValue({ base: '10px 20px', md: '30px 36px' });
   const navigate = useNavigate();
 

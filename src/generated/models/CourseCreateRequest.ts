@@ -6,5 +6,7 @@ export type CourseCreateRequest = {
     name: string;
     courseCode?: string;
     curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
+    difficulty?: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED';
+    documentUrl?: string;
 };
 

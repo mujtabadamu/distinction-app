@@ -1,17 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 // import type { StatisticProps } from 'antd';
-import { AnswerOptionChoice } from '../../redux/studentPapers/typings';
-import {
-  setPaperResult,
-  clearQuestionAnserMap,
-  resetStudentPapersState,
-} from '../../redux/studentPapers/reducer';
-import { resetStudentPracticeState } from '../../redux/studentPractice/reducer';
 import useStudentPaperPost from '../studentPapers/useCreateStudentPaper';
 import { successNotifier } from '../../utils/helpers';
-import { ExtendedStudentPaperView } from 'pages/practice';
+import { ExtendedStudentPaperView } from '../../pages/practice';
 import usePracticeSync from './usePracticeSync';
 import {
   clearQuestionAnswers,
@@ -26,7 +19,7 @@ const usePracticeScreenState = ({
   paperDetails,
 }: { paperDetails?: ExtendedStudentPaperView } = {}) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // Refs for time tracking
   const initialTimeRef = useRef<number | null>(null);
   const timeSetRef = useRef(false);
@@ -64,7 +57,7 @@ const usePracticeScreenState = ({
     if (studentPaper) {
       trackTimer({
         timeElapsed: minutesElapsed,
-        studentPaperId: studentPaper?.id,
+        studentPaperId: studentPaper?.id ?? '',
       });
     }
   };
@@ -73,7 +66,7 @@ const usePracticeScreenState = ({
     if (studentPaper) {
       trackTimer({
         timeElapsed: minutesElapsed,
-        studentPaperId: studentPaper?.id,
+        studentPaperId: studentPaper?.id ?? '',
       });
     }
   };
@@ -119,7 +112,11 @@ const usePracticeScreenState = ({
 
   const onSelectAnswerOption = (
     question: number,
-    answerOption: AnswerOptionChoice,
+    answerOption: {
+      questionId: string;
+      answerOptionIds: string[];
+      answerText?: string;
+    },
     questionType:
       | 'SINGLE_CHOICE'
       | 'MULTIPLE_CHOICE'
@@ -137,7 +134,11 @@ const usePracticeScreenState = ({
 
   const restoreQuestionAnswerMap = (
     question: number,
-    answerOption: AnswerOptionChoice,
+    answerOption: {
+      questionId: string;
+      answerOptionIds: string[];
+      answerText?: string;
+    },
     questionType:
       | 'SINGLE_CHOICE'
       | 'MULTIPLE_CHOICE'
@@ -155,10 +156,6 @@ const usePracticeScreenState = ({
   }, []);
 
   const reset = useCallback(() => {
-    dispatch(clearQuestionAnserMap());
-    dispatch(setPaperResult(null));
-    dispatch(resetStudentPapersState());
-    dispatch(resetStudentPracticeState());
     dispatch(clearQuestionAnswers());
     dispatch(resetTimerState());
     localStorage.setItem('timeLeft', String(0));

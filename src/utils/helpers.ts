@@ -375,6 +375,45 @@ export const secondsToMMSS = (totalSeconds: string): string => {
     .padStart(2, '0')}`;
 };
 
+// Format seconds to HH:MM:SS format with optional parts
+export const formatSecondsToHHMMSS = (
+  totalSeconds: number,
+  options?: {
+    showHours?: boolean;
+    showSeconds?: boolean;
+  }
+): string => {
+  if (totalSeconds < 0) {
+    return '00:00:00';
+  }
+
+  const { showHours = true, showSeconds = true } = options || {};
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+
+  if (!showHours && !showSeconds) {
+    // Only show minutes
+    return `${minutes.toString().padStart(2, '0')}`;
+  } else if (!showHours) {
+    // Show MM:SS
+    return `${minutes.toString().padStart(2, '0')}:${seconds
+      .toString()
+      .padStart(2, '0')}`;
+  } else if (!showSeconds) {
+    // Show HH:MM
+    return `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}`;
+  } else {
+    // Show HH:MM:SS (default)
+    return `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
+};
+
 // Utility to convert MM:SS to total seconds
 export const mmssToSeconds = (mmss: string): string => {
   const [minutes, seconds] = mmss.split(':').map(Number);
@@ -396,8 +435,24 @@ export const unquoteString = (quotedContent: string): string => {
   return quotedContent;
 };
 
-export function formatDateTime(date: string | Date) {
-  return moment(date).format('Do MMM, YYYY HH:mm A');
+export function formatDateTime(date: string | Date, showTime = true) {
+  const formatString = showTime ? 'Do MMM, YYYY HH:mm A' : 'Do MMM, YYYY';
+  return moment(date).format(formatString);
+}
+
+export function formatTimeToHour(date: string | Date): string {
+  if (!date) return '';
+
+  try {
+    return moment(date).format('hA');
+  } catch (error) {
+    console.warn('Invalid date format provided to formatTimeToHour:', date);
+    return '';
+  }
+}
+export function formatDateToTime(date: string | Date, showTime = true) {
+  const formatString = showTime ? 'HH:mm A' : 'HH:mm';
+  return moment(date).format(formatString);
 }
 
 export function formatSecondsToHumanReadableString(
@@ -427,7 +482,7 @@ export function formatSecondsToHumanReadableString(
   }
 
   if (hours > 0 && minutes === 0) {
-    return `${hours} hr${hours > 1 ? 's' : ''} 0 mins`;
+    return `${hours} hr${hours > 1 ? 's' : ''}`;
   }
 
   return parts.join(' ');
@@ -468,3 +523,116 @@ export const isEmptyOrAllStringsEmpty = (obj: Record<string, unknown>) => {
     return typeof value === 'string' && value.trim().length === 0;
   });
 };
+
+function numberToWords(num: number) {
+  if (num === 0) return '---';
+
+  const units = [
+    '',
+    'One',
+    'Two',
+    'Three',
+    'Four',
+    'Five',
+    'Six',
+    'Seven',
+    'Eight',
+    'Nine',
+  ];
+  const teens = [
+    'Ten',
+    'Eleven',
+    'Twelve',
+    'Thirteen',
+    'Fourteen',
+    'Fifteen',
+    'Sixteen',
+    'Seventeen',
+    'Eighteen',
+    'Nineteen',
+  ];
+  const tens = [
+    '',
+    'Ten',
+    'Twenty',
+    'Thirty',
+    'Forty',
+    'Fifty',
+    'Sixty',
+    'Seventy',
+    'Eighty',
+    'Ninety',
+  ];
+  const scales = ['', 'Thousand', 'Million', 'Billion', 'Trillion'];
+
+  const words = [];
+  let scaleIndex = 0;
+
+  // Handle negative numbers
+  let isNegative = false;
+  if (num < 0) {
+    isNegative = true;
+    num = Math.abs(num);
+  }
+
+  while (num > 0) {
+    let chunk = num % 1000;
+    num = Math.floor(num / 1000);
+
+    if (chunk !== 0) {
+      const chunkWords = [];
+
+      // Hundreds place
+      if (chunk >= 100) {
+        chunkWords.push(`${units[Math.floor(chunk / 100)]} Hundred`);
+        chunk %= 100;
+      }
+
+      // Tens and units place
+      if (chunk >= 20) {
+        chunkWords.push(tens[Math.floor(chunk / 10)]);
+        chunk %= 10;
+        if (chunk > 0) {
+          chunkWords.push(units[chunk]);
+        }
+      } else if (chunk >= 10) {
+        chunkWords.push(teens[chunk - 10]);
+      } else if (chunk > 0) {
+        chunkWords.push(units[chunk]);
+      }
+
+      if (scaleIndex > 0) {
+        chunkWords.push(scales[scaleIndex]);
+      }
+
+      words.unshift(chunkWords.join(' '));
+    }
+
+    scaleIndex++;
+  }
+
+  let result = words.join(' ');
+  if (isNegative) {
+    result = `Minus ${result}`;
+  }
+
+  return result;
+}
+
+export function amountToWords(amount: number) {
+  if (isNaN(amount)) {
+    return 'Invalid amount';
+  }
+
+  // Handle decimal amounts (for currency)
+  const wholeNumber = Math.floor(amount);
+  const decimal = Math.round((amount - wholeNumber) * 100);
+
+  let words = numberToWords(wholeNumber);
+
+  if (decimal > 0) {
+    words += ` and ${numberToWords(decimal)} Cents`;
+  }
+
+  return words;
+}

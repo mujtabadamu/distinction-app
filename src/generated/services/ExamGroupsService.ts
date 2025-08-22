@@ -89,7 +89,7 @@ export class ExamGroupsService {
      * @returns PaginatedSimpleExamGroupView OK
      * @throws ApiError
      */
-    public static list21({
+    public static list22({
         name,
         isActive,
         page,

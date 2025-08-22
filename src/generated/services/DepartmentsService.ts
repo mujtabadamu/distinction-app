@@ -14,7 +14,7 @@ export class DepartmentsService {
      * @returns PaginatedDepartmentView OK
      * @throws ApiError
      */
-    public static list30({
+    public static list31({
         name,
         keyword,
         page,

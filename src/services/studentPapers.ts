@@ -1,131 +1,117 @@
 import request from '../utils/request';
 import urls from '../utils/config';
+
 import {
   GetStudentPapersPayload,
-  GetStudentPaperQuestionsPayload,
   PostStudentPapersPayload,
-  AnswerOptionChoice,
-  SubmitPaperPayload,
+  GetStudentPaperQuestionsPayload,
   GetSingleStudentPaperPayload,
-} from '../redux/studentPapers/typings';
+  SubmitPaperPayload,
+} from '../typings/studentPaper';
 
 const { API_BASE_URL } = urls || {};
 
+// Get student papers
 export const httpGetStudentPapers = (payload: GetStudentPapersPayload) => {
-  const { data } = payload;
+  const { data, options } = payload;
+
+  const params: any = {};
+  if (data?.examGroupId) params.examGroupId = data.examGroupId;
+  if (data?.page !== undefined) params.page = data.page;
+  if (data?.size !== undefined) params.size = data.size;
+
+  if (options?.filterBy === 'completed') {
+    params.completed = true;
+  } else if (options?.filterBy === 'inProgress') {
+    params.completed = false;
+  }
+
   return request({
     url: `${API_BASE_URL}/portal/student-papers`,
     method: 'get',
+    data: params,
+  });
+};
+
+// Create student paper
+export const httpPostStudentPapers = (payload: PostStudentPapersPayload) => {
+  const { paperId, size, mode, captcha } = payload;
+
+  const data: any = {
+    paperId,
+    size,
+    mode,
+  };
+
+  if (captcha) {
+    data.captcha = captcha;
+  }
+
+  return request({
+    url: `${API_BASE_URL}/portal/student-papers`,
+    method: 'post',
     data,
   });
 };
 
-export const httpPostStudentPapers = (data: PostStudentPapersPayload) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { callback, ...payload } = data;
-  const url = `${API_BASE_URL}/portal/student-papers`;
-  return request({
-    url,
-    method: 'post',
-    data: {
-      ...payload,
-    },
-  });
-};
-
+// Get student paper questions
 export const httpGetStudentPaperQuestions = (
-  data: GetStudentPaperQuestionsPayload
+  payload: GetStudentPaperQuestionsPayload
 ) => {
-  const { id, page, size } = data;
+  const { id, page, size } = payload;
 
   return request({
-    url: `${API_BASE_URL}/portal/student-papers/${id || ''}/questions`,
+    url: `${API_BASE_URL}/portal/student-papers/${id}/questions`,
     method: 'get',
-    data: {
-      page,
-      size,
-    },
+    data: { page, size },
   });
 };
 
+// Get student paper questions with solutions
 export const httpGetStudentPaperQuestionsSolutions = (
-  data: GetStudentPaperQuestionsPayload
+  payload: GetStudentPaperQuestionsPayload
 ) => {
-  const { id, page, size } = data;
+  const { id, page, size } = payload;
 
   return request({
-    url: `${API_BASE_URL}/portal/student-papers/${id || ''}/solutions`,
+    url: `${API_BASE_URL}/portal/student-papers/${id}/questions/solutions`,
     method: 'get',
-    data: {
-      page,
-      size,
-    },
+    data: { page, size },
   });
 };
 
-export interface IHttpPostStudentPaperAnswer {
-  data: AnswerOptionChoice;
-  id: string;
-}
-
-export const httpPostStudentPaperAnswer = (
-  data: IHttpPostStudentPaperAnswer
-) => {
-  const url = `${API_BASE_URL}/portal/student-papers/${data.id}/answers`;
-
-  return request({
-    url,
-    method: 'post',
-    data: data.data,
-  });
-};
-
-export const httpPostSubmitStudentPaper = (data: SubmitPaperPayload) => {
-  const { id, timeElapsed } = data;
-  const url = `${API_BASE_URL}/portal/student-papers/${id}/submit`;
-  return request({
-    url,
-    method: 'post',
-    data: {
-      timeElapsed,
-    },
-  });
-};
-
+// Get single student paper
 export const httpGetSingleStudentPaper = (
   payload: GetSingleStudentPaperPayload
 ) => {
   const { data } = payload;
-  const url = `${API_BASE_URL}/portal/student-papers/${data.id}`;
 
   return request({
-    url,
+    url: `${API_BASE_URL}/portal/student-papers/${data.id}`,
     method: 'get',
   });
 };
 
-export interface IHttpPostPaperBookmark {
-  studentPaperId?: string;
-  questionId: string;
-}
+// Submit student paper
+export const httpPostSubmitStudentPaper = (payload: SubmitPaperPayload) => {
+  const { id, data } = payload;
 
-export const httpPostPaperBookmark = (data: IHttpPostPaperBookmark) => {
-  const { studentPaperId, questionId } = data;
-  const url = `${API_BASE_URL}/portal/student-papers/${studentPaperId}/bookmarks`;
   return request({
-    url,
+    url: `${API_BASE_URL}/portal/student-papers/${id}/submit`,
     method: 'post',
-    data: {
-      questionId,
-    },
+    data,
   });
 };
 
-export const httpDeletePaperBookmark = (data: IHttpPostPaperBookmark) => {
-  const { studentPaperId, questionId } = data;
-  const url = `${API_BASE_URL}/portal/student-papers/${studentPaperId}/bookmarks?questionId=${questionId}`;
+// Save student paper progress
+export const httpPostSaveStudentPaperProgress = (
+  payload: SubmitPaperPayload
+) => {
+  const { id, data } = payload;
+
   return request({
-    url,
-    method: 'delete',
+    url: `${API_BASE_URL}/portal/student-papers/${id}/progress`,
+    method: 'post',
+    data,
   });
 };

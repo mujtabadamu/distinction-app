@@ -1,23 +1,42 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { createPaperRatingStart } from '../../redux/papers/reducer';
-import { selectIsCreatingPaperRating } from '../../redux/papers/selectors';
-import { PostPaperRatingPayload } from '../../redux/papers/typings';
+import { useCallback } from 'react';
+import { useRatePaperMutation } from '../../store/result';
+import { PaperRatingRequest } from '../../store/result';
 
+interface CreatePaperRatingPayload {
+  data: PaperRatingRequest;
+  callback?: () => void;
+}
 
 const useCreatePaperRating = () => {
-    const dispatch = useDispatch();
-    const isCreating = useSelector(selectIsCreatingPaperRating);
+  const [ratePaper, { isLoading: isCreatingRating }] = useRatePaperMutation();
 
+  const createPaperRating = useCallback(
+    async (data: CreatePaperRatingPayload) => {
+      const { data: ratingData, callback } = data;
 
-    const createPaperRating = (data: PostPaperRatingPayload) => {
-        dispatch(createPaperRatingStart(data));
-    };
+      try {
+        await ratePaper({
+          paperRatingRequest: {
+            rating: ratingData.rating,
+            paperId: ratingData.paperId,
+          },
+        }).unwrap();
 
+        if (callback) {
+          callback();
+        }
+      } catch (error) {
+        console.error('Error creating paper rating:', error);
+        throw error;
+      }
+    },
+    [ratePaper]
+  );
 
-    return {
-        createPaperRating,
-        isCreatingPaperRating: isCreating,
-    };
+  return {
+    createPaperRating,
+    isCreatingRating,
+  };
 };
 
 export default useCreatePaperRating;

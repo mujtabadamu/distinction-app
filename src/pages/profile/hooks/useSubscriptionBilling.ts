@@ -44,12 +44,21 @@ const useSubscriptionBilling = () => {
     isLoading: loadingFeatureLimit,
     isSuccess: isSuccessFeatureLimit,
     // refetch: refetchFeatureLimit,
-  } = useEnhancedGetFeatureLimitQuery(featurePayload as any, {
+  } = useEnhancedGetFeatureLimitQuery(featurePayload as DistinctionFeature, {
     skip: !featurePayload,
   });
 
   const getFeatureLimit = (payload: DistinctionFeature) => {
     setFeaturePayload(payload);
+  };
+
+  // Add getActivePlan function to match original implementation
+  const getActivePlan = async () => {
+    try {
+      await refetchActivePlan();
+    } catch (error) {
+      console.error('Error fetching active plan:', error);
+    }
   };
 
   // Cancel Subscription
@@ -62,6 +71,7 @@ const useSubscriptionBilling = () => {
     refetchSubscriptionPackages,
     loadingActivePlan,
     activePlan,
+    getActivePlan, // Add this function
     refetchActivePlan,
     getSubscriptionHistory: setHistoryParams,
     loadingHistory,

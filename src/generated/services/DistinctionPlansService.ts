@@ -77,7 +77,7 @@ export class DistinctionPlansService {
      * @returns PlanView OK
      * @throws ApiError
      */
-    public static list12(): CancelablePromise<Array<PlanView>> {
+    public static list13(): CancelablePromise<Array<PlanView>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/plans',

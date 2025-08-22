@@ -9,10 +9,11 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
 // import { selectCurrentUser } from 'redux/auth/selectors';
+import { useAuthSlice } from 'pages/auth/authSlice';
 
 const Quizathons = () => {
+  const { user } = useAuthSlice();
   const {
-    getAllActiveQuizathon,
     allActiveQuizathon,
     isLoadingAllActiveQuizathon,
     // submitStudentInfo,
@@ -20,17 +21,20 @@ const Quizathons = () => {
     participantDetails,
     isSubmittingInfo,
     // activeQuizathon,
-    getActiveQuizathon,
-  } = useQuizathon();
+    // getActiveQuizathon,
+  } = useQuizathon({
+    studentId: user?.user?.id || undefined,
+  });
   // const { getProfileData, profileData } = useProfile();
   // const user = useSelector(selectCurrentUser);
   // const studentId = user?.id as string;
 
-  useEffect(() => {
-    getAllActiveQuizathon();
-    getActiveQuizathon();
-    // getProfileData(studentId);
-  }, []);
+  // Add error logging for the query
+  if (!isLoadingAllActiveQuizathon && !allActiveQuizathon) {
+    console.error('Failed to load active quizathons.');
+  }
+  console.log('allActiveQuizathon:', allActiveQuizathon);
+  console.log('isLoadingAllActiveQuizathon:', isLoadingAllActiveQuizathon);
 
   const isRegistered = !!participantDetails;
   const navigate = useNavigate();

@@ -3,10 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type PointView = {
-    title?: string;
-    createdAt?: string;
     point?: string;
+    title?: string;
     updatedAt?: string;
+    createdAt?: string;
     id?: string;
 };
 

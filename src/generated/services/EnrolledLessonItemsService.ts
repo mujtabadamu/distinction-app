@@ -14,7 +14,7 @@ export class EnrolledLessonItemsService {
      * @returns PaginatedSimpleEnrolledLessonItemView OK
      * @throws ApiError
      */
-    public static list22({
+    public static list23({
         keyword,
         enrolledCourseId,
         sortField,

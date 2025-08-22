@@ -32,7 +32,7 @@ export class DistinctionPortalSubscriptionsService {
      * @returns PaginatedSubscriptionHistoryView OK
      * @throws ApiError
      */
-    public static list27({
+    public static list28({
         page,
         size = 10,
     }: {

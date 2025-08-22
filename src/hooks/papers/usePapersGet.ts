@@ -1,23 +1,26 @@
-import { useEffect, useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchPapersStart } from '../../redux/papers/reducer';
-import { GetPapersPayload } from '../../redux/papers/typings';
+import { useCallback, useState } from 'react';
+import { useGetPapersQuery } from '../../store/result';
 import usePaginationWrapper from '../general/usePaginationWrapper';
-import {
-  selectIsFetchingPapers,
-  selectPapersList,
-} from '../../redux/papers/selectors';
+
+interface GetPapersPayload {
+  examId?: string;
+  subjectId?: string;
+  page?: number;
+  size?: number;
+  examGroupId?: string;
+  keyword?: string;
+  curriculum?: string;
+}
+
 const usePapersGet = ({
   examId,
   subjectId,
   examGroupId,
   curriculum,
 }: GetPapersPayload) => {
-  const dispatch = useDispatch();
-  const isFetching = useSelector(selectIsFetchingPapers);
-  const papers = useSelector(selectPapersList);
   const [fetch, setFetch] = useState(0);
   const refetch = () => setFetch((prev) => prev + 1);
+
   const {
     limit,
     searchText,
@@ -29,48 +32,37 @@ const usePapersGet = ({
     pageOptions,
     setOffset,
   } = usePaginationWrapper({ defaultLimit: 10 });
-  const fetchPapers = useCallback(() => {
-    dispatch(
-      fetchPapersStart({
-        ...(examId ? { examId } : {}),
-        ...(subjectId ? { subjectId } : {}),
-        ...(examGroupId ? { examGroupId } : {}),
-        ...(curriculum ? { curriculum } : {}),
-        ...(searchText ? { keyword: debouncedSearchText } : {}),
-        page: page - 1,
-        size: limit,
-      })
-    );
-  }, [
-    examId,
-    page,
-    limit,
-    subjectId,
+
+  // Build query parameters
+  // const queryParams = {
+  //   ...(examId ? { examId } : {}),
+  //   ...(subjectId ? { subjectId } : {}),
+  //   ...(examGroupId ? { examGroupId } : {}),
+  //   ...(curriculum ? { curriculum } : {}),
+  //   ...(debouncedSearchText ? { keyword: debouncedSearchText } : {}),
+  //   page: page - 1,
+  //   size: limit,
+  // };
+
+  // Use RTK Query hook - removed skip condition to match original behavior
+  const { data: papers, isLoading: loadingPapers } = useGetPapersQuery({
+    page: page - 1,
+    size: limit,
+    keyword: debouncedSearchText,
+    curriculum: curriculum as 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS',
     examGroupId,
-    debouncedSearchText,
-    curriculum,
-  ]);
+    examId,
+    subjectId,
+  });
+
   const increaseSize = useCallback(() => {
     if (!papers) return;
-    if (page && page >= papers?.pages) return;
+    if (page && page >= (papers?.pages ?? 0)) return;
     setPage(page + 1);
   }, [limit, page, papers]);
 
-  useEffect(() => {
-    fetchPapers();
-  }, [
-    dispatch,
-    examId,
-    page,
-    limit,
-    subjectId,
-    examGroupId,
-    debouncedSearchText,
-    fetch,
-    curriculum,
-  ]);
   return {
-    loadingPapers: isFetching,
+    loadingPapers,
     increaseSize,
     papers,
     listOfPapers: papers?.items,
@@ -78,7 +70,6 @@ const usePapersGet = ({
     fetch,
     searchText,
     setSearchText,
-    fetchPapers,
     page,
     setPage,
     limit,
@@ -87,4 +78,5 @@ const usePapersGet = ({
     pageOptions,
   };
 };
+
 export default usePapersGet;

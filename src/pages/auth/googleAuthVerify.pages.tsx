@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useEnhancedTokenLoginMutation } from '../../store/enhancedApi';
 import { setAuth } from './authSlice';
 import { setLocalUser } from '../../utils/helpers';
@@ -11,12 +10,11 @@ import SectionLoader from '../../components/custom/sectionLoader';
 
 const GoogleAuthVerify = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const [error, setError] = useState(false);
   const token = searchParams.get('transfer_code');
 
-  const [tokenLogin, { isLoading }] = useEnhancedTokenLoginMutation();
+  const [tokenLogin] = useEnhancedTokenLoginMutation();
 
   const loginWithToken = useCallback(async () => {
     if (token) {
@@ -34,16 +32,16 @@ const GoogleAuthVerify = () => {
         }
 
         // Update Redux state with tokens and user data
-        dispatch(setAuth({ user: response }));
+        setAuth({ user: response });
 
         // Navigate to home on success
-        navigate('/home');
+        navigate('/dashboard');
       } catch (error) {
         console.error('Token login error:', error);
         setError(true);
       }
     }
-  }, [token, tokenLogin, navigate, dispatch]);
+  }, [token, tokenLogin, navigate]);
 
   useEffect(() => {
     if (token) {

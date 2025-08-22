@@ -4,25 +4,31 @@
 /* eslint-disable */
 import type { LessonGroupView } from './LessonGroupView';
 import type { SimpleSubjectView } from './SimpleSubjectView';
+import type { SimpleUserInfoView } from './SimpleUserInfoView';
 export type CourseView = {
-    description?: string;
     level?: string;
-    title?: string;
+    description?: string;
     units?: number;
+    title?: string;
     tags?: Array<string>;
+    courseUrl?: string;
     subject?: SimpleSubjectView;
-    createdAt?: string;
-    curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
-    experienceLevel?: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED';
     lessonGroups?: Array<LessonGroupView>;
-    lessonGroupType?: 'HOUR' | 'DAY' | 'WEEK' | 'MONTH' | 'TERM' | 'SEMESTER';
-    bannerUrl?: string;
+    aiModelVersion?: string;
+    curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
+    courseCode?: string;
+    aiJobId?: string;
     coverImageUrl?: string;
+    aiStatus?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
     certificateUrl?: string;
     learningObjectives?: Array<string>;
-    courseUrl?: string;
-    accessLevel?: 'PRIVATE' | 'PUBLIC';
-    courseCode?: string;
+    accessLevel?: 'PRIVATE' | 'INVITE' | 'PUBLIC';
+    createdAt?: string;
+    difficulty?: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED';
+    bannerUrl?: string;
+    lessonGroupType?: 'HOUR' | 'DAY' | 'WEEK' | 'MONTH' | 'TERM' | 'SEMESTER';
+    aiError?: string;
     id?: string;
+    owner?: SimpleUserInfoView;
 };
 

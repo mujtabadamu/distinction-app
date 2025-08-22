@@ -4,9 +4,9 @@
 /* eslint-disable */
 export type SimpleEnrolledLessonItemView = {
     status?: 'IN_PROGRESS' | 'COMPLETED';
-    startDate?: string;
-    completionDate?: string;
     lessonItemId?: string;
+    completionDate?: string;
+    startDate?: string;
     id?: string;
 };
 

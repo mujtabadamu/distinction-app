@@ -12,7 +12,7 @@ export class PortalStudentResultsService {
      * @returns PaginatedStudentResultView OK
      * @throws ApiError
      */
-    public static list8({
+    public static list9({
         keyword,
         paperId,
         examGroupId,

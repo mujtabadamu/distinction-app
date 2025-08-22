@@ -5,8 +5,6 @@ import { useTimer } from 'react-timer-hook';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useProfile from 'pages/profile/hooks/useProfile';
-import { useSelector } from 'react-redux';
-import { selectCurrentUser } from 'redux/auth/selectors';
 import useQuizathon from '../hooks/useQuizathon';
 import { DistinctionFeatureProperty } from 'utils/constants';
 import useSubscriptionBilling from 'pages/profile/hooks/useSubscriptionBilling';
@@ -14,6 +12,7 @@ import PlanLimitBlock from 'pages/profile/subscription/PlanLimitBlock';
 import SubscriptionPlansModal from 'pages/profile/subscription/SubscriptionPlansModal';
 import useDisclosure from 'hooks/general/useDisclosure';
 import { Quizathon } from 'generated/index';
+import { useAuthSlice } from 'pages/auth/authSlice';
 
 interface CountDownI {
   eventStartTime: Date;
@@ -22,7 +21,7 @@ interface CountDownI {
   title: string | undefined;
   showButton?: boolean;
   showDescription?: boolean;
-  singleQuizathon: Quizathon | null;
+  singleQuizathon: Quizathon | undefined;
   refetch: () => void;
 }
 
@@ -61,7 +60,11 @@ const CountDown = ({
   refetch,
 }: CountDownI) => {
   const [flipView, setFlipView] = useState(true);
-  const { isSubmittingInfo, submitStudentInfo } = useQuizathon();
+  const { user } = useAuthSlice();
+  const studentId = user?.user?.id ?? '';
+  const { isSubmittingInfo, submitStudentInfo } = useQuizathon({
+    studentId: studentId,
+  });
   const navigate = useNavigate();
   const currentTimeStamp = new Date();
   const hasStarted = eventStartTime.getTime() <= currentTimeStamp.getTime();
@@ -83,8 +86,10 @@ const CountDown = ({
 
   const timerValues = { days, hours, minutes, seconds };
 
-  const user = useSelector(selectCurrentUser);
-  const studentId = user?.id as string;
+  // const user = useSelector(selectCurrentUser);
+  // const { user } = useAuthSlice();
+
+  // const studentId = user?.user?.id ?? '';
 
   const handleSubmit = () => {
     const payload = {

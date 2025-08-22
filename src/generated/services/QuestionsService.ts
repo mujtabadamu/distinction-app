@@ -78,7 +78,7 @@ export class QuestionsService {
      * @returns PaginatedSimpleQuestionView OK
      * @throws ApiError
      */
-    public static list7({
+    public static list8({
         keyword,
         topic,
         tag,

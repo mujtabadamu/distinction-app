@@ -5,11 +5,11 @@
 import type { SimpleCourseView } from './SimpleCourseView';
 export type EnrolledCourseView = {
     status?: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
-    createdAt?: string;
-    userId?: string;
     course?: SimpleCourseView;
-    startDate?: string;
+    userId?: string;
+    createdAt?: string;
     completionDate?: string;
+    startDate?: string;
     id?: string;
 };
 

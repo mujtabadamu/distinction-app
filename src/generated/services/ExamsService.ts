@@ -78,7 +78,7 @@ export class ExamsService {
      * @returns PaginatedExamView OK
      * @throws ApiError
      */
-    public static list20({
+    public static list21({
         name,
         year,
         examGroupId,

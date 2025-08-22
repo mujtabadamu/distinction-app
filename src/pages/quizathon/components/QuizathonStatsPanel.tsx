@@ -8,7 +8,6 @@ import {
   Spacer,
   Select,
 } from '@flexisaf/flexibull2';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Skeleton from 'react-loading-skeleton';
 import UsersIcon from 'assets/images/UsersFour.svg';
@@ -27,50 +26,62 @@ import {
   capitalizeFirstLetterOFEachWord,
   thousandFormatter,
 } from 'utils/helpers';
-import useQuizathon from '../hooks/useQuizathon';
-import { selectCurrentUser } from 'redux/auth/selectors';
+import useQuizathon, { LeaderboardType } from '../hooks/useQuizathon';
 import usePaginationWrapper from 'hooks/general/usePaginationWrapper';
 import { generateDailyFilterOptions } from 'utils/helpers';
 import InfoBanner from 'components/infoBanner/InfoBanner';
 import LeaderboardCard from 'components/cards/leaderboard-card';
 import { DesktopTableWrapper } from 'styles/dashboard/dashboard.styles';
 import { Quizathon } from 'generated/index';
+import { useParams } from 'react-router-dom';
+import { useAuthSlice } from 'pages/auth/authSlice';
+import {
+  useEnhancedGetIndividualLeaderboardStatQuery,
+  useEnhancedGetParticipantStatsQuery,
+  useEnhancedGetQuizathonDailyLeaderBoardQuery,
+} from 'store/enhancedApi';
 
-export type ViewType = 'score' | 'accuracy' | 'university';
+export type ViewType = 'score' | 'accuracy' | 'genius' | 'university';
 
 interface IProps {
-  singleQuizathon: Quizathon | null;
+  singleQuizathon: Quizathon | undefined;
 }
 const QuizathonStatsPanel = ({ singleQuizathon }: IProps) => {
-  const [activeView, setActiveView] = useState<ViewType>('accuracy');
-  const user = useSelector(selectCurrentUser);
+  const [activeView, setActiveView] = useState<ViewType>('genius');
+  // const user = useSelector(selectCurrentUser);
+  const { user } = useAuthSlice();
   const [selectedDayFilter, setSelectedDayFilter] = useState<OptionI | null>(
     null
   );
-  const studentId = user?.id as string;
+  const [selectPastQuizathon, setSelectPastQuizathon] =
+    useState<OptionI | null>(null);
+
+  const studentId = user?.user?.id;
+  const { id } = useParams();
+
   const {
     isLoadingSingleLeaderBoard,
     singleLeaderBoardData,
-    getIndividualLeaderboardStat,
-    getParticipantStats,
-    isLoadingParticipantStats,
-    participantStats,
-    getQuizathonHistory,
+    // isLoadingParticipantStats,
+    // participantStats,
     quizathonHistory,
-    getQuizathonDailyLeaderBoard,
-    dailyLeaderBoard,
-    isLoadingDailyLeaderBoard,
-    getAccuracyLeaderboard,
+    // dailyLeaderBoard,
+    // isLoadingDailyLeaderBoard,
+    // getAccuracyLeaderboard,
+    geniusLeaderboardData,
+    isLoadingGeniusLeaderboard,
     rankingData,
     isLoadingRanking,
-    getSchoolLeaderboard,
     schoolLeaderboard,
     isLoadingSchoolLeaderboard,
-    getLeaderboard,
+    // getLeaderboard,
     leaderBoardData,
-    getActiveQuizathon,
+    // getActiveQuizathon,
     isLoadingLeaderBoard,
-  } = useQuizathon();
+  } = useQuizathon({
+    quizathonId: id,
+    studentId: studentId,
+  });
 
   const {
     limit,
@@ -87,10 +98,40 @@ const QuizathonStatsPanel = ({ singleQuizathon }: IProps) => {
     setActiveView(value);
     setPage(1);
   };
-  const [selectPastQuizathon, setSelectPastQuizathon] =
-    useState<OptionI | null>(null);
 
-  const quizathonId = selectPastQuizathon?.value ?? singleQuizathon?.id;
+  const quizathonId = selectPastQuizathon?.value ?? id ?? singleQuizathon?.id;
+
+  const {
+    data: participantStats,
+    isLoading: isLoadingParticipantStats,
+    // refetch: getParticipantStats,
+  } = useEnhancedGetParticipantStatsQuery(
+    {
+      studentId: studentId || '',
+      quizathonId: quizathonId || '',
+    },
+    {
+      skip: !studentId || !quizathonId,
+    }
+  );
+  const {
+    data: dailyLeaderBoard,
+    isLoading: isLoadingDailyLeaderBoard,
+    // refetch: getQuizathonDailyLeaderBoard,
+  } = useEnhancedGetQuizathonDailyLeaderBoardQuery(
+    {
+      studentId,
+      quizathonId,
+    },
+    {
+      skip: !studentId || !quizathonId,
+    }
+  );
+
+  // Extract the first item from the paginated response for RankingCard
+  const individualLeaderboardItem = singleLeaderBoardData?.items?.[0];
+
+  console.log('participantStats', participantStats);
   const historySelectOption = quizathonHistory?.items?.map((item) => {
     return {
       label: item.title || '',
@@ -98,40 +139,38 @@ const QuizathonStatsPanel = ({ singleQuizathon }: IProps) => {
     };
   });
   // Effect for individual leaderboard stats (accuracy and score)
-  useEffect(() => {
-    if (!studentId) return;
+  // useEffect(() => {
+  // if (!studentId || !quizathonId) return;
 
-    const payload = { studentId, quizathonId };
-    const useAccuracyStats = activeView === 'accuracy';
-    getIndividualLeaderboardStat(payload, useAccuracyStats);
-    getActiveQuizathon();
-    getParticipantStats({ studentId });
-  }, [activeView, studentId, quizathonId]);
+  // const payload = { studentId, quizathonId };
+
+  // if (['score', 'accuracy', 'genius'].includes(activeView)) {
+  //   getIndividualLeaderboardStat(payload, activeView as LeaderboardType);
+  // }
+  // getActiveQuizathon();
+
+  // getParticipantStats({ studentId, quizathonId });
+  // }, [activeView, studentId, quizathonId]);
 
   // Effect for leaderboard data and history
   useEffect(() => {
-    if (!studentId) return;
+    if (!studentId || !quizathonId) return;
 
     // Fetch different leaderboards based on active view
     const payload = { page: page - 1, quizathonId };
 
     if (activeView === 'score') {
       if (selectedDayFilter?.value === null) {
-        getLeaderboard({
-          page: page - 1,
-          quizathonId,
-        });
-      } else {
-        getQuizathonDailyLeaderBoard({
-          page: page - 1,
-          quizathonId,
-          date: selectedDayFilter?.value,
-        });
+        // getLeaderboard({
+        //   page: page - 1,
+        //   quizathonId,
+        // });
       }
+      // Daily leaderboard is handled by RTK Query automatically
     } else if (activeView === 'university') {
-      getSchoolLeaderboard(payload);
+      // getSchoolLeaderboard(payload);
     } else {
-      getAccuracyLeaderboard(payload);
+      // getGeniusLeaderboard({ ...payload, quizathonId: quizathonId ?? '' });
     }
   }, [
     debouncedSearchText,
@@ -143,21 +182,11 @@ const QuizathonStatsPanel = ({ singleQuizathon }: IProps) => {
     selectedDayFilter?.value,
   ]);
 
-  useEffect(() => {
-    getQuizathonHistory({
-      studentId,
-      page: page - 1,
-      size: limit,
-      ...(debouncedSearchText?.trim() && {
-        keyword: debouncedSearchText.trim(),
-      }),
-    });
-  }, []);
-
   const selectedQuizathonData = quizathonHistory?.items?.find(
     (item) => item.id === quizathonId
   );
   const participantCount = selectedQuizathonData?.totalParticipants || 0;
+  // Daily filter functionality is disabled since the dropdown is commented out
   const dailyFilterOptions = useMemo(() => {
     const activeQuizathonToUse = selectedQuizathonData || singleQuizathon;
     if (!activeQuizathonToUse) return [];
@@ -350,22 +379,30 @@ const QuizathonStatsPanel = ({ singleQuizathon }: IProps) => {
       </Box>
       <Spacer space={'10px'} />
 
-      <InfoBanner
-        bgColor="#E7E7FF"
-        style={{ padding: '10px', marginBottom: '0px' }}
-        infoText={
-          <>
-            <Text>
-              <span className="font-extrabold">Important Notice: </span>
-              Leaderboard rankings are not final. The official results will be
-              announced based on the stated Quizathon criteria
-            </Text>
-          </>
-        }
-        icon="saf-information"
-      />
+      {(activeView === 'accuracy'
+        ? rankingData?.items?.length
+        : geniusLeaderboardData?.items?.length) && (
+        <InfoBanner
+          bgColor="#E7E7FF"
+          style={{ padding: '10px', marginBottom: '0px' }}
+          infoText={
+            <>
+              <Text>
+                <span className="font-extrabold">Important Notice: </span>
+                Leaderboard rankings are not final. The official results will be
+                announced based on the stated Quizathon criteria
+              </Text>
+            </>
+          }
+          icon="saf-information"
+        />
+      )}
 
-      {rankingData?.items?.length ? (
+      {(
+        activeView === 'accuracy'
+          ? rankingData?.items?.length
+          : geniusLeaderboardData?.items?.length
+      ) ? (
         <ScoreContainer>
           <DesktopTableWrapper style={{ overflowX: 'auto' }}>
             <Table style={{ border: 'none' }}>
@@ -375,12 +412,15 @@ const QuizathonStatsPanel = ({ singleQuizathon }: IProps) => {
                     <th>Position</th>
                     <th>Name</th>
                     <th>Institution</th>
-                    <th>Accuracy</th>
-                    <th>Score</th>
+                    <th>Genius score</th>
+                    {/* <th>Score</th> */}
                   </tr>
                 </thead>
                 <tbody>
-                  {rankingData.items?.map((user, index) => (
+                  {(activeView === 'accuracy'
+                    ? rankingData
+                    : geniusLeaderboardData
+                  )?.items?.map((user, index) => (
                     <tr key={index}>
                       <td>
                         <Position position={Number(user.position)} />
@@ -393,13 +433,15 @@ const QuizathonStatsPanel = ({ singleQuizathon }: IProps) => {
                       <td>
                         {capitalizeFirstLetterOFEachWord(user.schoolName ?? '')}
                       </td>
-                      <td>{user.accuracy}%</td>
                       <td>
+                        {'geniusScore' in user ? String(user.geniusScore) : ''}
+                      </td>
+                      {/* <td>
                         {thousandFormatter(user.totalScore ?? 0)}/
                         <Text size="0.6rem">
                           {thousandFormatter(user.totalAttemptedQuestions ?? 0)}
                         </Text>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
@@ -407,14 +449,23 @@ const QuizathonStatsPanel = ({ singleQuizathon }: IProps) => {
             </Table>
           </DesktopTableWrapper>
 
-          {rankingData.items?.map((user, index) => (
+          {(activeView === 'accuracy'
+            ? rankingData
+            : geniusLeaderboardData
+          )?.items?.map((user, index) => (
             <Box className="leader-board-cards">
               <LeaderboardCard
                 name={capitalizeFirstLetterOFEachWord(
                   user?.participantName ?? ''
                 )}
-                pointLabel="Accuracy"
-                point={`${user.accuracy}%`}
+                pointLabel={
+                  activeView === 'accuracy' ? 'Accuracy' : 'Genius score'
+                }
+                point={
+                  activeView === 'accuracy'
+                    ? `${user.accuracy}%`
+                    : `${'geniusScore' in user ? String(user.geniusScore) : ''}`
+                }
                 position={Number(user.position)}
                 key={index}
               ></LeaderboardCard>
@@ -424,7 +475,12 @@ const QuizathonStatsPanel = ({ singleQuizathon }: IProps) => {
           <PaginationWrapper>
             <FlexiPagination
               pageCounts={pageOptions}
-              total={rankingData?.count}
+              total={
+                (activeView === 'accuracy'
+                  ? rankingData
+                  : geniusLeaderboardData
+                )?.count
+              }
               pageSize={limit}
               onChange={(page: number) => {
                 setPage(page);
@@ -533,11 +589,11 @@ const QuizathonStatsPanel = ({ singleQuizathon }: IProps) => {
         <Skeleton height={400} />
       ) : (
         <RankingCard
-          participantInfo={singleLeaderBoardData}
+          participantInfo={individualLeaderboardItem}
           timeStats={participantStats?.timeElapsed}
           shareContent={{
             title: 'Quizathon Ranking',
-            text: `Check out my ranking in the Quizathon! I am ranked ${singleLeaderBoardData?.position}. Think you can beat my rank? Join the challenge and prove it!`,
+            text: `Check out my ranking in the Quizathon! I am ranked ${individualLeaderboardItem?.position}. Think you can beat my rank? Join the challenge and prove it!`,
             url: window.location.href,
           }}
           // activeTab={activeView}
@@ -548,6 +604,7 @@ const QuizathonStatsPanel = ({ singleQuizathon }: IProps) => {
       <LeaderBoardContent>
         {isLoadingDailyLeaderBoard ||
         isLoadingRanking ||
+        isLoadingGeniusLeaderboard ||
         isLoadingLeaderBoard ||
         isLoadingSchoolLeaderboard ? (
           <Skeleton height={400} />
@@ -585,10 +642,10 @@ const QuizathonStatsPanel = ({ singleQuizathon }: IProps) => {
                 Score
               </TabButton>
               <TabButton
-                active={activeView === 'accuracy'}
-                onClick={() => toggleView('accuracy')}
+                active={activeView === 'genius'}
+                onClick={() => toggleView('genius')}
               >
-                Accuracy
+                Genius
               </TabButton>
               <TabButton
                 active={activeView === 'university'}
@@ -605,8 +662,8 @@ const QuizathonStatsPanel = ({ singleQuizathon }: IProps) => {
               </Box>
             </TabPanel>
 
-            <TabPanel active={activeView === 'accuracy'}>
-              <Box label="Accuracy">
+            <TabPanel active={activeView === 'genius'}>
+              <Box label="Genius">
                 <AccuracyLeaderboardContent />
               </Box>
             </TabPanel>

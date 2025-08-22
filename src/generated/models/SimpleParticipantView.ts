@@ -6,10 +6,10 @@ import type { SchoolInformationView } from './SchoolInformationView';
 import type { SimpleQuizathonView } from './SimpleQuizathonView';
 import type { UserInfoView } from './UserInfoView';
 export type SimpleParticipantView = {
-    createdAt?: string;
     schoolInformation?: SchoolInformationView;
     totalQuestions?: number;
     updatedAt?: string;
+    createdAt?: string;
     quizathon?: SimpleQuizathonView;
     totalScores?: number;
     totalTimeSpent?: number;

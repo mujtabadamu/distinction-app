@@ -3,20 +3,20 @@
 /* tslint:disable */
 /* eslint-disable */
 export type UserInfoView = {
-    isBlocked?: boolean;
-    institutionId?: string;
-    email?: string;
+    stateOfOrigin?: string;
+    profileImage?: string;
     referralCode?: string;
+    nin?: string;
+    studentId?: string;
+    institutionId?: string;
     firstName?: string;
     lastName?: string;
     gender?: string;
     dateOfBirth?: string;
     otherName?: string;
-    nin?: string;
+    email?: string;
     phoneNumber?: string;
-    studentId?: string;
-    stateOfOrigin?: string;
-    profileImage?: string;
+    isBlocked?: boolean;
     isNinVerified?: boolean;
 };
 

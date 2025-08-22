@@ -5,13 +5,14 @@
 export type SimpleQuizathonView = {
     description?: string;
     title?: string;
-    startAt?: string;
     isActive?: boolean;
-    price?: number;
+    registrationMode?: 'REGISTRATION' | 'WAITLIST' | 'CLOSED';
+    startAt?: string;
     stopAt?: string;
     maxParticipants?: number;
-    isOpenForAllUsers?: boolean;
+    price?: number;
     bannerUrl?: string;
+    isOpenForAllUsers?: boolean;
     id?: string;
 };
 

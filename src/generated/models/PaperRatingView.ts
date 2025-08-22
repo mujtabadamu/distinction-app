@@ -3,10 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type PaperRatingView = {
-    createdAt?: string;
-    userId?: string;
-    paperName?: string;
     rating?: number;
+    paperName?: string;
+    userId?: string;
+    createdAt?: string;
     id?: string;
 };
 

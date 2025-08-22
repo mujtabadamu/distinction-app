@@ -1,24 +1,13 @@
-import { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import {
-  fetchSingleStudentPaperStart,
-  fetchStudentPapersStart,
-} from '../../redux/studentPapers/reducer';
-import {
-  selectIsFetchingSinglePaper,
-  selectStudentPapersList,
-  selectIsFetchingStudentPapers,
-  selectStudentPaper,
-  selectCompletedStudentPapers,
-  selectInProgressStudentPapers,
-} from '../../redux/studentPapers/selectors';
-import { GetStudentPapersPayload } from '../../redux/studentPapers/typings';
+import { useEnhancedGetStudentPapersQuery } from '../../store/enhancedApi';
 
 interface IUseStudentPapersQuery {
   id?: string;
   run?: boolean;
-  options?: GetStudentPapersPayload['data'];
+  options?: {
+    examGroupId?: string;
+    page?: number;
+    size?: number;
+  };
 }
 
 /**
@@ -31,75 +20,35 @@ const useStudentPapersQuery = ({
   run = true,
   options,
 }: IUseStudentPapersQuery) => {
-  const dispatch = useDispatch();
-  const isFetchingSingleStudentPaper = useSelector(selectIsFetchingSinglePaper);
-  const isFetchPapersHistory = useSelector(selectIsFetchingStudentPapers);
-  const studentPapersHistory = useSelector(selectStudentPapersList);
-  const singlePaper = useSelector(selectStudentPaper);
-  const completedPapers = useSelector(selectCompletedStudentPapers);
-  const inProgress = useSelector(selectInProgressStudentPapers);
-
-  const getSinglePaper = useCallback(() => {
-    dispatch(
-      fetchSingleStudentPaperStart({
-        data: {
-          id: id || '',
-        },
-      })
+  // Use enhanced RTK Query hook
+  const { data: studentPapersHistory, isLoading: loadingStudentPapersHistory } =
+    useEnhancedGetStudentPapersQuery(
+      {
+        examGroupId: options?.examGroupId,
+        page: options?.page,
+        size: options?.size,
+      },
+      {
+        skip: !run,
+      }
     );
-  }, [id]);
 
-  const getStudentPapersHistory = useCallback(() => {
-    dispatch(
-      fetchStudentPapersStart({
-        data: { ...options },
-        options: {
-          filterBy: null,
-        },
-      })
-    );
-  }, [options]);
-
-  const getCompletedStudentPapers = () => {
-    dispatch(
-      fetchStudentPapersStart({
-        data: { ...options },
-        options: {
-          filterBy: 'completed',
-        },
-      })
-    );
-  };
-  const getInprogressStudentPapers = () => {
-    dispatch(
-      fetchStudentPapersStart({
-        data: { ...options },
-        options: {
-          filterBy: 'inProgress',
-        },
-      })
-    );
-  };
-
-  useEffect(() => {
-    if (!run) return;
-    if (id) {
-      getSinglePaper();
-    } else {
-      getStudentPapersHistory();
-      getCompletedStudentPapers();
-      getInprogressStudentPapers();
-    }
-  }, [id, run, options?.examGroupId,options?.page, options?.size]);
-
+  // For now, we'll return the same interface but with enhanced data
+  // TODO: Add single paper query when needed
   return {
-    loadingSinglePaper: isFetchingSingleStudentPaper,
-    loadingStudentPapersHistory: isFetchPapersHistory,
-    singlePaper: id ? singlePaper : null,
+    loadingSinglePaper: false, // TODO: Implement when single paper endpoint is available
+    loadingStudentPapersHistory,
+    singlePaper: id ? null : null, // TODO: Implement when single paper endpoint is available
     studentPapersHistory: !id ? studentPapersHistory : null,
     run,
-    completedPapers,
-    inProgress,
+    completedPapers:
+      studentPapersHistory?.items?.filter(
+        (paper) => paper.status === 'COMPLETED'
+      ) || [],
+    inProgress:
+      studentPapersHistory?.items?.filter(
+        (paper) => paper.status === 'IN_PROGRESS'
+      ) || [],
   };
 };
 

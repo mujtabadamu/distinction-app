@@ -1,27 +1,27 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/store';
 import { Modal } from 'antd';
 
-import { selectIsSessionExpired } from 'redux/auth/selectors';
-import { hideSessionExpiryMessage } from 'redux/auth/reducer';
-import { logout } from 'utils/helpers';
+import { hideSessionExpiryMessage, logout, useAuthSlice } from './authSlice';
 
 const SessionExpirationModal: React.FC = () => {
-  const dispatch = useDispatch();
-  const isVisible = useSelector(selectIsSessionExpired);
+  const dispatch = useAppDispatch();
+  const { isSessionExpired } = useAuthSlice();
   const currentPath = window.location.pathname;
 
   const handleOk = () => {
     dispatch(hideSessionExpiryMessage());
     if (currentPath !== '/login') {
-      logout();
+      dispatch(logout());
+      // Redirect to login page after logout
+      window.location.href = '/login';
     }
   };
 
   return (
     <Modal
       title="Session Expired"
-      open={isVisible}
+      open={isSessionExpired}
       onOk={handleOk}
       closable={false}
       centered

@@ -156,14 +156,15 @@ const PlanLimitBlock: React.FC<PlanLimitProps> = ({
     )} (₦${addonPrice})`;
   };
 
-  useEffect(() => {
-    if (isOpen) {
-      setLoading(true);
-      Promise.all([getActivePlan(), getSubscriptionPackages()]).finally(() =>
-        setLoading(false)
-      );
-    }
-  }, [isOpen]);
+  // Remove the useEffect that calls undefined functions
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     setLoading(true);
+  //     Promise.all([getActivePlan(), getSubscriptionPackages()]).finally(() =>
+  //       setLoading(false)
+  //     );
+  //   }
+  // }, [isOpen]);
 
   return (
     <Modal open={isOpen} onClose={closeModal} outerclick={enableOuterClick}>

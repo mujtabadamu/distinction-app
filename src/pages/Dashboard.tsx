@@ -10,12 +10,12 @@ import {
 } from '@flexisaf/flexibull2';
 import { useEffect } from 'react';
 import Media from 'react-media';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch } from '../store/store';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { userLogout } from '../redux/auth/reducer';
-import { selectCurrentUser } from '../redux/auth/selectors';
+// import { userLogout } from '../redux/auth/reducer';
+// import { selectCurrentUser } from '../redux/auth/selectors';
 import Theme from '../utils/theme';
 import {
   LogoBox,
@@ -32,10 +32,16 @@ import { capitalizeFirstLetterOFEachWord, isEnvEqual } from 'utils/helpers';
 import { Environment, LEVEL_OPTIONS } from 'utils/constants';
 import StreakComponent from './learnerDashboard/components/StreakComponent';
 // import useStreak from './points/hooks/useStreak';
-import useQuizathon from './quizathon/hooks/useQuizathon';
+// import useQuizathon from './quizathon/hooks/useQuizathon';
 import ProfileCompleteModal from './profile/ProfileCompleteModal';
 import useDisclosure from 'hooks/general/useDisclosure';
 import usePaginationWrapper from 'hooks/general/usePaginationWrapper';
+import {
+  useEnhancedGetAllActiveQuizathonQuery,
+  useEnhancedGetQuizathonHistoryQuery,
+} from 'store/enhancedApi';
+import { useUserProfile } from './auth/userProfileSlice';
+import { logout, useAuthSlice } from './auth/authSlice';
 //TODO clear unused imports, trace and remove redux selectors no longer needed
 const StyledFragment = styled.div`
   @media print {
@@ -74,13 +80,13 @@ const BottomMobileNavItems: INavItem[] = [
 ];
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const user = useSelector(selectCurrentUser);
+  const { user } = useAuthSlice();
   const { profileData, getProfileData } = useProfile();
   const profileCompleteModalHandler = useDisclosure();
-  const studentId = user?.id ?? '';
+  const studentId = user?.user?.id ?? '';
   const validLevels = [
     ...LEVEL_OPTIONS.NUC.map((opt) => opt.value),
     ...LEVEL_OPTIONS.NBTE.map((opt) => opt.value),
@@ -112,12 +118,21 @@ const Dashboard = () => {
       profileCompleteModalHandler.onOpen();
     }
   }, [isProfileComplete, profileData]);
+
   const {
-    getAllActiveQuizathon,
-    allActiveQuizathon,
-    getQuizathonHistory,
-    quizathonHistory,
-  } = useQuizathon();
+    data: allActiveQuizathon,
+    isLoading: isLoadingAllActiveQuizathon,
+    // refetch: getAllActiveQuizathon,
+  } = useEnhancedGetAllActiveQuizathonQuery();
+  const {
+    data: quizathonHistory,
+    // isLoading: isLoadingQuizathonHistory,
+    // refetch: getQuizathonHistory,
+  } = useEnhancedGetQuizathonHistoryQuery({
+    keyword: '',
+    page: 0,
+    size: 10,
+  });
 
   const profileMenu: ProfileMenuI[] = [
     {
@@ -140,7 +155,7 @@ const Dashboard = () => {
       text: 'Logout',
       iconClass: 'saf-logout',
       onClick: () => {
-        dispatch(userLogout());
+        dispatch(logout());
         navigate('/login');
       },
       color: Theme.PrimaryRed,
@@ -213,16 +228,16 @@ const Dashboard = () => {
   const { activePlan } = useSubscriptionBilling();
   // const { getStreakStats } = useStreak();
 
-  useEffect(() => {
-    // getActivePlan();
-    // getStreakStats();
-    getAllActiveQuizathon();
-    getQuizathonHistory({
-      studentId,
-      page: page - 1,
-      size: limit,
-    });
-  }, []);
+  // useEffect(() => {
+  //   // getActivePlan();
+  //   // getStreakStats();
+  //   getAllActiveQuizathon();
+  //   getQuizathonHistory({
+  //     studentId,
+  //     page: page - 1,
+  //     size: limit,
+  //   });
+  // }, []);
 
   return (
     <>
@@ -321,7 +336,7 @@ const Dashboard = () => {
                                 {/* visibility none on mobile */}
                                 <div className="hidden md:block">
                                   <Avatar
-                                    name={`${user?.firstName} ${user?.lastName}`}
+                                    name={`${user?.user?.firstName} ${user?.user?.lastName}`}
                                     margin="0 10px"
                                     size="40px"
                                     src={profileData?.profileImage}
@@ -409,7 +424,10 @@ const Dashboard = () => {
                         </Box>
                         <DropDown
                           style={{ zIndex: 10, textAlign: 'left' }}
-                          title={user && `${user.firstName} ${user.lastName}`}
+                          title={
+                            user &&
+                            `${user.user?.firstName} ${user.user?.lastName}`
+                          }
                           menuAlign="bottom right"
                           width="150px"
                           label={
@@ -423,7 +441,7 @@ const Dashboard = () => {
                                 <div className="hidden md:block">
                                   <AvatarWrapper>
                                     <Avatar
-                                      name={`${user?.firstName} ${user?.lastName}`}
+                                      name={`${user?.user?.firstName} ${user?.user?.lastName}`}
                                       margin="0 10px"
                                       size="40px"
                                       src={profileData?.profileImage}

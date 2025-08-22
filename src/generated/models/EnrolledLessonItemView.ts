@@ -6,9 +6,9 @@ import type { LessonItemTitleView } from './LessonItemTitleView';
 export type EnrolledLessonItemView = {
     status?: 'IN_PROGRESS' | 'COMPLETED';
     userId?: string;
-    startDate?: string;
-    completionDate?: string;
     lessonItem?: LessonItemTitleView;
+    completionDate?: string;
+    startDate?: string;
     id?: string;
 };
 

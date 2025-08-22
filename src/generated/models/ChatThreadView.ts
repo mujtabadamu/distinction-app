@@ -4,8 +4,8 @@
 /* eslint-disable */
 export type ChatThreadView = {
     title?: string;
-    createdAt?: string;
     updatedAt?: string;
+    createdAt?: string;
     id?: string;
 };
 

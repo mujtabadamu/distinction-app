@@ -77,7 +77,7 @@ export class EnrolledCoursesService {
      * @returns PaginatedSimpleEnrolledCourseView OK
      * @throws ApiError
      */
-    public static list23({
+    public static list24({
         keyword,
         courseId,
         sortField,

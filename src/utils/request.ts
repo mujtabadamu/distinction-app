@@ -7,8 +7,8 @@ import {
   logout,
   setLocalAccessToken,
 } from './helpers';
-import { showSessionExpiryMessage } from 'redux/auth/reducer';
-import { store } from '../redux/store';
+import { showSessionExpiryMessage } from 'pages/auth/authSlice';
+import { store } from 'store/store';
 
 export interface RequestOptions<T> {
   method?: 'get' | 'delete' | 'post' | 'put' | 'patch' | 'download';

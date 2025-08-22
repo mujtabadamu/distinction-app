@@ -6,11 +6,11 @@ import type { DepartmentView } from './DepartmentView';
 import type { SimpleSchoolView } from './SimpleSchoolView';
 export type SchoolInformationView = {
     level?: string;
-    school?: SimpleSchoolView;
+    updatedAt?: string;
     createdAt?: string;
     department?: DepartmentView;
+    school?: SimpleSchoolView;
     matriculationNumber?: string;
-    updatedAt?: string;
     id?: string;
 };
 

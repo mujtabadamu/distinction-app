@@ -15,6 +15,8 @@ export const STRIPE_PB_KEY =
 
 export const PLATFORM = 'SCHOOLS_DISTINCTION_APP';
 
+export const COURSE_FEDDBACK_FORM_URL = '';
+
 export const statusCodes = {
   INTERNAL_SERVER_ERROR: 500,
   BAD_REQUEST: 400,
@@ -134,3 +136,12 @@ export function getLevelOptionsByCurriculum(
     LEVEL_OPTIONS.DEFAULT
   );
 }
+
+export const experiecnceLevelsList = [
+  {
+    label: 'Easy',
+    value: 'EASY',
+  },
+  { label: 'Medium', value: 'MEDIUM' },
+  { label: 'Expert', value: 'EXPERT' },
+];

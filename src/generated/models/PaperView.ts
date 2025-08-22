@@ -7,12 +7,12 @@ import type { SubjectView } from './SubjectView';
 export type PaperView = {
     duration?: number;
     subject?: SubjectView;
-    createdAt?: string;
     isActive?: boolean;
-    curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
     curriculumUrl?: string;
+    curriculum?: 'NUC' | 'NBTE' | 'NCCE' | 'OTHERS';
     exam?: ExamView;
     instruction?: string;
+    createdAt?: string;
     name?: string;
     id?: string;
 };

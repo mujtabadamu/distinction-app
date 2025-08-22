@@ -13,27 +13,29 @@ import {
 import EmptyState from 'components/emptyState/emptyState';
 import RankingEmptyState from 'assets/images/ranking_empty_icon.svg';
 import useStatistic from './hooks/useStatistic';
-import { useSelector } from 'react-redux';
-import { selectCurrentUser } from 'redux/auth/selectors';
+import { useAuthSlice } from 'pages/auth/authSlice';
 import { generateYears } from 'utils/helpers';
 // import { OptionI } from 'pages/profile/editProfile';
 import Skeleton from 'react-loading-skeleton';
 
 const PracticeActivityChart: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<any | null>(null);
-  const user = useSelector(selectCurrentUser);
+  const { user } = useAuthSlice();
   const years = generateYears();
 
+  // Create date string from selected year for time stats filtering
+  const date = selectedYear ? `${selectedYear.value}-01-01` : undefined;
+
   const { getMonthlyPracticeStats, isLoadingMonthlyStats, monthlyPractice } =
-    useStatistic();
+    useStatistic({ date });
 
   useEffect(() => {
     const payload = {
-      userId: user?.id as string,
+      userId: user?.user?.id as string,
       ...(selectedYear && { year: Number(selectedYear.value) }),
     };
     getMonthlyPracticeStats(payload);
-  }, [selectedYear]);
+  }, [selectedYear, user?.user?.id]);
 
   return (
     <ChartContainer>

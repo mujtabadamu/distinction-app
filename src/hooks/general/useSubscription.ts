@@ -3,41 +3,51 @@ import { useEffect, useState } from 'react';
 import { PLATFORM } from 'utils/constants';
 import { handleError } from 'utils/errorHandlers';
 import {
-  DistinctionPortalPlansService,
-  DistinctionPortalSubscriptionsService,
-  SubscriptionPackageView,
-} from '../../generated';
-import { PaginatedSubscriptionHistoryView } from '../../generated/models/PaginatedSubscriptionHistoryView';
+  useEnhancedGetActivePlanQuery,
+  useEnhancedGetSubscriptionPackagesQuery,
+  useEnhancedGetSubscriptionHistoryQuery,
+  useEnhancedCancelSubscriptionMutation,
+  useEnhancedSubscribeMutation,
+} from '../../store/enhancedApi';
 import { SubscriptionRequest } from '../../generated/models/SubscriptionRequest';
-import { SubscriptionView } from '../../generated/models/SubscriptionView';
-import { apiWrapper } from '../../utils/http-client';
+
 //TODO Remove component after integration of payment
 const useSubscription = () => {
-  const [loadingSubscriptionStatus, setLoadingSubscriptionStatus] =
-    useState<boolean>(false);
-  const [subscriptionStatus, setSubscriptionStatus] =
-    useState<SubscriptionView | null>(null);
-  const [loadingHistory, setLoadingHistory] = useState<boolean>(false);
-  const [subscriptionHistory, setSubscriptionHistory] =
-    useState<PaginatedSubscriptionHistoryView | null>(null);
-  const [loadingPlans, setLoadingPlans] = useState<boolean>(false);
-  const [subscriptionPlans, setSubscriptionPlans] = useState<
-    SubscriptionPackageView[] | undefined
-  >(undefined);
-  const [isSubscribingPlan, setIsSubscribingPlan] = useState<boolean>(false);
-
   const { page, setPage, limit, setLimit } = usePaginationWrapper({});
 
+  // Enhanced RTK Query hooks
+  const {
+    data: subscriptionStatus,
+    isLoading: loadingSubscriptionStatus,
+    refetch: refetchStatus,
+  } = useEnhancedGetActivePlanQuery();
+
+  const {
+    data: subscriptionPlansData,
+    isLoading: loadingPlans,
+    refetch: refetchPlans,
+  } = useEnhancedGetSubscriptionPackagesQuery({
+    institutionId: PLATFORM,
+  });
+
+  const {
+    data: subscriptionHistory,
+    isLoading: loadingHistory,
+    refetch: refetchHistory,
+  } = useEnhancedGetSubscriptionHistoryQuery({
+    page: page,
+    size: limit,
+  });
+
+  const [cancelSubscription, { isLoading: isCancelling }] =
+    useEnhancedCancelSubscriptionMutation();
+  const [subscribePlanMutation, { isLoading: isSubscribing }] =
+    useEnhancedSubscribeMutation();
+
   const getStatus = async () => {
-    setLoadingSubscriptionStatus(true);
     try {
-      const data = await apiWrapper(() =>
-        DistinctionPortalSubscriptionsService.status()
-      );
-      setLoadingSubscriptionStatus(false);
-      setSubscriptionStatus(data);
+      await refetchStatus();
     } catch (error) {
-      setLoadingSubscriptionStatus(false);
       if (error instanceof Error) {
         console.error(error.message);
       }
@@ -45,15 +55,9 @@ const useSubscription = () => {
   };
 
   const getSubscriptionHistory = async () => {
-    setLoadingHistory(true);
     try {
-      const data = await apiWrapper(() =>
-        DistinctionPortalSubscriptionsService.list27({ page: 0, size: limit })
-      );
-      setLoadingHistory(false);
-      setSubscriptionHistory(data);
+      await refetchHistory();
     } catch (error) {
-      setLoadingHistory(false);
       if (error instanceof Error) {
         console.error(error.message);
       }
@@ -61,15 +65,9 @@ const useSubscription = () => {
   };
 
   const getSubscriptionPlans = async () => {
-    setLoadingPlans(true);
     try {
-      const data = await DistinctionPortalPlansService.list28({
-        institutionId: PLATFORM,
-      });
-      setSubscriptionPlans(data.items);
-      setLoadingPlans(false);
+      await refetchPlans();
     } catch (error) {
-      setLoadingPlans(false);
       if (error instanceof Error) {
         console.error(error.message);
       }
@@ -80,22 +78,29 @@ const useSubscription = () => {
     payload: SubscriptionRequest,
     callback: (result: any) => void
   ) => {
-    setIsSubscribingPlan(true);
     try {
-      const data = await apiWrapper(() =>
-        DistinctionPortalSubscriptionsService.subscribe({
-          requestBody: payload,
-        })
-      );
-      callback(data);
+      const result = await subscribePlanMutation({
+        subscriptionRequest: payload,
+      });
+      callback(result);
     } catch (error) {
-      setIsSubscribingPlan(false);
+      handleError(error);
+    }
+  };
+
+  const handleCancelSubscription = async () => {
+    try {
+      await cancelSubscription();
+      // Refetch status after cancellation
+      await refetchStatus();
+    } catch (error) {
       handleError(error);
     }
   };
 
   useEffect(() => {
-    getStatus();
+    // The enhanced hooks automatically fetch data, so we don't need to call getStatus here
+    // But we can keep it for manual refetch if needed
   }, []);
 
   return {
@@ -109,10 +114,12 @@ const useSubscription = () => {
     limit,
     setLimit,
     loadingPlans,
-    subscriptionPlans,
+    subscriptionPlans: subscriptionPlansData?.items,
     getSubscriptionPlans,
     subscribePlan,
-    isSubscribingPlan,
+    isSubscribingPlan: isSubscribing,
+    handleCancelSubscription,
+    isCancelling,
   };
 };
 

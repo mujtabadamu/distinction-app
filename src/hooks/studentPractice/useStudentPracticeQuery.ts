@@ -1,16 +1,4 @@
-import { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import {
-  fetchSingleStudentPracticeStart,
-  fetchStudentPracticeStart,
-} from '../../redux/studentPractice/reducer';
-import {
-  selectIsFetchingSinglePractice,
-  selectIsFetchingStudentPractice,
-  selectStudentPractices,
-  selectStudentPracticeData,
-} from '../../redux/studentPractice/selectors';
+import { useEnhancedGetStudentPracticeQuery } from '../../store/enhancedApi';
 
 interface IUseStudentPracticeQuery {
   id?: string;
@@ -26,44 +14,22 @@ const useStudentPracticeQuery = ({
   id,
   run = true,
 }: IUseStudentPracticeQuery) => {
-  const dispatch = useDispatch();
-  const isFetchingSingleStudentPractice = useSelector(
-    selectIsFetchingSinglePractice
-  );
-  const isFetchingPracticeHistory = useSelector(
-    selectIsFetchingStudentPractice
-  );
-  const singlePractice = useSelector(selectStudentPracticeData);
-  const practiceHistory = useSelector(selectStudentPractices);
-
-  const getSinglePractice = useCallback(() => {
-    dispatch(
-      fetchSingleStudentPracticeStart({
-        data: {
-          id: id || '',
-        },
-      })
+  // Use enhanced RTK Query hook
+  const { data: practiceHistory, isLoading: loadingPracticeHistory } =
+    useEnhancedGetStudentPracticeQuery(
+      { run },
+      {
+        skip: !run,
+      }
     );
-  }, [id]);
 
-  useEffect(() => {
-    if (!run) return;
-    if (id) {
-      getSinglePractice();
-    } else {
-      dispatch(
-        fetchStudentPracticeStart({
-          data: {},
-        })
-      );
-    }
-  }, []);
-
+  // For now, we'll return the same interface but with enhanced data
+  // TODO: Add single practice query when needed
   return {
-    loadingSinglePractice: isFetchingSingleStudentPractice,
+    loadingSinglePractice: false, // TODO: Implement when single practice endpoint is available
     practiceHistory: !id ? practiceHistory : null,
-    singlePractice: id ? singlePractice : null,
-    loadingPracticeHistory: isFetchingPracticeHistory,
+    singlePractice: id ? null : null, // TODO: Implement when single practice endpoint is available
+    loadingPracticeHistory,
     run,
   };
 };

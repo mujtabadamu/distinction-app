@@ -4,12 +4,12 @@
 /* eslint-disable */
 export type FlagQuestionSimpleView = {
     topic?: string;
+    paperName?: string;
+    questionId?: string;
+    resolved?: boolean;
     flagCount?: number;
     duplicateCount?: number;
     flagDate?: string;
-    resolved?: boolean;
-    paperName?: string;
-    questionId?: string;
     id?: string;
 };
 

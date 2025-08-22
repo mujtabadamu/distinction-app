@@ -6,11 +6,11 @@ import type { UserInfoView } from './UserInfoView';
 export type AirtimeRequestView = {
     status?: string;
     transactionId?: string;
-    phoneNumber?: string;
-    requestedAmount?: number;
-    network?: string;
     approvedAmount?: number;
     requestedAt?: string;
+    network?: string;
+    phoneNumber?: string;
+    requestedAmount?: number;
     message?: string;
     id?: string;
     userInfo?: UserInfoView;

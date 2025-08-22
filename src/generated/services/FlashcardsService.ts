@@ -38,7 +38,7 @@ export class FlashcardsService {
      * @returns PaginatedFlashcardView OK
      * @throws ApiError
      */
-    public static list18({
+    public static list19({
         studentId,
         keyword,
         paperId,

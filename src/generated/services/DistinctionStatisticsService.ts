@@ -10,7 +10,7 @@ export class DistinctionStatisticsService {
      * @returns number OK
      * @throws ApiError
      */
-    public static list25({
+    public static list26({
         from,
         to,
         username,

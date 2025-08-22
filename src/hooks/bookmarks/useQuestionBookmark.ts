@@ -1,27 +1,29 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useBookmarkIndexDB from '../general/useBookmarkIndexDB';
+import { BookmarksDb } from '../../typings/studentPaper';
+import {
+  useEnhancedAddBookmarkMutation,
+  useEnhancedDeleteBookmarkMutation,
+} from '../../store/enhancedApi';
+import { errorNotifier } from '../../utils/helpers';
 import {
   addBookmark,
   removeBookmark,
   clearBookmarks,
-} from '../../redux/studentPapers/reducer';
-import { BookmarksDb } from '../../redux/studentPapers/typings';
-import { selectBookmarks } from '../../redux/studentPapers/selectors';
-import useBookmarkIndexDB from '../general/useBookmarkIndexDB';
-import { RequestResult } from '../../utils/request';
-import {
-  httpDeletePaperBookmark,
-  httpPostPaperBookmark,
-  IHttpPostPaperBookmark,
-} from '../../services/studentPapers';
-import { errorNotifier } from '../../utils/helpers';
+} from '../studentPapers/useStudentPaperSlice';
+import { RootState, useAppDispatch } from '../../store/store';
 
 const useQuestionBookmark = () => {
+  const dispatch = useAppDispatch();
+  const { bookmarks } = useSelector((state: RootState) => state.studentPaperUI);
   const { bookmarkDb, setUpBookmarkDb, addBookmarkToDB, getAllBookmarkFromDB } =
     useBookmarkIndexDB();
-  const bookmarks = useSelector(selectBookmarks);
-  const dispatch = useDispatch();
   const mode = localStorage.getItem('mode');
+
+  // RTK Query mutations
+  const [addBookmarkMutation] = useEnhancedAddBookmarkMutation();
+  const [deleteBookmarkMutation] = useEnhancedDeleteBookmarkMutation();
 
   useEffect(() => {
     if (!bookmarkDb) {
@@ -46,7 +48,7 @@ const useQuestionBookmark = () => {
   };
 
   const bookmarkQuestion = async (payload: BookmarksDb) => {
-    dispatch(addBookmark([...bookmarks, payload]));
+    dispatch(addBookmark(payload));
     if (mode === 'real') {
       await addBookmarkToDB(payload);
       await handleBookmarkSync();
@@ -58,8 +60,7 @@ const useQuestionBookmark = () => {
       const bookmarks = await getAllBookmarkFromDB();
       if (!bookmarks) return;
       for (const bookmark of bookmarks) {
-        const response: RequestResult<BookmarksDb | string> =
-          await requestAddBookmark(bookmark);
+        const response = await requestAddBookmark(bookmark);
         if (response.success) {
           if (bookmark.id) {
             await bookmarkDb?.bookmarkedQuestions.delete(bookmark.id);
@@ -95,22 +96,54 @@ const useQuestionBookmark = () => {
   };
 
   const resetBookmarks = () => {
-    dispatch(clearBookmarks());
+    // setBookmarks([]);
   };
 
-  const requestAddBookmark = (data: IHttpPostPaperBookmark) => {
-    return httpPostPaperBookmark(data);
+  const requestAddBookmark = async (data: {
+    questionId: string;
+    studentPaperId: string;
+  }) => {
+    try {
+      await addBookmarkMutation({
+        id: data.studentPaperId,
+        bookmarkRequest: {
+          questionId: data.questionId,
+        },
+      }).unwrap();
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        message: error?.data?.message || 'Failed to add bookmark',
+        raw: error,
+      };
+    }
   };
 
-  const requestRemoveBookmark = (data: IHttpPostPaperBookmark) => {
-    return httpDeletePaperBookmark(data);
+  const requestRemoveBookmark = async (data: {
+    questionId: string;
+    studentPaperId: string;
+  }) => {
+    try {
+      await deleteBookmarkMutation({
+        id: data.studentPaperId,
+        questionId: data.questionId,
+      }).unwrap();
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        message: error?.data?.message || 'Failed to remove bookmark',
+        raw: error,
+      };
+    }
   };
 
   return {
     bookmarkQuestion,
     removeQuestionBookmark,
     resetBookmarks,
-    bookmarks,
+    bookmarks: bookmarks || [],
   };
 };
 

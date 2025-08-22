@@ -4,11 +4,11 @@
 /* eslint-disable */
 export type SimpleEnrolledCourseView = {
     status?: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
-    createdAt?: string;
     userId?: string;
+    createdAt?: string;
     courseId?: string;
-    startDate?: string;
     completionDate?: string;
+    startDate?: string;
     id?: string;
 };
 

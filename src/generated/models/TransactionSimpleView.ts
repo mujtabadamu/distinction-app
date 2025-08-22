@@ -4,13 +4,13 @@
 /* eslint-disable */
 export type TransactionSimpleView = {
     status?: 'PENDING' | 'SUCCESS' | 'FAILED';
-    username?: string;
-    platform?: string;
-    createdAt?: string;
-    amount?: number;
     planType?: string;
-    studentId?: string;
     referenceId?: string;
+    username?: string;
+    studentId?: string;
+    amount?: number;
+    createdAt?: string;
+    platform?: string;
     id?: string;
 };
 

@@ -6,12 +6,12 @@ import type { AirtimeRewardRequestView } from './AirtimeRewardRequestView';
 import type { UserInfoView } from './UserInfoView';
 export type AirtimeRewardView = {
     status?: string;
-    phoneNumber?: string;
-    network?: string;
     airtimeRewardRequest?: AirtimeRewardRequestView;
     approvedAmount?: number;
     requestedAt?: string;
     approved?: boolean;
+    network?: string;
+    phoneNumber?: string;
     id?: string;
     userInfo?: UserInfoView;
 };

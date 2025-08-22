@@ -6,9 +6,9 @@ import {
   logout,
   setLocalAccessToken,
 } from './helpers';
-import { store } from '../redux/store';
-import { showSessionExpiryMessage } from 'redux/auth/reducer';
 import { jwtDecode } from 'jwt-decode';
+import { showSessionExpiryMessage } from 'pages/auth/authSlice';
+import { store } from 'store/store';
 
 type RefreshToken = {
   refreshToken: string;

@@ -13,8 +13,7 @@ import {
 } from '@flexisaf/flexibull2';
 import PopUpIcon from '../../assets/popup_icon.svg';
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { selectCurrentUser } from 'redux/auth/selectors';
+import { useAuthSlice } from 'pages/auth/authSlice';
 import useQuizathon from 'pages/quizathon/hooks/useQuizathon';
 import { getLocalItem, setLocalItem } from 'utils/helpers';
 import { useForm } from 'react-hook-form';
@@ -47,20 +46,22 @@ const QuizathonPopUp = () => {
       department: '',
     },
   });
+  const { user } = useAuthSlice();
   const {
     schoolList,
     submitStudentInfo,
     isSubmittingInfo,
     getSchoolList,
     getActiveQuizathon,
-    getParticipant,
+    // getParticipant,
     activeQuizathon,
     participantDetails,
     isLoadingParticipant,
-  } = useQuizathon();
+  } = useQuizathon({
+    studentId: user?.user?.id || undefined,
+  });
 
-  const user = useSelector(selectCurrentUser);
-  const userId = user?.id;
+  const userId = user?.user?.id;
   const quizathonId = activeQuizathon?.id;
   const currentTimeStamp = new Date();
   const hasEnded =
@@ -98,15 +99,6 @@ const QuizathonPopUp = () => {
     getSchoolList();
     getActiveQuizathon();
   }, []);
-  useEffect(() => {
-    if (userId && quizathonId) {
-      const payload = {
-        studentId: userId,
-        quizathonId,
-      };
-      getParticipant(payload);
-    }
-  }, [userId, quizathonId]);
 
   if (isLoadingParticipant || !user || !activeQuizathon) return null;
   return (

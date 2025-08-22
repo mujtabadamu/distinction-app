@@ -3,10 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type AdminView = {
-    email?: string;
     firstName?: string;
     lastName?: string;
     otherName?: string;
+    email?: string;
     phoneNumber?: string;
 };
 

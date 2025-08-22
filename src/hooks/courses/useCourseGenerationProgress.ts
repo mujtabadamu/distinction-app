@@ -5,7 +5,7 @@ import {
   useRegenerateCourseMutation,
 } from 'pages/courses/course-api';
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import { useAppDispatch } from 'redux/store';
+import { useAppDispatch } from '../../store/store';
 
 import { errorNotifier, hasMinItems } from 'utils/helpers';
 import { useCoursesSocketConnection } from './useCoursesSocketConnection';
@@ -30,6 +30,7 @@ interface UseCourseGenerationProgressReturn {
   isLoadingLastStreamedAt: boolean;
   getLessonGroupGenerationStatus: GetLessonGrooupGenerationStatus;
   courseGenerationStatus: GenerationStatus;
+  currentProgress: { percentage: number; message?: string } | undefined;
 }
 
 const FIFTEEN_MINUTES_IN_MS = 15 * 60 * 1000;
@@ -165,5 +166,6 @@ export const useCourseGenerationProgress = (
     lastStreamedAt,
     getLessonGroupGenerationStatus: getLessonGroupStreamingState,
     courseGenerationStatus,
+    currentProgress: undefined, // TODO: Implement progress tracking when needed
   };
 };

@@ -5,8 +5,10 @@
 import type { CertificateDto } from '../models/CertificateDto';
 import type { PaginatedAccuracyRankingView } from '../models/PaginatedAccuracyRankingView';
 import type { PaginatedDailyLeaderBoardView } from '../models/PaginatedDailyLeaderBoardView';
+import type { PaginatedGeniusScoreRankingView } from '../models/PaginatedGeniusScoreRankingView';
 import type { PaginatedQuizathonHistroyView } from '../models/PaginatedQuizathonHistroyView';
 import type { PaginatedQuizathonView } from '../models/PaginatedQuizathonView';
+import type { PaginatedQuizathonWaitlistView } from '../models/PaginatedQuizathonWaitlistView';
 import type { PaginatedSchoolLeaderboardView } from '../models/PaginatedSchoolLeaderboardView';
 import type { PaginatedScoreLeaderboardView } from '../models/PaginatedScoreLeaderboardView';
 import type { PaginatedSimpleParticipantView } from '../models/PaginatedSimpleParticipantView';
@@ -199,10 +201,35 @@ export class QuizathonService {
         });
     }
     /**
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static joinWaitlist({
+        id,
+        studentId,
+    }: {
+        id: string,
+        studentId: string,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/quizathon/waitlist/{id}',
+            path: {
+                'id': id,
+            },
+            query: {
+                'studentId': studentId,
+            },
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
      * @returns PaginatedSimpleParticipantView OK
      * @throws ApiError
      */
-    public static list6({
+    public static list7({
         quizathonId,
         studentId,
         schoolId,
@@ -349,6 +376,38 @@ export class QuizathonService {
         });
     }
     /**
+     * @returns PaginatedQuizathonWaitlistView OK
+     * @throws ApiError
+     */
+    public static list6({
+        quizathonId,
+        studentId,
+        keyword,
+        page,
+        size = 10,
+    }: {
+        quizathonId: string,
+        studentId?: string,
+        keyword?: string,
+        page?: number,
+        size?: number,
+    }): CancelablePromise<PaginatedQuizathonWaitlistView> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/quizathon/waitlist',
+            query: {
+                'studentId': studentId,
+                'quizathonId': quizathonId,
+                'keyword': keyword,
+                'page': page,
+                'size': size,
+            },
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
      * @returns ParticipantResultStatsView OK
      * @throws ApiError
      */
@@ -378,15 +437,15 @@ export class QuizathonService {
      * @throws ApiError
      */
     public static getLeaderboard({
-        studentId,
         quizathonId,
+        studentId,
         schoolId,
         keyword,
         page,
         size = 10,
     }: {
+        quizathonId: string,
         studentId?: string,
-        quizathonId?: string,
         schoolId?: string,
         keyword?: string,
         page?: number,
@@ -418,7 +477,7 @@ export class QuizathonService {
         page,
         size = 10,
     }: {
-        quizathonId?: string,
+        quizathonId: string,
         keyword?: string,
         page?: number,
         size?: number,
@@ -438,6 +497,35 @@ export class QuizathonService {
         });
     }
     /**
+     * @returns PaginatedGeniusScoreRankingView OK
+     * @throws ApiError
+     */
+    public static getGeniusScoreLeaderboard({
+        quizathonId,
+        page,
+        size = 10,
+        studentId,
+    }: {
+        quizathonId: string,
+        page?: number,
+        size?: number,
+        studentId?: string,
+    }): CancelablePromise<PaginatedGeniusScoreRankingView> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/quizathon/leaderboard/genius-score',
+            query: {
+                'quizathonId': quizathonId,
+                'page': page,
+                'size': size,
+                'studentId': studentId,
+            },
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
      * @returns PaginatedAccuracyRankingView OK
      * @throws ApiError
      */
@@ -447,7 +535,7 @@ export class QuizathonService {
         size = 10,
         studentId,
     }: {
-        quizathonId?: string,
+        quizathonId: string,
         page?: number,
         size?: number,
         studentId?: string,
@@ -471,14 +559,14 @@ export class QuizathonService {
      * @throws ApiError
      */
     public static getLeaderboard1({
-        studentId,
         quizathonId,
+        studentId,
         date,
         page,
         size = 10,
     }: {
+        quizathonId: string,
         studentId?: string,
-        quizathonId?: string,
         date?: string,
         page?: number,
         size?: number,

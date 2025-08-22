@@ -6,8 +6,8 @@ import type { LessonView } from './LessonView';
 import type { SimpleCourseView } from './SimpleCourseView';
 export type LessonGroupView = {
     description?: string;
-    groupNumber?: number;
     lessons?: Array<LessonView>;
+    groupNumber?: number;
     course?: SimpleCourseView;
     estimatedStudyTime?: string;
     name?: string;

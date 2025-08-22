@@ -12,7 +12,7 @@ export class DistinctionTransactionsService {
      * @returns PaginatedTransactionSimpleView OK
      * @throws ApiError
      */
-    public static list24({
+    public static list25({
         from,
         to,
         username,

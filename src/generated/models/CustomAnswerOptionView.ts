@@ -4,8 +4,8 @@
 /* eslint-disable */
 export type CustomAnswerOptionView = {
     text?: string;
-    isCorrect?: boolean;
     imageUrl?: string;
+    isCorrect?: boolean;
     id?: string;
 };
 

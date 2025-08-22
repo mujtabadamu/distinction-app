@@ -6,8 +6,8 @@ import {
   GetSubjectStats,
   GetTimeSpent,
   GetSingleTotalQuestion,
-  GetQuestionCountByYear
-} from '../redux/statistics/typings';
+  GetQuestionCountByYear,
+} from '../store/statisticsTypings';
 
 const { API_BASE_URL } = urls || {};
 
@@ -49,22 +49,18 @@ export const httpGetTimeSpent = (data: GetTimeSpent) => {
     data,
   });
 };
-export const httpGetTotalQuestion = (
-  payload: GetSingleTotalQuestion
-) => {
+export const httpGetTotalQuestion = (payload: GetSingleTotalQuestion) => {
   const { data } = payload;
   return request({
     url: `${API_BASE_URL}/statistics/questions`,
     method: 'get',
-    data
+    data,
   });
 };
-export const httpGetQuestionCountByYear = (
-  data: GetQuestionCountByYear
-) => {
+export const httpGetQuestionCountByYear = (data: GetQuestionCountByYear) => {
   return request({
     url: `${API_BASE_URL}/portal/statistics/questions-count-by-year`,
     method: 'get',
-    data
+    data,
   });
 };

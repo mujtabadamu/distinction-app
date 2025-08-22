@@ -4,9 +4,9 @@
 /* eslint-disable */
 export type SimpleExamGroupView = {
     description?: string;
-    examCount?: number;
     isActive?: boolean;
     imageUrl?: string;
+    examCount?: number;
     name?: string;
     id?: string;
 };

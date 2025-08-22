@@ -1,6 +1,7 @@
 import usePracticeHistory from './hooks';
 import { useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useAuthSlice } from 'pages/auth/authSlice';
 import SectionLoader from 'components/custom/sectionLoader';
 import BreadCrumbs from 'components/breadcrumb';
 import {
@@ -37,12 +38,15 @@ import { StudentPaperSimpleView } from 'generated/index';
 import { isPracticeEligible } from './CoursePracticeHistory';
 import useQuizathon from 'pages/quizathon/hooks/useQuizathon';
 import { setTimer } from 'hooks/practice/useTimerSlice';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/store';
 
 const PracticeResult = () => {
+  const { user } = useAuthSlice();
   const { createStudentPaper, isCreatingStudentPaper } = useStudentPaperPost();
-  const { getActiveQuizathon, isQuizathonInProgress } = useQuizathon();
-  const dispatch = useDispatch();
+  const { getActiveQuizathon, isQuizathonInProgress } = useQuizathon({
+    studentId: user?.user?.id || '',
+  });
+  const dispatch = useAppDispatch();
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -63,9 +67,12 @@ const PracticeResult = () => {
     practicedResult,
     loadingPracticedResult,
   } = usePracticeHistory();
+
   useEffect(() => {
-    getActiveQuizathon();
-  }, []);
+    if (user?.user?.id) {
+      getActiveQuizathon();
+    }
+  }, [user?.user?.id]);
 
   const studentPaperId = id as string;
 
@@ -117,10 +124,6 @@ const PracticeResult = () => {
     getPracticeSolution(studentPaperId);
     getPracticedResult(studentPaperId);
   }, [studentPaperId]);
-
-  useEffect(() => {
-    getActiveQuizathon();
-  }, []);
 
   const items: TabsProps['items'] = [
     {

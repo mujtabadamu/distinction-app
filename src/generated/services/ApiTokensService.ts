@@ -14,7 +14,7 @@ export class ApiTokensService {
      * @returns SimpleApiTokenView OK
      * @throws ApiError
      */
-    public static list34(): CancelablePromise<Array<SimpleApiTokenView>> {
+    public static list35(): CancelablePromise<Array<SimpleApiTokenView>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api-tokens',

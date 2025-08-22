@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
-
-import { selectPaperResult } from '../../redux/studentPapers/selectors';
+import { RootState } from '../../store/store';
 
 const useStudentResultState = () => {
-  const paperResult = useSelector(selectPaperResult);
+  const { paperResult } = useSelector(
+    (state: RootState) => state.studentPaperUI
+  );
 
   return {
     paperResult,

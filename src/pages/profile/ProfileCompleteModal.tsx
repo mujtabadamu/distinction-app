@@ -41,7 +41,9 @@ const ProfileCompleteModal = ({
 }: ProfileCompleteModalProps) => {
   const user = useUserProfile();
   const { profileData, editProfile, isEditingProfile } = useProfile();
-  const { schoolList, getSchoolList } = useQuizathon();
+  const { schoolList, getSchoolList } = useQuizathon({
+    studentId: user?.profile?.studentId || undefined,
+  });
   const studentId = user?.profile?.studentId as string;
 
   const {

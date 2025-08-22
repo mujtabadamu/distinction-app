@@ -8,7 +8,7 @@ import { ConfigProvider } from 'antd';
 import TagManager from 'react-gtm-module';
 import * as Sentry from '@sentry/react';
 import './assets/fonts/fontello/css/saf.css';
-import { store, persistor } from './redux/store';
+import { store, persistor } from './store/store';
 import App from './App';
 import './index.css';
 import 'antd/dist/reset.css';

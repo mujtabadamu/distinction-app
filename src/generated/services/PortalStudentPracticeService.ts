@@ -15,7 +15,7 @@ export class PortalStudentPracticeService {
      * @returns PaginatedStudentPracticeSimpleView OK
      * @throws ApiError
      */
-    public static list9({
+    public static list10({
         keyword,
         subjectId,
         paperId,

@@ -3,12 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 export type FlaggedQuestionStatsView = {
-    pendingPercentage?: number;
-    flaggedByUser?: number;
-    totalFlagged?: number;
     resolvedPercentage?: number;
     totalResolved?: number;
+    totalFlagged?: number;
     totalPending?: number;
+    pendingPercentage?: number;
     flaggedBySystem?: number;
+    flaggedByUser?: number;
 };
 

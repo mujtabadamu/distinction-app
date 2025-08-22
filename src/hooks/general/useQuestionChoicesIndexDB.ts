@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import Dexie from 'dexie';
-import { AnswerOptionChoice } from '../../redux/studentPapers/typings';
+import type { AnswerOption } from '../../store/result';
 
 interface MyDatabase extends Dexie {
   answers: Dexie.Table<IAnswerOptionDb, number>;
 }
 
-export interface IAnswerOptionDb extends AnswerOptionChoice {
-  id?: number;
+export interface IAnswerOptionDb extends AnswerOption {
+  dbId?: number; // Use dbId for the database ID to avoid conflict with AnswerOption.id
 }
 
 const useQuestionChoicesIndexDB = () => {
@@ -25,7 +25,7 @@ const useQuestionChoicesIndexDB = () => {
     setDb(database);
   };
 
-  const addAnswer = async (answer: AnswerOptionChoice) => {
+  const addAnswer = async (answer: AnswerOption) => {
     await db?.answers.add(answer);
   };
 
@@ -37,7 +37,7 @@ const useQuestionChoicesIndexDB = () => {
     return db?.answers.get(id);
   };
 
-  const updateAnswer = (id: number, answer: AnswerOptionChoice) => {
+  const updateAnswer = (id: number, answer: AnswerOption) => {
     return db?.answers.update(id, answer);
   };
 

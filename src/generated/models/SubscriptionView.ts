@@ -4,12 +4,12 @@
 /* eslint-disable */
 import type { SubPackageView } from './SubPackageView';
 export type SubscriptionView = {
-    startAt?: string;
     endAt?: string;
-    isActive?: boolean;
-    subscriptionPackage?: SubPackageView;
     planType?: string;
+    subscriptionPackage?: SubPackageView;
     studentId?: string;
+    isActive?: boolean;
+    startAt?: string;
     id?: string;
 };
 

@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/store';
 import { Text, Spacer, ProgressBar } from '@flexisaf/flexibull2';
 import { FiX } from 'react-icons/fi';
 import Theme, { Colors } from '../../utils/theme';
 import { IRecentPractice } from '../../hooks/practice/useRecentPracticesQuery';
 
-import { setShowContinuePractice } from '../../redux/statistics/reducer';
+import { setShowContinuePractice } from '../../store/statisticsSlice';
 
 interface IContinuePractice {
   // setShowContinuePractice: (value: boolean) => void;
@@ -17,8 +17,8 @@ const ContinuePractice = ({
   // setShowContinuePractice,
   mostRecent,
 }: IContinuePractice) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   return (
     <ContinuePracticeWrapper>
       <div className="top">

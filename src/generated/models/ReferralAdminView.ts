@@ -3,15 +3,15 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ReferralAdminView = {
-    referrerFirstName?: string;
-    referrerLastName?: string;
-    referrerOtherName?: string;
-    referrerId?: string;
     correctQuestionsCount?: number;
+    referrerId?: string;
+    questionCount?: number;
+    totalVerifiedUser?: number;
     totalReferrals?: number;
     totalClaimed?: number;
     totalUnclaimed?: number;
-    questionCount?: number;
-    totalVerifiedUser?: number;
+    referrerFirstName?: string;
+    referrerLastName?: string;
+    referrerOtherName?: string;
 };
 

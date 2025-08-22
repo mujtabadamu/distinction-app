@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Hamburger from 'hamburger-react';
 import { AnimatePresence } from 'framer-motion';
@@ -9,7 +8,7 @@ import useOnClickOutside from '../../hooks/general/useOnClickOutside';
 import ContentContainer from './contentContainer';
 import { ANIMATE_ONCE } from '../../utils/constants';
 import { defaultVariant } from '../../styles/common/animationVariants.motion';
-import { selectCurrentUser } from '../../redux/auth/selectors';
+import { useAuthSlice } from '../../pages/auth/authSlice';
 
 import {
   NavBarContainer,
@@ -39,7 +38,7 @@ interface NavBarProps {
 
 const NavBar = ({ navLinks }: NavBarProps) => {
   const navigate = useNavigate();
-  const user = useSelector(selectCurrentUser);
+  const { user } = useAuthSlice();
   const [isOpen, setIsOpen] = useState(false);
   const ref = React.createRef<HTMLDivElement>();
 
@@ -71,7 +70,7 @@ const NavBar = ({ navLinks }: NavBarProps) => {
           ))}
         </NavigationWrapper>
 
-        {!user?.id ? (
+        {!user?.user?.id ? (
           <ButtonsWrapper>
             <SecondaryButton onClick={() => navigate('/login')}>
               Sign in
@@ -111,7 +110,7 @@ const NavBar = ({ navLinks }: NavBarProps) => {
                   </React.Fragment>
                 ))}
               </MobileMenuItems>
-              {!user?.id ? (
+              {!user?.user?.id ? (
                 <MobileButtonWrapper>
                   <PrimaryButton onClick={() => navigate('/register')}>
                     Create free account

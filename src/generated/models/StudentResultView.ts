@@ -6,10 +6,10 @@ import type { PaperView } from './PaperView';
 import type { ScoreBreakdown } from './ScoreBreakdown';
 export type StudentResultView = {
     score?: number;
-    remark?: string;
     paper?: PaperView;
     questionCount?: number;
     scoreBreakdown?: Array<ScoreBreakdown>;
+    remark?: string;
     id?: string;
 };
 
